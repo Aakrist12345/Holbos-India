@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holbos India — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --saffron: #FF6B00;
+  --amber:   #FFB347;
+  --gold:    #F5C842;
+  --deep:    #0A0500;
+  --mid:     #130800;
+  --surface: #161008;
+  --border:  rgba(245,200,66,0.18);
+  --text:    #FFF4E0;
+  --muted:   rgba(255,244,224,0.5);
+  --ease:    cubic-bezier(0.23,1,0.32,1);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--deep);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* ── BACKGROUND ── */
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 50%, rgba(255,107,0,0.13) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 80% 50%, rgba(245,200,66,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(26,10,0,0.8) 0%, transparent 60%);
+}
+
+/* Mandala rings */
+.mandala {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none; z-index: 0;
+}
+.m-ring {
+  position: absolute; border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+.m-ring:nth-child(1) { width: 300px;  height: 300px;  border: 1px solid rgba(245,200,66,0.07); animation: spin 25s linear infinite; }
+.m-ring:nth-child(2) { width: 550px;  height: 550px;  border: 1px dashed rgba(255,107,0,0.06); animation: spin 40s linear infinite reverse; }
+.m-ring:nth-child(3) { width: 800px;  height: 800px;  border: 1px solid rgba(245,200,66,0.04); animation: spin 60s linear infinite; }
+.m-ring:nth-child(4) { width: 1050px; height: 1050px; border: 1px dotted rgba(255,107,0,0.03); animation: spin 80s linear infinite reverse; }
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+/* Floating particles */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute; border-radius: 50%;
+  background: var(--amber); opacity: 0;
+  animation: drift linear infinite;
+}
+@keyframes drift {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.2; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* ── LAYOUT ── */
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+
+/* ── CARD ── */
+.card {
+  width: 100%; max-width: 420px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 2.75rem 2.5rem;
+  backdrop-filter: blur(24px);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 1px 0 rgba(255,255,255,0.08) inset;
+  animation: cardIn 0.9s var(--ease) both;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,200,66,0.5), transparent);
+}
+.card::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255,107,0,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── LOGO ── */
+.logo-wrap {
+  text-align: center; margin-bottom: 2rem;
+  animation: fadeUp 0.8s 0.1s var(--ease) both;
+}
+.logo-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.9rem; margin: 0 auto 1rem;
+  box-shadow: 0 8px 28px rgba(255,107,0,0.45);
+  position: relative;
+}
+.logo-icon::after {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: 21px;
+  border: 1px solid rgba(245,200,66,0.3);
+}
+.logo-title {
+  font-family: 'Yatra One', cursive;
+  font-size: 1.7rem;
+  background: linear-gradient(90deg, var(--amber), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1; margin-bottom: 0.3rem;
+}
+.logo-sub {
+  font-size: 0.8rem; color: var(--muted);
+  font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* Divider */
+.divider {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.75rem;
+  animation: fadeUp 0.8s 0.2s var(--ease) both;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-text { font-size: 0.75rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+
+/* ── ERROR ── */
+.error-box {
+  background: rgba(255,60,60,0.08);
+  border: 1px solid rgba(255,60,60,0.25);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex; align-items: flex-start; gap: 8px;
+  animation: shake 0.4s var(--ease);
+}
+.error-icon { font-size: 0.95rem; flex-shrink: 0; margin-top: 1px; }
+.error-text { font-size: 0.82rem; color: #FF7070; font-weight: 600; line-height: 1.5; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-6px); }
+  40%     { transform: translateX(6px); }
+  60%     { transform: translateX(-4px); }
+  80%     { transform: translateX(4px); }
+}
+
+/* ── FORM ── */
+form { animation: fadeUp 0.8s 0.25s var(--ease) both; }
+
+.field {
+  margin-bottom: 1rem;
+  position: relative;
+}
+.field label {
+  display: block;
+  font-size: 0.75rem; font-weight: 800;
+  color: var(--muted); letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 0.45rem;
+}
+.input-wrap { position: relative; }
+.input-icon {
+  position: absolute; left: 1rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem; pointer-events: none;
+  opacity: 0.5; transition: opacity 0.2s;
+}
+.field input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.82rem 1rem 0.82rem 2.8rem;
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.field input::placeholder { color: rgba(255,244,224,0.25); }
+.field input:focus {
+  border-color: var(--amber);
+  background: rgba(255,179,71,0.06);
+  box-shadow: 0 0 0 3px rgba(255,179,71,0.12);
+}
+.field input:focus + .input-icon,
+.input-wrap:focus-within .input-icon { opacity: 0.9; }
+
+/* Password toggle */
+.pwd-toggle {
+  position: absolute; right: 0.9rem; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--muted); font-size: 0.9rem;
+  cursor: pointer; padding: 4px;
+  transition: color 0.2s;
+}
+.pwd-toggle:hover { color: var(--amber); }
+
+/* Submit */
+.btn-login {
+  width: 100%; margin-top: 0.5rem;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--amber) 100%);
+  color: #000; border: none; border-radius: 12px;
+  padding: 0.9rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800; font-size: 0.95rem;
+  letter-spacing: 0.04em; cursor: pointer;
+  box-shadow: 0 6px 22px rgba(255,107,0,0.4);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+}
+.btn-login::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+.btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,107,0,0.55); }
+.btn-login:hover::after { background: rgba(255,255,255,0.08); }
+.btn-login:active { transform: translateY(0); }
+
+/* ── FOOTER LINK ── */
+.card-footer {
+  text-align: center; margin-top: 1.5rem;
+  animation: fadeUp 0.8s 0.4s var(--ease) both;
+}
+.card-footer p {
+  font-size: 0.85rem; color: var(--muted); font-weight: 500;
+}
+.card-footer a {
+  color: var(--amber); font-weight: 800;
+  text-decoration: none;
+  position: relative;
+}
+.card-footer a::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 100%;
+  height: 1px; background: var(--amber);
+  transition: right 0.3s var(--ease);
+}
+.card-footer a:hover::after { right: 0; }
+
+/* ── BOTTOM BADGE ── */
+.safe-badge {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 1.25rem;
+  font-size: 0.72rem; color: rgba(255,244,224,0.3);
+  font-weight: 600; letter-spacing: 0.05em;
+  animation: fadeUp 0.8s 0.5s var(--ease) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background layers -->
+<div class="bg"></div>
+<div class="mandala">
+  <div class="m-ring"></div>
+  <div class="m-ring"></div>
+  <div class="m-ring"></div>
+  <div class="m-ring"></div>
+</div>
+<div class="particles" id="particles"></div>
+
+<div class="page">
+  <div class="card">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo-icon">🏛</div>
+      <div class="logo-title">Holbos India</div>
+      <div class="logo-sub">Learning Platform for Young Minds</div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Sign in to continue</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Django error messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="error-box">
+          <span class="error-icon">⚠️</span>
+          <span class="error-text">{{ message }}</span>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Form -->
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field">
+        <label>Username</label>
+        <div class="input-wrap">
+          <input type="text" name="username" placeholder="Enter your username" required autocomplete="username">
+          <span class="input-icon">👤</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <input type="password" name="password" id="pwdField" placeholder="Enter your password" required autocomplete="current-password">
+          <span class="input-icon">🔒</span>
+          <button type="button" class="pwd-toggle" onclick="togglePwd()" title="Show/hide password">👁</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">
+        Sign In <span>→</span>
+      </button>
+    </form>
+
+    <!-- Sign up link -->
+    <div class="card-footer">
+      <p>Don't have an account? <a href="{% url 'signup' %}">Create one →</a></p>
+    </div>
+
+    <!-- Trust badge -->
+    <div class="safe-badge">🔐 Secure & Safe for Young Learners</div>
+
+  </div>
+</div>
+
+<script>
+/* Floating particles */
+const container = document.getElementById('particles');
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 4 + 2;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    animation-duration:${8+Math.random()*14}s;
+    animation-delay:${Math.random()*10}s;
+    opacity:0;
+  `;
+  container.appendChild(p);
+}
+
+/* Password toggle */
+function togglePwd() {
+  const f = document.getElementById('pwdField');
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+</script>
+</body>
+</html>

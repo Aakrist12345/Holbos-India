@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Holbos Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        }
+
+        .signup-container {
+            background: white;
+            padding: 40px;
+            width: 350px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .signup-container h1 {
+            margin-bottom: 10px;
+            color: #9a227e;
+        }
+        .signup-container h2 {
+            margin-bottom: 10px;
+            color: #9a227e;
+        }
+
+        .signup-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .signup-container button {
+            width: 100%;
+            padding: 10px;
+            background: #0072ff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .signup-container button:hover {
+            background: #0056cc;
+        }
+
+        .signup-container p {
+            color: #ae2fc5;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .signup-container p a {
+            color: #9a227e;
+        }
+
+        .error-msg {
+            color: red;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>HOLBOS INDIA</h1>
+        <h2>Learning Platform</h2>
+       
+        
+
+            <p class="error-msg"></p>
+    
+
+        <form method="POST">
+            
+             {% csrf_token %}
+            
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Signup</button>
+        </form>
+
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</body>
+</html>
