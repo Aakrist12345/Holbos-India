@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holbos India — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --pink:     #BF1F8F;
+  --magenta:  #D4208A;
+  --purple:   #3B2FC9;
+  --indigo:   #2A20A8;
+  --gray:     #333333;
+  --grad:     linear-gradient(135deg, #BF1F8F 0%, #8B2FC9 50%, #3B2FC9 100%);
+  --grad-btn: linear-gradient(135deg, #D4208A 0%, #7B2FBE 50%, #3B2FC9 100%);
+  --deep:     #0D0814;
+  --surface:  #120D1F;
+  --card-bg:  rgba(255,255,255,0.04);
+  --border:   rgba(180,80,200,0.22);
+  --text:     #F0EAFF;
+  --muted:    rgba(240,234,255,0.5);
+  --ease:     cubic-bezier(0.23,1,0.32,1);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--deep);
+  color: var(--text);
+  overflow: hidden;
+}
+
+
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 15% 50%, rgba(191,31,143,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 55% at 85% 50%, rgba(59,47,201,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 100%, rgba(139,47,201,0.12) 0%, transparent 60%),
+    var(--deep);
+}
+
+
+.rings {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none; z-index: 0;
+}
+.ring {
+  position: absolute; border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+.ring:nth-child(1) { width: 280px;  height: 280px;  border: 1px solid rgba(191,31,143,0.1);  animation: spin 20s linear infinite; }
+.ring:nth-child(2) { width: 500px;  height: 500px;  border: 1px dashed rgba(59,47,201,0.08); animation: spin 35s linear infinite reverse; }
+.ring:nth-child(3) { width: 720px;  height: 720px;  border: 1px solid rgba(139,47,201,0.06); animation: spin 55s linear infinite; }
+.ring:nth-child(4) { width: 980px;  height: 980px;  border: 1px dotted rgba(191,31,143,0.04);animation: spin 75s linear infinite reverse; }
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute; border-radius: 50%; opacity: 0;
+  animation: drift linear infinite;
+}
+@keyframes drift {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 0.5; }
+  90%  { opacity: 0.15; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+
+
+.card {
+  width: 100%; max-width: 420px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 2.75rem 2.5rem;
+  backdrop-filter: blur(28px);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 1px 0 rgba(255,255,255,0.07) inset;
+  animation: cardIn 0.9s var(--ease) both;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,32,138,0.6), rgba(59,47,201,0.6), transparent);
+}
+.card::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: 28px;
+  background: linear-gradient(135deg, rgba(191,31,143,0.07) 0%, rgba(59,47,201,0.05) 100%);
+  pointer-events: none;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+
+.logo-wrap {
+  text-align: center; margin-bottom: 2rem;
+  animation: fadeUp 0.8s 0.1s var(--ease) both;
+}
+
+
+.logo-svg-wrap {
+  display: flex; justify-content: center;
+  margin-bottom: 0.85rem;
+}
+
+.logo-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.8rem; font-weight: 900;
+  letter-spacing: 0.08em; line-height: 1;
+  margin-bottom: 0.2rem;
+}
+.logo-title .h-part { color: var(--magenta); }
+.logo-title .ol-part {
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.logo-title .bos-part { color: var(--purple); }
+
+.logo-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem; color: var(--muted);
+  font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+}
+
+
+.divider {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.75rem;
+  animation: fadeUp 0.8s 0.2s var(--ease) both;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-text { font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+
+
+.error-box {
+  background: rgba(255,60,60,0.08);
+  border: 1px solid rgba(255,60,60,0.25);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex; align-items: flex-start; gap: 8px;
+  animation: shake 0.4s var(--ease);
+}
+.error-icon { font-size: 0.95rem; flex-shrink: 0; margin-top: 1px; }
+.error-text { font-size: 0.82rem; color: #FF7070; font-weight: 600; line-height: 1.5; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-6px); }
+  40%     { transform: translateX(6px); }
+  60%     { transform: translateX(-4px); }
+  80%     { transform: translateX(4px); }
+}
+
+
+form { animation: fadeUp 0.8s 0.25s var(--ease) both; }
+
+.field { margin-bottom: 1rem; position: relative; }
+.field label {
+  display: block;
+  font-size: 0.73rem; font-weight: 800;
+  color: var(--muted); letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 0.45rem;
+}
+.input-wrap { position: relative; }
+.input-icon {
+  position: absolute; left: 1rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem; pointer-events: none;
+  opacity: 0.45; transition: opacity 0.2s; z-index: 1;
+}
+.field input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.82rem 1rem 0.82rem 2.8rem;
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.92rem; outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.field input::placeholder { color: rgba(240,234,255,0.22); }
+.field input:focus {
+  border-color: var(--magenta);
+  background: rgba(212,32,138,0.06);
+  box-shadow: 0 0 0 3px rgba(191,31,143,0.15);
+}
+.input-wrap:focus-within .input-icon { opacity: 0.9; }
+
+.pwd-toggle {
+  position: absolute; right: 0.9rem; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--muted); font-size: 0.88rem;
+  cursor: pointer; padding: 4px; z-index: 1;
+  transition: color 0.2s;
+}
+.pwd-toggle:hover { color: var(--magenta); }
+
+
+.btn-login {
+  width: 100%; margin-top: 0.6rem;
+  background: var(--grad-btn);
+  color: #fff; border: none; border-radius: 12px;
+  padding: 0.92rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800; font-size: 0.95rem;
+  letter-spacing: 0.04em; cursor: pointer;
+  box-shadow: 0 6px 24px rgba(191,31,143,0.45);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+}
+.btn-login::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+.btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(191,31,143,0.6); }
+.btn-login:hover::after { background: rgba(255,255,255,0.08); }
+.btn-login:active { transform: translateY(0); }
+
+/* Footer */
+.card-footer {
+  text-align: center; margin-top: 1.5rem;
+  animation: fadeUp 0.8s 0.4s var(--ease) both;
+}
+.card-footer p { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+.card-footer a {
+  color: var(--magenta); font-weight: 800;
+  text-decoration: none; position: relative;
+}
+.card-footer a::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 100%;
+  height: 1px; background: var(--magenta);
+  transition: right 0.3s var(--ease);
+}
+.card-footer a:hover::after { right: 0; }
+
+.safe-badge {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 1.25rem;
+  font-size: 0.7rem; color: rgba(240,234,255,0.28);
+  font-weight: 600; letter-spacing: 0.05em;
+  animation: fadeUp 0.8s 0.5s var(--ease) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="rings">
+  <div class="ring"></div><div class="ring"></div>
+  <div class="ring"></div><div class="ring"></div>
+</div>
+<div class="particles" id="particles"></div>
+
+<div class="page">
+  <div class="card">
+
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <div class="logo-svg-wrap">
+        <!-- Holbos Logo Image -->
+        <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" style="width: 120px; height: auto; object-fit: contain;">
+        <!-- Recreated Holbos figure logo in SVG -->
+        <svg width="80" height="90" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4208A"/>
+              <stop offset="50%" stop-color="#8B2FC9"/>
+              <stop offset="100%" stop-color="#3B2FC9"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#BF1F8F"/>
+              <stop offset="100%" stop-color="#5B3FD9"/>
+            </linearGradient>
+          </defs>
+
+     
+          <circle cx="40" cy="10" r="7" fill="url(#g1)"/>
+
+          <!-- Left bubble -->
+          <circle cx="22" cy="16" r="4.5" fill="url(#g1)" opacity="0.75"/>
+
+          <!-- Right bubble -->
+          <circle cx="57" cy="20" r="3" fill="url(#g1)" opacity="0.5"/>
+
+          
+          <path d="M18 42 C10 28, 22 16, 32 24 C28 32, 26 42, 30 54 C24 56, 18 50, 18 42Z"
+                fill="url(#g1)" opacity="0.9"/>
+
+          
+          <path d="M62 42 C70 28, 58 16, 48 24 C52 32, 54 42, 50 54 C56 56, 62 50, 62 42Z"
+                fill="url(#g2)" opacity="0.9"/>
+
+          
+          <path d="M32 24 C36 20, 44 20, 48 24 C52 34, 52 46, 50 54 C46 58, 34 58, 30 54 C28 46, 28 34, 32 24Z"
+                fill="url(#g1)" opacity="0.85"/>
+
+      
+          <path d="M30 54 C26 62, 24 72, 28 80 C32 84, 36 82, 36 76 C36 68, 36 60, 34 54Z"
+                fill="url(#g1)" opacity="0.9"/>
+
+          
+          <path d="M50 54 C54 62, 56 72, 52 80 C48 84, 44 82, 44 76 C44 68, 44 60, 46 54Z"
+                fill="url(#g2)" opacity="0.9"/>
+
+          
+          <ellipse cx="40" cy="44" rx="5" ry="9" fill="#0D0814" opacity="0.7"/>
+        </svg>
+      </div>
+
+      <div class="logo-title">
+        <span class="h-part">H</span><span class="ol-part">OLB</span><span class="bos-part">OS</span>
+      </div>
+      <div class="logo-sub">Inspiring Future</div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Sign in to continue</span>
+      <div class="divider-line"></div>
+    </div>
+
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="error-box">
+          <span class="error-icon">⚠️</span>
+          <span class="error-text">{{ message }}</span>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+   
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field">
+        <label>Username</label>
+        <div class="input-wrap">
+          <input type="text" name="username" placeholder="Enter your username" required autocomplete="username">
+          <span class="input-icon">👤</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <input type="password" name="password" id="pwdField" placeholder="Enter your password" required autocomplete="current-password">
+          <span class="input-icon">🔒</span>
+          <button type="button" class="pwd-toggle" onclick="togglePwd()">👁</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In →</button>
+    </form>
+
+    <div class="card-footer">
+      <p>Don't have an account? <a href="{% url 'signup' %}">Create one →</a></p>
+    </div>
+
+    <div class="safe-badge">🔐 Secure & Safe for Young Learners</div>
+  </div>
+</div>
+
+<script>
+/* Particles - pink/purple mix */
+const colors = ['#D4208A','#8B2FC9','#3B2FC9','#BF1F8F'];
+const container = document.getElementById('particles');
+for (let i = 0; i < 22; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 5 + 2;
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    background:${color};
+    animation-duration:${9+Math.random()*14}s;
+    animation-delay:${Math.random()*12}s;
+  `;
+  container.appendChild(p);
+}
+
+function togglePwd() {
+  const f = document.getElementById('pwdField');
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art & Creativity - Holbos India</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0d0a1a;
+            --saffron: #ff9933;
+            --gold: #ffb43c;
+            --cream: #fff3dc;
+            --teal: #00c9a7;
+            --text-main: #f0e6d3;
+            --text-muted: #a89880;
+            --font-display: 'Baloo 2', cursive;
+            --font-body: 'Poppins', sans-serif;
+            --radius: 18px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            background: var(--saffron);
+            color: var(--bg-deep);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: var(--gold);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(45deg, #E91E63, #FF5722);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: #E91E63;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .facts {
+            background: rgba(233, 30, 99, 0.1);
+            border-left: 4px solid #E91E63;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'dashboard' %}" class="back-btn">← Back to Dashboard</a>
+
+        <h1>🎨 Art & Creativity</h1>
+
+        <div class="hero-image">
+            🎭
+        </div>
+
+        <div class="content">
+            <h2>Express Yourself Through Art</h2>
+            <p>Art & Creativity encourages children to express their imagination and emotions through various artistic mediums. From drawing and painting to crafting and digital art, we provide tools and inspiration to help young artists discover their creative potential.</p>
+
+            <h2>Creative Activities</h2>
+            <p>Our art modules include interactive drawing tools, color theory lessons, craft projects, and storytelling exercises. Children learn about famous artists, art history, and different cultural art forms while creating their own masterpieces.</p>
+
+            <div class="facts">
+                <h3>Art Skills You'll Develop:</h3>
+                <ul>
+                    <li>Color theory and mixing</li>
+                    <li>Basic drawing techniques</li>
+                    <li>Creative problem-solving</li>
+                    <li>Self-expression</li>
+                    <li>Appreciation of different art forms</li>
+                </ul>
+            </div>
+
+            <h2>Digital Art Studio</h2>
+            <p>In addition to traditional art, we offer digital art tools that allow children to create, edit, and share their artwork. Learn about digital design principles and modern art techniques in our virtual studio.</p>
+        </div>
+    </div>
+</body>
+</html>
