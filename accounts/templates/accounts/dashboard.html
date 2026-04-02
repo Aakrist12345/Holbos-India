@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holbos India – Learning Platform</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --saffron: #FF6B00;
+            --amber: #FFB347;
+            --gold: #F5C842;
+            --deep: #0A0500;
+            --mid: #130800;
+            --card: rgba(255, 255, 255, 0.04);
+            --border: rgba(245, 200, 66, 0.18);
+            --text: #FFF4E0;
+            --muted: rgba(255, 244, 224, 0.5);
+            --nav-h: 68px;
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--deep);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-h);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5rem;
+            background: rgba(10, 5, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 5, 0, 0.97);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 16px rgba(255, 107, 0, 0.4);
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-family: 'Yatra One', cursive;
+            font-size: 1.3rem;
+            background: linear-gradient(90deg, var(--amber), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+            background: rgba(245, 200, 66, 0.1);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+        }
+
+        .nav-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--saffron), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .nav-username {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, var(--saffron), var(--amber));
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            padding: 0.42rem 1.1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 0.78rem;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: box-shadow 0.25s, transform 0.2s;
+            box-shadow: 0 3px 14px rgba(255, 107, 0, 0.35);
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(255, 107, 0, 0.5);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: var(--nav-h);
+            left: 0;
+            right: 0;
+            background: rgba(10, 5, 0, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            z-index: 999;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: color 0.2s;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+
+        /* ── PAGE BODY ── */
+        .page-body {
+            padding-top: var(--nav-h);
+        }
+
+        /* ── SITE HEADER ── */
+        .site-header {
+            text-align: center;
+            padding: 2.5rem 1rem 1rem;
+            position: relative;
+        }
+
+        .site-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(255, 107, 0, 0.15) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(255, 107, 0, 0.1);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            border-radius: 50px;
+            padding: 0.3rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--amber);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.9rem;
+        }
+
+        .badge-pulse {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--amber);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 0.3;
+                transform: scale(1.6)
+            }
+        }
+
+        .logo {
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 50%, var(--amber) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── SPIDER WRAPPER ── */
+        #home {
+            padding: 0;
+        }
+
+        .spider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 820px;
+            overflow: hidden;
+        }
+
+        /* Ambient glow layers */
+        .spider-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 55% 55% at 50% 50%, rgba(255, 107, 0, 0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 30% 30% at 20% 20%, rgba(245, 200, 66, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse 30% 30% at 80% 80%, rgba(26, 58, 42, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Decorative mandala rings */
+        .mandala-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .m-ring {
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(245, 200, 66, 0.06);
+        }
+
+        .m-ring:nth-child(1) {
+            width: 180px;
+            height: 180px;
+            animation: mSpin 25s linear infinite;
+        }
+
+        .m-ring:nth-child(2) {
+            width: 360px;
+            height: 360px;
+            border-style: dashed;
+            border-color: rgba(255, 107, 0, 0.06);
+            animation: mSpin 40s linear infinite reverse;
+        }
+
+        .m-ring:nth-child(3) {
+            width: 540px;
+            height: 540px;
+            animation: mSpin 60s linear infinite;
+        }
+
+        .m-ring:nth-child(4) {
+            width: 720px;
+            height: 720px;
+            border-style: dotted;
+            border-color: rgba(245, 200, 66, 0.04);
+            animation: mSpin 80s linear infinite reverse;
+        }
+
+        @keyframes mSpin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .web-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ── NODES ── */
+        .node {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 20px;
+            z-index: 2;
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+        }
+
+        /* CENTER NODE */
+        .center-node {
+            background: linear-gradient(145deg, rgba(255, 107, 0, 0.18), rgba(245, 200, 66, 0.06));
+            border: 1.5px solid rgba(245, 200, 66, 0.45);
+            padding: 2rem 2rem;
+            width: 240px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 80px rgba(255, 107, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .center-node::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 21px;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.3), transparent 50%);
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .center-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.25), rgba(245, 200, 66, 0.15));
+            border: 1px solid rgba(245, 200, 66, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 0.75rem;
+        }
+
+        .center-node h2 {
+            font-family: 'Yatra One', cursive;
+            font-size: 1.05rem;
+            color: var(--gold);
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        .center-node p {
+            font-size: 0.75rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* WEB NODES */
+        .web-node {
+            width: 158px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 1.1rem 0.9rem;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.3s, background 0.3s;
+            overflow: hidden;
+        }
+
+        .web-node::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--node-glow, rgba(255, 107, 0, 0.1)) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .web-node:hover {
+            transform: translate(-50%, -50%) scale(1.1) !important;
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--node-glow, rgba(255, 107, 0, 0.2));
+            border-color: rgba(245, 200, 66, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .web-node:hover::after {
+            opacity: 1;
+        }
+
+        /* Individual node colors */
+        #node1 {
+            --node-glow: rgba(139, 80, 40, 0.3);
+        }
+
+        #node2 {
+            --node-glow: rgba(40, 120, 220, 0.25);
+        }
+
+        #node3 {
+            --node-glow: rgba(245, 200, 66, 0.2);
+        }
+
+        #node4 {
+            --node-glow: rgba(40, 180, 80, 0.2);
+        }
+
+        #node5 {
+            --node-glow: rgba(220, 60, 140, 0.2);
+        }
+
+        #node6 {
+            --node-glow: rgba(120, 80, 255, 0.2);
+        }
+
+        .web-node a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .node-icon-wrap {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto 0.6rem;
+            transition: transform 0.3s var(--ease);
+        }
+
+        .web-node:hover .node-icon-wrap {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .web-node h3 {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+            letter-spacing: 0.01em;
+        }
+
+        .web-node p {
+            font-size: 0.68rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 0.55rem;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 0.15rem 0.55rem;
+            border-radius: 50px;
+            background: rgba(255, 107, 0, 0.12);
+            color: var(--amber);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Arrow hint on hover */
+        .node-arrow {
+            position: absolute;
+            bottom: 0.6rem;
+            right: 0.7rem;
+            font-size: 0.65rem;
+            color: var(--amber);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateX(-4px);
+        }
+
+        .web-node:hover .node-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* SVG lines */
+        @keyframes drawLine {
+            from {
+                stroke-dashoffset: 400;
+                opacity: 0;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+        }
+
+        .web-line {
+            animation: drawLine 0.8s var(--ease) forwards;
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 2px;
+            background: var(--amber);
+            border-radius: 2px;
+        }
+
+        section h2 {
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+
+        section h2 span {
+            background: linear-gradient(90deg, var(--saffron), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        section>p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            max-width: 560px;
+        }
+
+        /* About */
+        #about {
+            border-top: 1px solid var(--border);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+            transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.06) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(245, 200, 66, 0.35);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .about-card:hover::before {
+            opacity: 1;
+        }
+
+        .about-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(255, 107, 0, 0.2));
+        }
+
+        .about-card h4 {
+            color: var(--gold);
+            font-size: 0.92rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+        }
+
+        .about-card p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* Contact */
+        #contact {
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+            margin-top: 2rem;
+            align-items: start;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.9rem 1.1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: border-color 0.25s;
+        }
+
+        .contact-item:hover {
+            border-color: rgba(245, 200, 66, 0.35);
+        }
+
+        .contact-item-icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.2), rgba(245, 200, 66, 0.1));
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .contact-item-title {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .contact-item-val {
+            font-size: 0.85rem;
+            color: var(--text);
+            font-weight: 600;
+            margin-top: 1px;
+        }
+
+        .contact-form-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            resize: vertical;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--amber);
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.1);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255, 244, 224, 0.25);
+        }
+
+        .contact-form button {
+            background: linear-gradient(135deg, var(--saffron), var(--amber));
+            color: #000;
+            border: none;
+            border-radius: 11px;
+            padding: 0.82rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            box-shadow: 0 5px 18px rgba(255, 107, 0, 0.35);
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(255, 107, 0, 0.5);
+        }
+
+        /* Location */
+        #location {
+            border-top: 1px solid var(--border);
+        }
+
+        .location-box {
+            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .location-box iframe {
+            width: 100%;
+            height: 320px;
+            border: none;
+            display: block;
+            filter: grayscale(30%) brightness(0.75) contrast(1.1);
+        }
+
+        .location-info {
+            padding: 1.1rem 1.5rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--border);
+        }
+
+        .location-info p {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .location-info strong {
+            color: var(--amber);
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 2px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--border);
+            background: var(--mid);
+        }
+
+        .footer-brand {
+            font-family: 'Yatra One', cursive;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, var(--amber), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.4rem;
+        }
+
+        footer p {
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        footer span {
+            color: var(--amber);
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .reveal-d1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-d2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-d3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-d4 {
+            transition-delay: 0.4s;
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(10, 5, 0, 0.95);
+            border: 1px solid var(--amber);
+            border-radius: 12px;
+            padding: 0.85rem 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+            z-index: 9000;
+            transform: translateY(120%);
+            transition: transform 0.4s var(--ease);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 760px) {
+            .contact-wrap {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+
+            .nav-links,
+            .nav-user {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .spider-wrapper {
+                height: auto;
+                overflow: visible;
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .spider-wrapper::before {
+                display: none;
+            }
+
+            .mandala-rings {
+                display: none;
+            }
+
+            .web-lines {
+                display: none;
+            }
+
+            .node {
+                position: static !important;
+                transform: none !important;
+                width: 100% !important;
+                border-radius: 14px !important;
+            }
+
+            .center-node {
+                width: 100% !important;
+            }
+
+            .web-node {
+                width: 100% !important;
+            }
+
+            .web-node:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── NAVBAR ── -->
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="nav-brand">
+            <div class="brand-mark">🏛</div>
+            <span class="brand-name">Holbos India</span>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#location">Location</a></li>
+            <li><a href="#admission-form">Admission Form</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="nav-user">
+                <div class="nav-avatar">👤</div>
+                <span class="nav-username">{{ request.user.username }}</span>
+            </div>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout ↗</a>
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" onclick="closeMenu()">🏠 Home</a>
+        <a href="#about" onclick="closeMenu()">ℹ️ About</a>
+        <a href="#contact" onclick="closeMenu()">✉️ Contact</a>
+        <a href="#location" onclick="closeMenu()">📍 Location</a>
+    </div>
+
+    <div class="page-body">
+
+        <!-- ── SITE HEADER ── -->
+        <header class="site-header">
+            <div class="header-badge"><span class="badge-pulse"></span>India's Premier Kids Platform</div>
+            <div class="logo">🏛 Holbos India</div>
+            <p class="tagline">Learning Platform for Young Minds</p>
+        </header>
+
+        <!-- ── SPIDER WEB ── -->
+        <div id="home">
+            <div class="spider-wrapper" id="spiderWrapper">
+                <div class="mandala-rings">
+                    <div class="m-ring"></div>
+                    <div class="m-ring"></div>
+                    <div class="m-ring"></div>
+                    <div class="m-ring"></div>
+                </div>
+
+                <svg class="web-lines" id="webLines" xmlns="http://www.w3.org/2000/svg"></svg>
+
+                <div class="node center-node" id="centerNode">
+                    <div class="center-icon">🎯</div>
+                    <h2>Master Indian Heritage &amp; Future Skills</h2>
+                    <p>Your ultimate learning destination</p>
+                </div>
+
+                <div class="node web-node" id="node1">
+                    <a href="{% url 'shivaji' %}">
+                        <div class="node-icon-wrap">🗡️</div>
+                        <h3>Chhatrapati Shivaji Maharaj</h3>
+                        <p>Great Maratha warrior &amp; founder of the Maratha Empire.</p>
+                        <span class="tag">History</span>
+                        <span class="node-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="node web-node" id="node2">
+                    <a href="{% url 'doraemon' %}">
+                        <div class="node-icon-wrap">🤖</div>
+                        <h3>Doraemon</h3>
+                        <p>A robotic cat from the future who helps Nobita with gadgets.</p>
+                        <span class="tag">Anime &amp; Tech</span>
+                        <span class="node-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="node web-node" id="node3">
+                    <a href="{% url 'learning_blocks' %}">
+                        <div class="node-icon-wrap">📚</div>
+                        <h3>Learning Blocks</h3>
+                        <p>Interactive modules for comprehensive kids education.</p>
+                        <span class="tag">Education</span>
+                        <span class="node-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="node web-node" id="node4">
+                    <a href="{% url 'science' %}">
+                        <div class="node-icon-wrap">🌿</div>
+                        <h3>Science &amp; Nature</h3>
+                        <p>Explore the wonders of the natural world around us.</p>
+                        <span class="tag">Science</span>
+                        <span class="node-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="node web-node" id="node5">
+                    <a href="{% url 'art' %}">
+                        <div class="node-icon-wrap">🎨</div>
+                        <h3>Art &amp; Creativity</h3>
+                        <p>Express yourself through colors, craft and storytelling.</p>
+                        <span class="tag">Creative</span>
+                        <span class="node-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="node web-node" id="node6">
+                    <a href="{% url 'math' %}">
+                        <div class="node-icon-wrap">🔢</div>
+                        <h3>Mathematics</h3>
+                        <p>Build strong number skills with fun puzzles and games.</p>
+                        <span class="tag">Math</span>
+                        <span class="node-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ABOUT ── -->
+        <section id="about">
+            <div class="reveal">
+                <div class="section-label">Who We Are</div>
+                <h2>About <span>Holbos India</span></h2>
+                <p>A dedicated learning platform built for curious young minds — blending India's rich cultural heritage
+                    with modern skills, making every lesson an adventure.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-card reveal reveal-d1">
+                    <span class="icon">🎓</span>
+                    <h4>Expert Content</h4>
+                    <p>Carefully curated lessons designed for young learners.</p>
+                </div>
+                <div class="about-card reveal reveal-d2">
+                    <span class="icon">🇮🇳</span>
+                    <h4>Indian Heritage</h4>
+                    <p>Celebrate our roots through stories, history, and culture.</p>
+                </div>
+                <div class="about-card reveal reveal-d3">
+                    <span class="icon">🚀</span>
+                    <h4>Future Ready</h4>
+                    <p>Science, tech, and creativity skills for tomorrow's world.</p>
+                </div>
+                <div class="about-card reveal reveal-d4">
+                    <span class="icon">🎮</span>
+                    <h4>Fun Learning</h4>
+                    <p>Games, puzzles, and activities that make learning joyful.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── CONTACT ── -->
+        <section id="contact">
+            <div class="reveal">
+                <div class="section-label">Say Hello</div>
+                <h2>Contact <span>Us</span></h2>
+                <p>Have a question or suggestion? We'd love to hear from you!</p>
+            </div>
+            <div class="contact-wrap">
+                <div class="contact-details reveal reveal-d1">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📧</div>
+                        <div>
+                            <div class="contact-item-title">Email</div>
+                            <div class="contact-item-val">hello@holbosindia.in</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📞</div>
+                        <div>
+                            <div class="contact-item-title">Phone</div>
+                            <div class="contact-item-val">+91 98765 43210</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">🕐</div>
+                        <div>
+                            <div class="contact-item-title">Hours</div>
+                            <div class="contact-item-val">Mon–Sat, 9 AM – 7 PM IST</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-box reveal reveal-d2">
+                    <div class="contact-form">
+                        <input type="text" placeholder="Your Name" />
+                        <input type="email" placeholder="Your Email" />
+                        <textarea rows="4" placeholder="Your Message…"></textarea>
+                        <button type="button" onclick="showToast()">Send Message 🚀</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── LOCATION ── -->
+        <section id="location">
+            <div class="reveal">
+                <div class="section-label">Find Us</div>
+                <h2>Our <span>Location</span></h2>
+                <p>Based in Greater Noida — come visit or reach out online anytime.</p>
+            </div>
+
+            <div class="location-box reveal reveal-d1">
+                <iframe src="https://www.google.com/maps?q=Gaur+City+Greater+Noida&output=embed" allowfullscreen=""
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+
+                <div class="location-info">
+                    <p><strong>📧 Email</strong> abc@holbos.com</p>
+                    <p><strong>📞 Phone</strong> +91 123XXXXXX</p>
+                    <p><strong>🏢 Address</strong> Gaur City, Greater Noida, Uttar Pradesh, India</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ── ADMISSION FORM ── -->
+    <section id="admission-form">
+        <div class="reveal">
+            <div class="section-label">Apply Now</div>
+            <h2>Admission <span>Form</span></h2>
+            <p>Fill out the form below to apply for admission to our learning platform.</p>
+        </div>
+
+        <div class="form-wrap reveal reveal-d1">
+
+            <!-- Admission Form Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXnwCFBbklMHiXvvXuBQgW03Hn8NCBjPMzCN5XnTgw4sAXTg/viewform?usp=publish-editor"
+                target="_blank">
+                <button type="button">Fill Admission Form</button>
+            </a>
+
+        </div>
+    </section>
+
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <div class="footer-brand">🏛 Holbos India</div>
+        <p>© 2025 <span>Holbos India</span> · Made with 🧡 for young minds across India</p>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">✅ Message sent! We'll reply within 24 hours.</div>
+
+    <script>
+        /* ── Nav ── */
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+            let cur = '';
+            document.querySelectorAll('section[id], #home').forEach(s => {
+                if (window.scrollY >= s.offsetTop - 90) cur = s.id;
+            });
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+            });
+        });
+
+        /* ── Mobile menu ── */
+        function toggleMenu() {
+            document.getElementById('hamburger').classList.toggle('open');
+            document.getElementById('mobileMenu').classList.toggle('open');
+        }
+        function closeMenu() {
+            document.getElementById('hamburger').classList.remove('open');
+            document.getElementById('mobileMenu').classList.remove('open');
+        }
+
+        /* ── Scroll reveal ── */
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+        /* ── Toast ── */
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        /* ── Spider web layout ── */
+        const ORBIT_RADIUS = 290;
+        const ANGLES_DEG = [-90, -30, 30, 90, 150, 210];
+
+        function layout() {
+            if (window.innerWidth <= 640) return;
+            const wrapper = document.getElementById('spiderWrapper');
+            const W = wrapper.offsetWidth, H = wrapper.offsetHeight;
+            const cx = W / 2, cy = H / 2;
+
+            const center = document.getElementById('centerNode');
+            center.style.left = cx + 'px';
+            center.style.top = cy + 'px';
+
+            const nodes = document.querySelectorAll('.web-node');
+            const positions = [];
+            nodes.forEach((node, i) => {
+                const rad = ANGLES_DEG[i] * (Math.PI / 180);
+                const x = cx + ORBIT_RADIUS * Math.cos(rad);
+                const y = cy + ORBIT_RADIUS * Math.sin(rad);
+                node.style.left = x + 'px';
+                node.style.top = y + 'px';
+                positions.push({ x, y });
+            });
+            drawLines(cx, cy, positions);
+        }
+
+        function drawLines(cx, cy, positions) {
+            const svg = document.getElementById('webLines');
+            svg.innerHTML = '';
+
+            // Cross-connections between adjacent nodes for web effect
+            for (let i = 0; i < positions.length; i++) {
+                const j = (i + 1) % positions.length;
+                const web = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                web.setAttribute('x1', positions[i].x); web.setAttribute('y1', positions[i].y);
+                web.setAttribute('x2', positions[j].x); web.setAttribute('y2', positions[j].y);
+                web.setAttribute('stroke', 'rgba(245,200,66,0.06)');
+                web.setAttribute('stroke-width', '1');
+                svg.appendChild(web);
+            }
+
+            positions.forEach(({ x, y }, i) => {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+                line.setAttribute('x2', x); line.setAttribute('y2', y);
+                line.setAttribute('stroke', 'rgba(245,200,66,0.22)');
+                line.setAttribute('stroke-width', '1.5');
+                line.setAttribute('stroke-dasharray', '6 5');
+                line.classList.add('web-line');
+                line.style.animationDelay = (i * 0.12) + 's';
+                svg.appendChild(line);
+
+                // Glow dot at node
+                const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                glow.setAttribute('cx', x); glow.setAttribute('cy', y);
+                glow.setAttribute('r', '8'); glow.setAttribute('fill', 'rgba(255,107,0,0.1)');
+                svg.appendChild(glow);
+
+                const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dot.setAttribute('cx', x); dot.setAttribute('cy', y);
+                dot.setAttribute('r', '3.5'); dot.setAttribute('fill', '#F5C842');
+                dot.setAttribute('opacity', '0.7');
+                svg.appendChild(dot);
+            });
+
+            // Center dot
+            const cGlow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            cGlow.setAttribute('cx', cx); cGlow.setAttribute('cy', cy);
+            cGlow.setAttribute('r', '14'); cGlow.setAttribute('fill', 'rgba(255,107,0,0.08)');
+            svg.appendChild(cGlow);
+
+            const cdot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            cdot.setAttribute('cx', cx); cdot.setAttribute('cy', cy);
+            cdot.setAttribute('r', '5'); cdot.setAttribute('fill', '#FF6B00');
+            cdot.setAttribute('opacity', '0.8');
+            svg.appendChild(cdot);
+        }
+
+        window.addEventListener('load', layout);
+        window.addEventListener('resize', layout);
+        layout();
+    </script>
+</body>
+
+</html>
