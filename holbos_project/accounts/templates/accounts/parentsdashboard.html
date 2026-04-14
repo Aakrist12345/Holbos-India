@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holbos India — Parent Dashboard</title>
+  <link rel="icon" type="image/png" href="{% static 'images/holbosLOGO.png' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --magenta:  #D4208A;
+      --pink:     #BF1F8F;
+      --purple:   #3B2FC9;
+      --grad:     linear-gradient(135deg, #BF1F8F 0%, #8B2FC9 50%, #3B2FC9 100%);
+      --deep:     #0D0814;
+      --surface:  #120D1F;
+      --card:     rgba(255,255,255,0.04);
+      --border:   rgba(180,80,200,0.2);
+      --text:     #F0EAFF;
+      --muted:    rgba(240,234,255,0.52);
+      --green:    #22C55E;
+      --red:      #EF4444;
+      --amber:    #F59E0B;
+      --nav-h:    68px;
+      --ease:     cubic-bezier(.23,1,.32,1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--deep);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BG ── */
+    .bg-fixed {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 65% 55% at 15% 50%, rgba(191,31,143,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 55% at 85% 50%, rgba(59,47,201,0.1) 0%, transparent 55%);
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-logo {
+      width: 40px; height: 40px; border-radius: 50%;
+      padding: 2px; background: var(--magenta); flex-shrink: 0;
+    }
+    .brand-logo-in { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: #000; }
+    .brand-logo-in img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .brand-name {
+      font-family: 'Yatra One', cursive; font-size: 1.5rem;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Parent badge in navbar */
+    .nav-parent-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(59,47,201,0.15); border: 1px solid rgba(59,47,201,0.4);
+      border-radius: 50px; padding: 0.2rem 0.65rem;
+      font-size: 0.65rem; font-weight: 800;
+      color: rgba(180,170,255,0.9); letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-user {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 50px;
+    }
+    .nav-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--purple);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 800; color: #fff;
+    }
+    .nav-username { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+    .btn-logout {
+      background: var(--magenta); color: #fff; border: none; border-radius: 50px;
+      padding: 0.42rem 1.1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.78rem;
+      text-decoration: none; letter-spacing: 0.05em; transition: transform 0.2s;
+    }
+    .btn-logout:hover { transform: translateY(-2px); }
+
+    /* ── PAGE BODY ── */
+    .page-body { padding-top: var(--nav-h); position: relative; z-index: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 1rem;
+    }
+    .hero-greeting {
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.4rem;
+    }
+    .hero-greeting .hello { color: var(--muted); font-weight: 500; }
+    .hero-greeting .uname { color: var(--magenta); }
+    .hero-sub { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── READ-ONLY BANNER ── */
+    .readonly-banner {
+      max-width: 900px; margin: 1.2rem auto 0;
+      padding: 0 1.5rem;
+    }
+    .readonly-strip {
+      background: rgba(59,47,201,0.1);
+      border: 1px solid rgba(59,47,201,0.3);
+      border-radius: 14px;
+      padding: 0.85rem 1.2rem;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.82rem; color: rgba(180,170,255,0.8); font-weight: 600; line-height: 1.5;
+    }
+    .readonly-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    /* ── SECTION WRAPPER ── */
+    .sections { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+
+    /* ── SECTION HEADER ── */
+    .sec-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+    .sec-icon {
+      width: 40px; height: 40px; border-radius: 11px;
+      background: rgba(191,31,143,0.12); border: 1px solid rgba(191,31,143,0.25);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .sec-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .sec-sub   { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── CARD BOX ── */
+    .box {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px; padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .box::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,32,138,0.3), rgba(59,47,201,0.3), transparent);
+    }
+
+    /* ── STUDENT SELECTOR ── */
+    .student-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .s-tab {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0.5rem 1rem; border-radius: 50px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+      cursor: pointer; font-size: 0.8rem; font-weight: 700; color: var(--muted);
+      transition: all 0.2s;
+    }
+    .s-tab.active {
+      background: rgba(191,31,143,0.15); border-color: rgba(191,31,143,0.5); color: var(--text);
+    }
+    .s-tab-avatar {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--magenta); display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 800; color: #fff;
+    }
+
+    /* ── STAT GRID ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .stat-box {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1rem 0.85rem; text-align: center;
+    }
+    .stat-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+    .stat-num.green  { color: var(--green); }
+    .stat-num.red    { color: var(--red); }
+    .stat-num.amber  { color: var(--amber); }
+    .stat-num.purple { color: var(--magenta); }
+    .stat-label { font-size: 0.6rem; color: var(--muted); font-weight: 700; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ── ATTENDANCE CALENDAR ── */
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; margin-top: 0.5rem; }
+    .cal-day-label { font-size: 0.6rem; font-weight: 800; color: var(--muted); text-align: center; text-transform: uppercase; padding-bottom: 4px; }
+    .cal-cell {
+      aspect-ratio: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 700; color: var(--muted);
+      background: rgba(255,255,255,0.02);
+    }
+    .cal-cell.present { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); color: #86EFAC; }
+    .cal-cell.absent  { background: rgba(239,68,68,0.12);  border-color: rgba(239,68,68,0.28);  color: #FCA5A5; }
+    .cal-cell.today   { border-color: var(--magenta); color: var(--text); }
+    .cal-cell.empty   { border-color: transparent; background: transparent; }
+
+    /* Legend */
+    .cal-legend { display: flex; gap: 1rem; margin-top: 0.85rem; }
+    .leg { display: flex; align-items: center; gap: 5px; font-size: 0.68rem; color: var(--muted); font-weight: 600; }
+    .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+    .leg-dot.g { background: rgba(34,197,94,0.5); }
+    .leg-dot.r { background: rgba(239,68,68,0.5); }
+    .leg-dot.e { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); }
+
+    /* ── PROGRESS RING ── */
+    .progress-row { display: flex; align-items: center; gap: 1.5rem; }
+    .ring-bg   { fill: none; stroke: rgba(255,255,255,0.06); }
+    .ring-fill { fill: none; stroke-linecap: round; transition: stroke-dashoffset 1.4s var(--ease); }
+    .ring-label { text-anchor: middle; dominant-baseline: middle; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; }
+    .prog-stats { flex: 1; }
+    .prog-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.78rem;
+    }
+    .prog-row:last-child { border-bottom: none; }
+    .prog-key   { color: var(--muted); font-weight: 600; }
+    .prog-val   { font-weight: 800; color: var(--text); }
+    .prog-val.green { color: var(--green); }
+    .prog-val.amber { color: var(--amber); }
+    .prog-val.red   { color: var(--red); }
+
+    /* ── BAR CHART ── */
+    .bar-title { font-size: 0.68rem; font-weight: 800; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin: 1.1rem 0 0.65rem; }
+    .bar-row  { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.45rem; }
+    .bar-day  { font-size: 0.68rem; color: var(--muted); width: 36px; text-align: right; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 4px; transition: width 1.3s var(--ease); }
+    .bar-icon  { font-size: 0.68rem; min-width: 14px; }
+
+    /* ── COURSES LIST ── */
+    .course-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.5rem; }
+    .course-row {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 0.85rem 1rem;
+    }
+    .course-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .course-name { font-size: 0.86rem; font-weight: 800; color: var(--text); }
+    .course-tag  {
+      font-size: 0.58rem; font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 50px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      background: rgba(255,140,0,0.12); color: #FCD34D; border: 1px solid rgba(255,140,0,0.25);
+    }
+    .course-prog { margin-left: auto; text-align: right; }
+    .course-pct  { font-size: 0.78rem; font-weight: 800; color: var(--magenta); }
+    .course-bar-mini { width: 80px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-top: 3px; }
+    .course-bar-fill { height: 100%; border-radius: 2px; background: var(--grad); transition: width 1.3s var(--ease); }
+
+    /* ── LOCKED ACTIONS PANEL ── */
+    .locked-panel {
+      background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 16px; padding: 1.2rem 1.4rem;
+    }
+    .locked-title { font-size: 0.82rem; font-weight: 800; color: #FCA5A5; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
+    .locked-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+    .locked-item {
+      display: flex; align-items: center; gap: 9px;
+      background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.15);
+      border-radius: 10px; padding: 0.65rem 0.8rem;
+    }
+    .locked-item-icon { font-size: 1rem; flex-shrink: 0; }
+    .locked-item-text { font-size: 0.74rem; font-weight: 700; color: rgba(252,165,165,0.7); text-decoration: line-through; }
+    .lock-badge { margin-left: auto; font-size: 0.62rem; }
+
+    /* ── PROJECTS ── */
+    .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 0.5rem; }
+    .proj-card {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.9rem 0.85rem;
+    }
+    .proj-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.45rem; }
+    .proj-name { font-size: 0.78rem; font-weight: 800; color: var(--text); }
+    .proj-badge { font-size: 0.56rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .proj-badge.done { background: rgba(34,197,94,0.15); color: #86EFAC; border: 1px solid rgba(34,197,94,0.3); }
+    .proj-badge.wip  { background: rgba(245,158,11,0.12); color: #FCD34D; border: 1px solid rgba(245,158,11,0.25); }
+    .proj-badge.todo { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid rgba(255,255,255,0.1); }
+    .proj-bar  { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; margin-top: 0.45rem; }
+    .proj-fill { height: 100%; border-radius: 2px; background: var(--grad); transition: width 1.3s var(--ease); }
+    .proj-meta { font-size: 0.6rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--muted);
+    }
+    footer span { color: var(--magenta); }
+
+    @media (max-width: 640px) {
+      .navbar { padding: 0 1.2rem; }
+      .stat-grid { grid-template-columns: repeat(2,1fr); }
+      .proj-grid, .locked-grid { grid-template-columns: 1fr; }
+      .progress-row { flex-direction: column; }
+      .nav-parent-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <a href="#" class="nav-brand">
+    <div class="brand-logo">
+      <div class="brand-logo-in">
+        <img src="{% static 'images/holbosLOGO.png' %}" alt="Logo">
+      </div>
+    </div>
+    <span class="brand-name">Holbos</span>
+    <span class="nav-parent-tag">&#128100; Parent View</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-user">
+      <div class="nav-avatar" id="navInitial">P</div>
+      <span class="nav-username">{{ request.user.username }}</span>
+    </div>
+    <a href="{% url 'logout' %}" class="btn-logout">Logout &#8594;</a>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-greeting">
+      <span class="hello">Hello, </span><span class="uname">{{ user.get_full_name|default:user.username }}</span>
+    </div>
+    <p class="hero-sub">Here's your child's learning overview &mdash; read-only parent access.</p>
+  </div>
+
+  <!-- ── READ-ONLY NOTICE ── -->
+  <div class="readonly-banner">
+    <div class="readonly-strip">
+      <span class="readonly-icon">&#128274;</span>
+      <span>You have <strong>read-only</strong> access. You can view attendance, progress and learning content &mdash; but cannot mark attendance, edit records or upload content.</span>
+    </div>
+  </div>
+
+  <div class="sections">
+
+    <!-- ── STUDENT SELECTOR ── -->
+    <div class="student-tabs" id="studentTabs">
+      <!-- Rendered from Django context: {% for child in children %} -->
+      <div class="s-tab active" onclick="selectStudent(this, 0)">
+        <div class="s-tab-avatar">A</div>
+        {{ children.0.first_name|default:"Child 1" }}
+      </div>
+      <!-- Add more children if linked -->
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 1: ATTENDANCE
+    ════════════════════════════════════════ -->
+    <div class="box">
+      <div class="sec-header">
+        <div class="sec-icon">&#128197;</div>
+        <div>
+          <div class="sec-title">Attendance Record</div>
+          <div class="sec-sub">This month's session attendance</div>
+        </div>
+      </div>
+
+      <!-- Summary stats -->
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-num green" id="attPresent">18</div><div class="stat-label">Present</div></div>
+        <div class="stat-box"><div class="stat-num red"   id="attAbsent">3</div><div class="stat-label">Absent</div></div>
+        <div class="stat-box"><div class="stat-num amber" id="attTotal">21</div><div class="stat-label">Total Sessions</div></div>
+        <div class="stat-box"><div class="stat-num purple" id="attPct">86%</div><div class="stat-label">Attendance %</div></div>
+      </div>
+
+      <!-- Calendar view -->
+      <div class="cal-grid" id="calGrid">
+        <div class="cal-day-label">Mon</div>
+        <div class="cal-day-label">Tue</div>
+        <div class="cal-day-label">Wed</div>
+        <div class="cal-day-label">Thu</div>
+        <div class="cal-day-label">Fri</div>
+        <div class="cal-day-label">Sat</div>
+        <div class="cal-day-label">Sun</div>
+        <!-- Days filled by JS -->
+      </div>
+
+      <div class="cal-legend">
+        <div class="leg"><div class="leg-dot g"></div>Present</div>
+        <div class="leg"><div class="leg-dot r"></div>Absent</div>
+        <div class="leg"><div class="leg-dot e"></div>No Session</div>
+      </div>
+
+      <!-- Weekly bar -->
+      <div class="bar-title">This Week's Attendance</div>
+      <div id="weekBars"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 2: PROGRESS
+    ════════════════════════════════════════ -->
+    <div class="box">
+      <div class="sec-header">
+        <div class="sec-icon">&#128200;</div>
+        <div>
+          <div class="sec-title">Learning Progress</div>
+          <div class="sec-sub">Overall programme completion</div>
+        </div>
+      </div>
+
+      <div class="progress-row">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <defs>
+            <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D4208A"/>
+              <stop offset="100%" stop-color="#3B2FC9"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-bg" cx="65" cy="65" r="52" stroke-width="10"/>
+          <circle class="ring-fill" cx="65" cy="65" r="52" stroke-width="10"
+            stroke="url(#rg)" stroke-dasharray="326.7" stroke-dashoffset="326.7"
+            id="ringFill" transform="rotate(-90 65 65)"/>
+          <text x="65" y="60" class="ring-label" font-size="18" font-weight="800" fill="#F0EAFF">29%</text>
+          <text x="65" y="78" class="ring-label" font-size="9" fill="rgba(240,234,255,.5)">COMPLETE</text>
+        </svg>
+        <div class="prog-stats">
+          <div class="prog-row"><span class="prog-key">Hours Completed</span><span class="prog-val green">14h</span></div>
+          <div class="prog-row"><span class="prog-key">Hours Remaining</span><span class="prog-val amber">34h</span></div>
+          <div class="prog-row"><span class="prog-key">Programme Total</span><span class="prog-val">48h</span></div>
+          <div class="prog-row"><span class="prog-key">Grade</span><span class="prog-val">Grade 3</span></div>
+          <div class="prog-row"><span class="prog-key">Sessions Done</span><span class="prog-val green">7 / 24</span></div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="bar-title">Projects Overview</div>
+      <div class="proj-grid">
+        <div class="proj-card">
+          <div class="proj-top"><span class="proj-name">Heritage Poster</span><span class="proj-badge done">&#10003; Done</span></div>
+          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="100"></div></div>
+          <div class="proj-meta">100% &middot; Due Mar 2025</div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-top"><span class="proj-name">Science Experiment</span><span class="proj-badge wip">In Progress</span></div>
+          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="65"></div></div>
+          <div class="proj-meta">65% &middot; Due Apr 2025</div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-top"><span class="proj-name">Math Puzzle Set</span><span class="proj-badge wip">In Progress</span></div>
+          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="40"></div></div>
+          <div class="proj-meta">40% &middot; Due May 2025</div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-top"><span class="proj-name">Art Portfolio</span><span class="proj-badge todo">Upcoming</span></div>
+          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="0"></div></div>
+          <div class="proj-meta">0% &middot; Due Jun 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 3: LEARNING CONTENT (view-only)
+    ════════════════════════════════════════ -->
+    <div class="box">
+      <div class="sec-header">
+        <div class="sec-icon">&#128218;</div>
+        <div>
+          <div class="sec-title">Learning Modules</div>
+          <div class="sec-sub">Your child's enrolled courses &mdash; view only</div>
+        </div>
+      </div>
+      <div class="course-list">
+        <div class="course-row">
+          <div class="course-icon">&#9876;&#65039;</div>
+          <div>
+            <div class="course-name">Chhatrapati Shivaji Maharaj</div>
+            <span class="course-tag">History</span>
+          </div>
+          <div class="course-prog">
+            <div class="course-pct">75%</div>
+            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="75"></div></div>
+          </div>
+        </div>
+        <div class="course-row">
+          <div class="course-icon">&#129302;</div>
+          <div>
+            <div class="course-name">Doraemon &amp; Gadgets</div>
+            <span class="course-tag">Anime &amp; Tech</span>
+          </div>
+          <div class="course-prog">
+            <div class="course-pct">50%</div>
+            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="50"></div></div>
+          </div>
+        </div>
+        <div class="course-row">
+          <div class="course-icon">&#128218;</div>
+          <div>
+            <div class="course-name">Learning Blocks</div>
+            <span class="course-tag">Education</span>
+          </div>
+          <div class="course-prog">
+            <div class="course-pct">30%</div>
+            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="30"></div></div>
+          </div>
+        </div>
+        <div class="course-row">
+          <div class="course-icon">&#127807;</div>
+          <div>
+            <div class="course-name">Science &amp; Nature</div>
+            <span class="course-tag">Science</span>
+          </div>
+          <div class="course-prog">
+            <div class="course-pct">20%</div>
+            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="20"></div></div>
+          </div>
+        </div>
+        <div class="course-row">
+          <div class="course-icon">&#127912;</div>
+          <div>
+            <div class="course-name">Art &amp; Creativity</div>
+            <span class="course-tag">Creative</span>
+          </div>
+          <div class="course-prog">
+            <div class="course-pct">10%</div>
+            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="10"></div></div>
+          </div>
+        </div>
+        <div class="course-row">
+          <div class="course-icon">&#128290;</div>
+          <div>
+            <div class="course-name">Mathematics</div>
+            <span class="course-tag">Math</span>
+          </div>
+          <div class="course-prog">
+            <div class="course-pct">5%</div>
+            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="5"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 4: RESTRICTED ACTIONS
+    ════════════════════════════════════════ -->
+    <div class="locked-panel">
+      <div class="locked-title">&#128274; Actions Restricted for Parent Account</div>
+      <div class="locked-grid">
+        <div class="locked-item">
+          <div class="locked-item-icon">&#9998;</div>
+          <div class="locked-item-text">Mark Attendance</div>
+          <div class="lock-badge">&#128274;</div>
+        </div>
+        <div class="locked-item">
+          <div class="locked-item-icon">&#128190;</div>
+          <div class="locked-item-text">Edit Attendance Records</div>
+          <div class="lock-badge">&#128274;</div>
+        </div>
+        <div class="locked-item">
+          <div class="locked-item-icon">&#128228;</div>
+          <div class="locked-item-text">Upload Content</div>
+          <div class="lock-badge">&#128274;</div>
+        </div>
+        <div class="locked-item">
+          <div class="locked-item-icon">&#9881;&#65039;</div>
+          <div class="locked-item-text">Edit Student Profile</div>
+          <div class="lock-badge">&#128274;</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sections -->
+</div><!-- /page-body -->
+
+<footer>
+  <p>&copy; 2025 <span>Holbos</span> &middot; Parent Portal &middot; Read-Only Access</p>
+</footer>
+
+<script>
+  /* ── Nav initial ── */
+  const uname = "{{ request.user.username }}";
+  document.getElementById('navInitial').textContent = uname.charAt(0).toUpperCase();
+
+  /* ── Calendar build ── */
+  const cal = document.getElementById('calGrid');
+  // April 2025 starts on Tuesday (index 1), 30 days
+  const firstDay = 1; // 0=Mon … 6=Sun
+  const totalDays = 30;
+  // Mock attendance: 1=present, 0=absent, null=no session (weekend)
+  const attendanceMap = {
+    1:1, 2:1, 3:0, 4:1, 7:1, 8:1, 9:1, 10:0, 11:1,
+    14:1, 15:1, 16:1, 17:1, 18:1, 21:0, 22:1, 23:1, 24:1, 25:1,
+    28:1, 29:1, 30:1
+  };
+  // Add empty offset cells
+  for (let i = 0; i < firstDay; i++) {
+    const e = document.createElement('div');
+    e.className = 'cal-cell empty'; cal.appendChild(e);
+  }
+  for (let d = 1; d <= totalDays; d++) {
+    const c = document.createElement('div');
+    c.className = 'cal-cell';
+    const isWeekend = ((d + firstDay - 1) % 7 >= 5);
+    if (isWeekend) {
+      c.classList.add('empty');
+      c.textContent = '';
+    } else {
+      c.textContent = d;
+      if (attendanceMap[d] === 1) c.classList.add('present');
+      else if (attendanceMap[d] === 0) c.classList.add('absent');
+    }
+    if (d === 13) c.classList.add('today');
+    cal.appendChild(c);
+  }
+
+  /* ── Weekly bars ── */
+  const week = [
+    { day:'Mon', ok:1 }, { day:'Tue', ok:1 },
+    { day:'Wed', ok:1 }, { day:'Thu', ok:0 }, { day:'Fri', ok:1 }
+  ];
+  const wb = document.getElementById('weekBars');
+  week.forEach(w => {
+    wb.innerHTML += `
+      <div class="bar-row">
+        <span class="bar-day">${w.day}</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:0%;background:${w.ok ? 'var(--grad)' : 'rgba(239,68,68,.5)'}" data-w="${w.ok ? 100 : 22}"></div>
+        </div>
+        <span class="bar-icon" style="color:${w.ok ? '#22C55E' : '#EF4444'}">${w.ok ? '✓' : '✗'}</span>
+      </div>`;
+  });
+
+  /* ── Animate all bars & ring on load ── */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      // ring: 29% complete → dashoffset = 326.7 * (1 - 0.29) = 231.96
+      const rf = document.getElementById('ringFill');
+      if (rf) rf.style.strokeDashoffset = '231.96';
+
+      document.querySelectorAll('.bar-fill, .proj-fill, .course-bar-fill').forEach(el => {
+        el.style.width = (el.dataset.w || 0) + '%';
+      });
+    }, 200);
+  });
+
+  function selectStudent(el, idx) {
+    document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    // In real Django: reload with ?child_id=idx or use AJAX
+  }
+</script>
+</body>
+</html>

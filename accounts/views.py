@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
+from .models import PortfolioItem
 
 def signup_view(request):
     if request.method == 'POST':
@@ -53,6 +54,32 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-def logout_view(request):
-    logout(request)
-    return redirect('login')
+
+@login_required
+def attendance_view(request):
+    return render(request, 'accounts/attendance.html')
+
+@login_required
+def upload_portfolio_item(request):
+    if request.method == 'POST':
+        item_type = request.POST.get('type')
+        title = request.POST.get('title')
+        description = request.POST.get('description', '')
+        file = request.FILES.get('file')
+
+        if not title or not item_type:
+            return JsonResponse({'error': 'Missing title or type'}, status=400)
+
+        # Allow upload even without file for Article type
+        if item_type != 'Article' and not file:
+            return JsonResponse({'error': 'Missing file upload'}, status=400)
+
+        item = PortfolioItem.objects.create(
+            user=request.user,
+            title=title,
+            description=description,
+            item_type=item_type,
+            file=file
+        )
+        return JsonResponse({'message': 'Success', 'item_id': item.id})
+    return JsonResponse({'error': 'Invalid method'}, status=405)

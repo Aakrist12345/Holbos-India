@@ -139,3 +139,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Allowed hosts for development
 ALLOWED_HOSTS = ['*']
+X_FRAME_OPTIONS = 'ALLOWALL'
