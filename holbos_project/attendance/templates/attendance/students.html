@@ -1,0 +1,74 @@
+{% extends "attendance/base.html" %}
+{% block title %}Students — Holbos AttendERP{% endblock %}
+
+{% block content %}
+<div class="page-hd">
+  <h1>Student list</h1>
+  <p>{{ total }} active student{{ total|pluralize }} across all classes</p>
+</div>
+
+<!-- Search & filter -->
+<div class="card" style="margin-bottom:1.25rem">
+  <form method="get" style="display:flex;align-items:flex-end;gap:.85rem;flex-wrap:wrap">
+    <div class="form-group" style="margin:0;flex:1;min-width:200px">
+      <label>Search by name</label>
+      <input class="form-control" type="text" name="q" value="{{ q }}" placeholder="Student name...">
+    </div>
+    <div class="form-group" style="margin:0;min-width:140px">
+      <label>Class</label>
+      <select class="form-control" name="class">
+        <option value="">All classes</option>
+        {% for c in classes %}
+        <option {% if c == cls_filter %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-mag">Search</button>
+    <a href="{% url 'attendance:students' %}" class="btn btn-ghost">Clear</a>
+    <a href="{% url 'attendance:add_student' %}" class="btn btn-success" style="margin-left:auto">+ Add student</a>
+  </form>
+</div>
+
+{% if students %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Roll no.</th>
+        <th>Parent email</th>
+        <th style="width:80px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td style="color:var(--muted)">{{ forloop.counter }}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="stu-av">{{ s.name|first }}</div>
+            {{ s.name }}
+          </div>
+        </td>
+        <td>{{ s.student_class }}</td>
+        <td style="color:var(--muted)">{{ s.roll_number|default:"—" }}</td>
+        <td style="color:var(--muted);font-size:.75rem">{{ s.parent_email|default:"—" }}</td>
+        <td>
+          <form method="post" action="{% url 'attendance:delete_student' s.pk %}" onsubmit="return confirm('Remove {{ s.name }}?')">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" style="padding:.3rem .7rem;font-size:.72rem">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="card" style="text-align:center;padding:3rem;color:var(--muted);font-size:.85rem">
+  No students found. <a href="{% url 'attendance:add_student' %}" style="color:var(--mag);font-weight:700">Add your first student</a>.
+</div>
+{% endif %}
+{% endblock %}

@@ -58,3 +58,7 @@ def parents_login_view(request):
 @login_required
 def parents_dashboard_view(request):
     return render(request, 'accounts/parentsdashboard.html')
+
+
+
+

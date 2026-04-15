@@ -1,0 +1,109 @@
+{% extends "attendance/base.html" %}
+
+{% block title %}Create Trainer Account — Holbos AttendERP{% endblock %}
+
+{% block auth_content %}
+<style>
+  .auth-outer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--deep)
+  }
+
+  .auth-card {
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 2.75rem 2.5rem;
+    width: 100%;
+    max-width: 440px
+  }
+
+  .auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem
+  }
+
+  .auth-logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: var(--mag);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px
+  }
+</style>
+
+<div class="auth-outer">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">📋</div>
+      <div>
+        <div
+          style="font-size:1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+          AttendERP</div>
+        <div style="font-size:.68rem;color:var(--muted)">Holbos School System</div>
+      </div>
+    </div>
+
+    <div style="font-size:1.4rem;font-weight:800;margin-bottom:.25rem">Create trainer account</div>
+    <div style="font-size:.82rem;color:var(--muted);margin-bottom:1.75rem">Fill in your details to register as a new
+      trainer.</div>
+
+    {% if form.non_field_errors %}
+    <div class="form-errors">{{ form.non_field_errors.0 }}</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Full name</label>
+        <input class="form-control" type="text" name="full_name" value="{{ form.full_name.value|default:'' }}"
+          placeholder="Your full name" autofocus>
+        {% if form.full_name.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{
+          form.full_name.errors.0 }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input class="form-control" type="text" name="username" value="{{ form.username.value|default:'' }}"
+          placeholder="trainer.name">
+        {% if form.username.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{
+          form.username.errors.0 }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input class="form-control" type="email" name="email" value="{{ form.email.value|default:'' }}"
+          placeholder="you@school.edu">
+        {% if form.email.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{ form.email.errors.0
+          }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input class="form-control" type="password" name="password" placeholder="Min. 6 characters"
+          autocomplete="new-password">
+        {% if form.password.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{
+          form.password.errors.0 }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label>Confirm password</label>
+        <input class="form-control" type="password" name="password2" placeholder="Repeat password"
+          autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-mag"
+        style="width:100%;justify-content:center;padding:.75rem;font-size:.88rem;border-radius:11px;margin-top:.5rem">Create
+        account →</button>
+    </form>
+
+    <div style="text-align:center;font-size:.8rem;color:var(--muted);margin-top:1.25rem">Already have an account? <a
+        href="{% url 'attendance:login' %}" style="color:var(--mag);font-weight:700;text-decoration:none">Sign in</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

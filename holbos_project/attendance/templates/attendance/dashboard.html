@@ -1,0 +1,261 @@
+{% extends "attendance/base.html" %}
+{% block title %}Dashboard — Holbos AttendERP{% endblock %}
+
+{% block content %}
+<style>
+  .dash-wrap {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .class-row {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: .7rem;
+  }
+
+  .class-name {
+    font-size: .75rem;
+    color: var(--muted);
+    width: 64px;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 7px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    width: 0;
+    height: 100%;
+    background: #2563eb;
+    border-radius: 4px;
+  }
+
+  .pct-label {
+    font-size: .72rem;
+    color: var(--muted);
+    width: 34px;
+    text-align: right;
+  }
+
+  .week-chart {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-end;
+    height: 120px;
+  }
+
+  .week-day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .week-stack {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 90px;
+    gap: 2px;
+  }
+
+  .week-fill {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+  }
+
+  .week-fill.present {
+    background: #22c55e;
+  }
+
+  .week-fill.absent {
+    background: #ef4444;
+  }
+
+  .week-empty {
+    width: 100%;
+    background: #e5e7eb;
+    border-radius: 4px;
+    height: 8px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: .75rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .72rem;
+    color: var(--muted);
+  }
+
+  .legend-box {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+</style>
+
+<div class="page-hd">
+  <h1>
+    {% now "G" as hour %}
+    {% if hour|add:"0" < 12 %}Good morning{% elif hour|add:"0" < 17 %}Good afternoon{% else %}Good evening{% endif %},
+    {{ user.get_full_name|default:user.username|truncatewords:1 }} 👋
+  </h1>
+  <p>Today is {% now "l, j F Y" %} — here's your attendance overview.</p>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-num c-blue">{{ total_students }}</div>
+    <div class="stat-lbl">Total students</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num c-green">{{ present_today }}</div>
+    <div class="stat-lbl">Present today</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num c-red">{{ absent_today }}</div>
+    <div class="stat-lbl">Absent today</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num c-amber">{{ total_sessions }}</div>
+    <div class="stat-lbl">Sessions logged</div>
+  </div>
+</div>
+
+<div class="dash-wrap">
+
+  <!-- Class chart -->
+  <div class="card">
+    <div style="font-size:.82rem;font-weight:800;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.1rem">
+      Attendance by class — today
+    </div>
+
+    {% if classes_data %}
+      {% for c in classes_data %}
+        <div class="class-row">
+          <span class="class-name">{{ c.class }}</span>
+
+          <div class="bar-track">
+            <div class="bar-fill js-class-bar" data-pct="{{ c.pct|default:0|floatformat:0 }}"></div>
+          </div>
+
+          <span class="pct-label">{{ c.pct|default:0|floatformat:0 }}%</span>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div style="color:var(--muted);font-size:.82rem;padding:1rem 0">
+        No attendance marked yet today.
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Quick actions -->
+  <div class="card" style="display:flex;flex-direction:column;gap:.75rem">
+    <div style="font-size:.82rem;font-weight:800;color:var(--muted);letter-spacing:.07em;text-transform:uppercase">
+      Quick actions
+    </div>
+
+    <a href="{% url 'attendance:mark' %}" class="btn btn-mag" style="justify-content:center;width:100%">
+      ✎ Mark today's attendance
+    </a>
+    <a href="{% url 'attendance:records' %}" class="btn btn-ghost" style="justify-content:center;width:100%">
+      ☰ View all records
+    </a>
+    <a href="{% url 'attendance:add_student' %}" class="btn btn-ghost" style="justify-content:center;width:100%">
+      + Add student
+    </a>
+
+    <div style="margin-top:auto;padding-top:.75rem;border-top:1px solid #e5e7eb">
+      <div style="font-size:.7rem;color:var(--muted)">Logged in as</div>
+      <div style="font-size:.82rem;font-weight:700">
+        {{ user.get_full_name|default:user.username }}
+      </div>
+      <div style="font-size:.7rem;color:var(--muted)">
+        {{ user.email }}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Weekly chart -->
+<div class="card">
+  <div style="font-size:.82rem;font-weight:800;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.1rem">
+    Last 7 days — present vs absent
+  </div>
+
+  <div class="week-chart">
+    {% for d in week_data %}
+      <div class="week-day">
+        <div class="week-stack">
+          {% if d.present %}
+            <div class="week-fill present js-week-bar" data-count="{{ d.present|default:0 }}"></div>
+          {% endif %}
+
+          {% if d.absent %}
+            <div class="week-fill absent js-week-bar" data-count="{{ d.absent|default:0 }}"></div>
+          {% endif %}
+
+          {% if not d.present and not d.absent %}
+            <div class="week-empty"></div>
+          {% endif %}
+        </div>
+
+        <div style="font-size:.65rem;color:var(--muted)">
+          {{ d.date }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-box" style="background:#22c55e"></span>
+      Present
+    </div>
+    <div class="legend-item">
+      <span class="legend-box" style="background:#ef4444"></span>
+      Absent
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    document.querySelectorAll('.js-class-bar').forEach(function (el) {
+      var pct = Number(el.dataset.pct || 0);
+      if (isNaN(pct) || pct < 0) pct = 0;
+      if (pct > 100) pct = 100;
+      el.style.width = pct + '%';
+    });
+
+    document.querySelectorAll('.js-week-bar').forEach(function (el) {
+      var count = Number(el.dataset.count || 0);
+      if (isNaN(count) || count < 0) count = 0;
+
+      var maxCount = 30;
+      var height = Math.max(4, Math.min(90, (count / maxCount) * 90));
+      el.style.height = height + 'px';
+    });
+  })();
+</script>
+{% endblock %}

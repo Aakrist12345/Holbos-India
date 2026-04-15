@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,93 +8,79 @@
 <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --pink:#C4188E;--purple:#5B2FC9;
-  --grad:linear-gradient(135deg,#C4188E 0%,#7B35C9 50%,#5B2FC9 100%);
-  --deep:#0D0814;--card:rgba(255,255,255,0.04);
-  --border:rgba(180,80,200,0.22);--text:#F0EAFF;
-  --muted:rgba(240,234,255,0.5);--ease:cubic-bezier(.23,1,.32,1);
-}
-html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--deep);color:var(--text);overflow:hidden}
-.bg{position:fixed;inset:0;z-index:0;background:
-  radial-gradient(ellipse 65% 55% at 15% 50%,rgba(196,24,142,.18) 0%,transparent 55%),
-  radial-gradient(ellipse 55% 55% at 85% 50%,rgba(91,47,201,.18) 0%,transparent 55%),
-  radial-gradient(ellipse 40% 40% at 50% 100%,rgba(123,53,201,.12) 0%,transparent 60%),
-  var(--deep)}
-.rings{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
-.ring{position:absolute;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
-.ring:nth-child(1){width:280px;height:280px;border:1px solid rgba(196,24,142,.1);animation:spin 20s linear infinite}
-.ring:nth-child(2){width:500px;height:500px;border:1px dashed rgba(91,47,201,.08);animation:spin 35s linear infinite reverse}
-.ring:nth-child(3){width:720px;height:720px;border:1px solid rgba(123,53,201,.06);animation:spin 55s linear infinite}
-.ring:nth-child(4){width:980px;height:980px;border:1px dotted rgba(196,24,142,.04);animation:spin 75s linear infinite reverse}
-@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.particle{position:absolute;border-radius:50%;opacity:0;animation:drift linear infinite}
-@keyframes drift{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.5}90%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+  :root {
+    --primary: #1e3a8a;
+    --primary-hover: #1e40af;
+    --primary-light: #3b82f6;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --error: #ef4444;
+    --success: #10b981;
+    --ease: cubic-bezier(.23,1,.32,1);
+  }
+html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 .page{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
-.card{width:100%;max-width:430px;background:var(--card);border:1px solid var(--border);border-radius:28px;padding:2.75rem 2.5rem;backdrop-filter:blur(28px);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04) inset,0 1px 0 rgba(255,255,255,.07) inset;animation:cardIn .9s var(--ease) both;position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(196,24,142,.6),rgba(91,47,201,.6),transparent)}
-.card::after{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(196,24,142,.07) 0%,rgba(91,47,201,.05) 100%);pointer-events:none}
-@keyframes cardIn{from{opacity:0;transform:translateY(32px) scale(.97)}to{opacity:1;transform:none}}
-.logo-wrap{text-align:center;margin:.5rem 0 1.8rem;display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeUp .8s .1s var(--ease) both}
-.logo-img{width:90px;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 8px 25px rgba(196,24,142,.4));transition:transform .3s ease}
+.card{width:100%;max-width:430px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.75rem 2.5rem;box-shadow:0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);animation:cardIn .5s var(--ease) both;position:relative}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.logo-wrap{text-align:center;margin:.5rem 0 1.8rem;display:flex;flex-direction:column;align-items:center;gap:12px}
+.logo-img{width:80px;height:80px;object-fit:contain;border:none;border-radius:16px;background:transparent;display:block;transition:transform .3s ease}
 .logo-img:hover{transform:scale(1.05)}
-.logo-title{font-family:'Yatra One',cursive;font-size:3rem;font-weight:400;letter-spacing:.02em;line-height:1;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.logo-sub{font-size:.65rem;color:var(--muted);font-weight:600;letter-spacing:.3em;text-transform:uppercase}
-.parent-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,47,201,.15);border:1px solid rgba(91,47,201,.4);border-radius:50px;padding:.28rem .85rem;font-size:.7rem;font-weight:800;color:rgba(200,180,255,.9);letter-spacing:.08em;text-transform:uppercase}
-.parent-badge-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#C4188E,#5B2FC9)}
-.access-info{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 1.6rem;animation:fadeUp .8s .15s var(--ease) both}
-.access-pill{display:inline-flex;align-items:center;gap:5px;font-size:.64rem;font-weight:700;letter-spacing:.06em;padding:.22rem .7rem;border-radius:50px}
-.access-pill.can{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.28);color:#86EFAC}
-.access-pill.cannot{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.25);color:#FCA5A5;text-decoration:line-through;opacity:.7}
-.divider{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;animation:fadeUp .8s .2s var(--ease) both}
+  .logo-title{
+    font-family:'Yatra One',cursive;
+    font-size:2.5rem;
+    font-weight:400;
+    letter-spacing:.02em;
+    line-height:1;
+    background: linear-gradient(135deg, #D4208A 0%, #3B2FC9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .logo-sub{font-size:.7rem;color:var(--muted);font-weight:600;letter-spacing:.25em;text-transform:uppercase}
+.parent-portal-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:4px;padding:.28rem .85rem;font-size:.7rem;font-weight:800;color:var(--primary-light);letter-spacing:.08em;text-transform:uppercase}
+.access-info{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 1.6rem}
+.access-pill{display:inline-flex;align-items:center;gap:5px;font-size:.64rem;font-weight:700;letter-spacing:.06em;padding:.22rem .7rem;border-radius:4px}
+.access-pill.can{background:#f0fdf4;border:1px solid #dcfce7;color:#15803d}
+.access-pill.cannot{background:#fef2f2;border:1px solid #fee2e2;color:#b91c1c;text-decoration:line-through;opacity:.7}
+.divider{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
 .divider-line{flex:1;height:1px;background:var(--border)}
 .divider-text{font-size:.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
-.error-box{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.25);border-radius:12px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:8px;animation:shake .4s var(--ease)}
-.error-text{font-size:.82rem;color:#FF7070;font-weight:600;line-height:1.5}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-form{animation:fadeUp .8s .25s var(--ease) both}
-.field{margin-bottom:1rem;position:relative}
-.field label{display:block;font-size:.73rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem}
+.error-box{background:#fef2f2;border:1px solid #fee2e2;border-radius:8px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:8px}
+.error-text{font-size:.82rem;color:var(--error);font-weight:600;line-height:1.5}
+.field{margin-bottom:1.25rem;position:relative}
+.field label{display:block;font-size:.75rem;font-weight:700;color:var(--text);letter-spacing:.02em;margin-bottom:.5rem}
 .input-wrap{position:relative}
-.input-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:.95rem;pointer-events:none;opacity:.45;transition:opacity .2s;z-index:1}
-.field input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:.82rem 1rem .82rem 2.8rem;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.92rem;outline:none;transition:border-color .25s,box-shadow .25s,background .25s}
-.field input::placeholder{color:rgba(240,234,255,.22)}
-.field input:focus{border-color:var(--pink);background:rgba(196,24,142,.06);box-shadow:0 0 0 3px rgba(196,24,142,.15)}
-.input-wrap:focus-within .input-icon{opacity:.9}
-.pwd-toggle{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:.88rem;cursor:pointer;padding:4px;z-index:1;transition:color .2s}
-.pwd-toggle:hover{color:var(--pink)}
-.btn-login{width:100%;margin-top:.6rem;background:var(--grad);color:#fff;border:none;border-radius:12px;padding:.92rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.04em;cursor:pointer;box-shadow:0 6px 24px rgba(196,24,142,.45);transition:transform .25s var(--ease),box-shadow .25s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
-.btn-login::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .2s}
-.btn-login:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(196,24,142,.6)}
-.btn-login:hover::after{background:rgba(255,255,255,.08)}
-.btn-login:active{transform:translateY(0)}
-.safe-badge{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:1.4rem;font-size:.7rem;color:rgba(240,234,255,.28);font-weight:600;letter-spacing:.05em;animation:fadeUp .8s .5s var(--ease) both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.input-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:.95rem;pointer-events:none;opacity:.4;transition:opacity .2s;z-index:1}
+.field input{width:100%;background:#ffffff;border:1px solid var(--border);border-radius:8px;padding:.82rem 1rem .82rem 2.8rem;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.92rem;outline:none;transition:all .15s}
+.field input::placeholder{color:#94a3b8}
+.field input:focus{border-color:var(--primary-light);box-shadow:0 0 0 2px rgba(59,130,246,0.1)}
+.pwd-toggle{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:.88rem;cursor:pointer;padding:4px;z-index:1}
+.btn-login{width:100%;margin-top:.6rem;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:.92rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.02em;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-login:hover{background:#172554}
+.btn-login:active{transform:scale(0.98)}
+.safe-badge{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:1.4rem;font-size:.7rem;color:var(--muted);font-weight:600;letter-spacing:.05em}
 </style>
 </head>
 <body>
-<div class="bg"></div>
-<div class="rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
-<div class="particles" id="particles"></div>
 <div class="page">
   <div class="card">
     <div class="logo-wrap">
-      <img src="data:image/png;base64,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" alt="Holbos Logo" class="logo-img">
+      <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="logo-img">
       <div class="logo-title">Holbos</div>
       <div class="logo-sub">Inspiring Future</div>
-      <div class="parent-badge"><div class="parent-badge-dot"></div>Parent Portal</div>
+      <div class="parent-portal-tag">Parent Portal</div>
     </div>
     <div class="access-info">
-      <span class="access-pill can">&#128100; View Attendance</span>
-      <span class="access-pill can">&#128200; View Progress</span>
-      <span class="access-pill can">&#128218; View Content</span>
-      <span class="access-pill cannot">&#9998; Mark Attendance</span>
-      <span class="access-pill cannot">&#128228; Upload Content</span>
+      <span class="access-pill can">View Attendance</span>
+      <span class="access-pill can">View Progress</span>
+      <span class="access-pill can">View Content</span>
+      <span class="access-pill cannot">Mark Attendance</span>
     </div>
-    <div class="divider"><div class="divider-line"></div><span class="divider-text">Sign in as Parent</span><div class="divider-line"></div></div>
+    <div class="divider"><div class="divider-line"></div><span class="divider-text">Sign in to Portal</span><div class="divider-line"></div></div>
     <div id="errorBox" style="display:none" class="error-box">
-      <span style="font-size:.95rem;flex-shrink:0;margin-top:1px">&#9888;&#65039;</span>
       <span class="error-text" id="errorMsg">Invalid username or password.</span>
     </div>
     <form id="loginForm">
@@ -101,39 +88,26 @@ form{animation:fadeUp .8s .25s var(--ease) both}
         <label>Parent Username</label>
         <div class="input-wrap">
           <input type="text" id="username" placeholder="Enter your username" required autocomplete="username">
-          <span class="input-icon">&#128100;</span>
         </div>
       </div>
       <div class="field">
         <label>Password</label>
         <div class="input-wrap">
           <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
-          <span class="input-icon">&#128274;</span>
-          <button type="button" class="pwd-toggle" onclick="togglePwd()">&#128065;</button>
+          <button type="button" class="pwd-toggle" onclick="togglePwd()">Show</button>
         </div>
       </div>
-      <button type="submit" class="btn-login">Sign In as Parent &#8594;</button>
+      <button type="submit" class="btn-login">Sign In</button>
     </form>
-    <div class="safe-badge">&#128274; Read-Only Access &middot; Secure &amp; Safe</div>
+    <div class="safe-badge">Secure Read-Only Access</div>
   </div>
 </div>
 <script>
-const colors=['#C4188E','#7B35C9','#5B2FC9','#A020A0'];
-const container=document.getElementById('particles');
-for(let i=0;i<22;i++){
-  const p=document.createElement('div');
-  p.className='particle';
-  const size=Math.random()*5+2,color=colors[Math.floor(Math.random()*colors.length)];
-  p.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(Math.random()*100)+'%;background:'+color+';animation-duration:'+(9+Math.random()*14)+'s;animation-delay:'+(Math.random()*12)+'s;';
-  container.appendChild(p);
-}
-function togglePwd(){const f=document.getElementById('password');f.type=f.type==='password'?'text':'password'}
+function togglePwd(){const f=document.getElementById('password');const b=event.target;if(f.type==='password'){f.type='text';b.textContent='Hide'}else{f.type='password';b.textContent='Show'}}
 
-// Demo credentials — in production replace with real Django auth
 const USERS={
-  'parent1':{password:'holbos123',name:'Priya Sharma',child:'Aarav Sharma',grade:'Grade 3'},
-  'parent2':{password:'holbos456',name:'Rahul Verma',child:'Ishaan Verma',grade:'Grade 4'},
-  'demo':{password:'demo',name:'Demo Parent',child:'Demo Child',grade:'Grade 2'}
+  'parent1':{password:'holbos123'},
+  'demo':{password:'demo'}
 };
 
 document.getElementById('loginForm').addEventListener('submit',function(e){
@@ -143,14 +117,10 @@ document.getElementById('loginForm').addEventListener('submit',function(e){
   const eb=document.getElementById('errorBox');
   const em=document.getElementById('errorMsg');
   if(USERS[u]&&USERS[u].password===p){
-    sessionStorage.setItem('holbos_user',JSON.stringify({username:u,...USERS[u]}));
-    window.location.href='parent_dashboard.html';
+    window.location.href='dashboard.html';
   }else{
     eb.style.display='flex';
-    em.textContent='Invalid username or password. Try: demo / demo';
-    eb.style.animation='none';
-    eb.offsetHeight;
-    eb.style.animation='';
+    em.textContent='Invalid credentials. Try: demo / demo';
   }
 });
 </script>
