@@ -58,15 +58,15 @@
       {% for r in records %}
       <tr>
         <td style="color:var(--muted)">{{ forloop.counter }}</td>
-        <td>{{ r.date }}</td>
-        <td>{{ r.class }}</td>
+        <td>{{ r.session.date|date:"d/m/Y" }}</td>
+        <td>{{ r.session.student_class }}</td>
         <td>
           <div style="display:flex;align-items:center;gap:9px">
-            <div class="stu-av">{{ r.student|first }}</div>
-            {{ r.student }}
+            <div class="stu-av">{{ r.student.name|first }}</div>
+            {{ r.student.name }}
           </div>
         </td>
-        <td style="color:var(--muted)">{{ r.roll }}</td>
+        <td style="color:var(--muted)">{{ r.student.roll_number }}</td>
         <td>
           {% if r.status == "Present" %}
           <span class="badge badge-green">Present</span>
@@ -74,9 +74,10 @@
           <span class="badge badge-red">Absent</span>
           {% endif %}
         </td>
-        <td style="color:var(--muted)">{{ r.trainer }}</td>
+        <td style="color:var(--muted)">{{ r.session.trainer.full_name|default:r.session.trainer.username }}</td>
       </tr>
       {% endfor %}
+
     </tbody>
   </table>
 </div>

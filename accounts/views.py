@@ -1,85 +1,68 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from .models import PortfolioItem
+from .forms import UserSignupForm, UserLoginForm
+
+User = get_user_model()
 
 def signup_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
-            return redirect('signup')
-
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
-        )
-        user.save()
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    form = UserSignupForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        user = form.save()
+        login(request, user)
         messages.success(request, "Account created successfully!")
-        return redirect('login')
-
-    return render(request, 'accounts/signup.html')
-
+        return redirect('dashboard')
+    return render(request, 'accounts/signup.html', {'form': form})
 
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    form = UserLoginForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
             return redirect('dashboard')
         else:
             messages.error(request, "Invalid username or password")
-            return redirect('login')
-
-    return render(request, 'accounts/login.html')
-
+    return render(request, 'accounts/login.html', {'form': form})
 
 @login_required
 def dashboard_view(request):
     return render(request, 'accounts/dashboard.html')
 
-
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-
-@login_required
 def attendance_view(request):
     return render(request, 'accounts/attendance.html')
 
+def parents_login_view(request):
+    if request.user.is_authenticated:
+        return redirect('parentsdashboard')
+    form = UserLoginForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('parentsdashboard')
+        else:
+            messages.error(request, "Invalid username or password")
+    return render(request, 'accounts/parentslogin.html', {'form': form})
+
 @login_required
-def upload_portfolio_item(request):
-    if request.method == 'POST':
-        item_type = request.POST.get('type')
-        title = request.POST.get('title')
-        description = request.POST.get('description', '')
-        file = request.FILES.get('file')
+def parents_dashboard_view(request):
+    return render(request, 'accounts/parentsdashboard.html')
 
-        if not title or not item_type:
-            return JsonResponse({'error': 'Missing title or type'}, status=400)
 
-        # Allow upload even without file for Article type
-        if item_type != 'Article' and not file:
-            return JsonResponse({'error': 'Missing file upload'}, status=400)
 
-        item = PortfolioItem.objects.create(
-            user=request.user,
-            title=title,
-            description=description,
-            item_type=item_type,
-            file=file
-        )
-        return JsonResponse({'message': 'Success', 'item_id': item.id})
-    return JsonResponse({'error': 'Invalid method'}, status=405)
+
+

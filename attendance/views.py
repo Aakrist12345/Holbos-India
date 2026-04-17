@@ -48,40 +48,77 @@ def trainer_logout(request):
 
 @login_required(login_url="attendance:login")
 def dashboard(request):
+    """
+    Refined dashboard: Optimized queries using aggregation to avoid DB loops.
+    """
     today = date.today()
+    
+    # 1. Base Stats
     total_students = Student.objects.filter(is_active=True).count()
-
+    today_sessions = AttendanceSession.objects.filter(date=today)
+    
+    # Pre-calculate counts for today using annotation
     today_records = AttendanceRecord.objects.filter(session__date=today)
-    present_today = today_records.filter(status="Present").count()
-    absent_today  = today_records.filter(status="Absent").count()
+    stats = today_records.aggregate(
+        present=Count("id", filter=Q(status="Present")),
+        absent=Count("id", filter=Q(status="Absent"))
+    )
+    present_today = stats["present"] or 0
+    absent_today  = stats["absent"] or 0
     total_sessions = AttendanceSession.objects.count()
 
-    # Attendance % per class today
+    # 2. Attendance % per class today (Optimized)
+    # Get total students per class
+    student_counts = (
+        Student.objects.filter(is_active=True)
+        .values("student_class")
+        .annotate(total=Count("id"))
+    )
+    student_map = {item["student_class"]: item["total"] for item in student_counts}
+
+    # Get present students per class
+    present_counts = (
+        AttendanceRecord.objects.filter(session__date=today, status="Present")
+        .values("session__student_class")
+        .annotate(present=Count("id"))
+    )
+    present_map = {item["session__student_class"]: item["present"] for item in present_counts}
+
     classes_data = []
-    for i in range(1, 11):
-        cls = f"Class {i}"
-        total = Student.objects.filter(student_class=cls, is_active=True).count()
-        if total == 0:
-            continue
-        present = AttendanceRecord.objects.filter(
-            session__date=today, session__student_class=cls, status="Present"
-        ).count()
+    for cls_name, _ in Student.student_class.field.choices:
+        total = student_map.get(cls_name, 0)
+        if total == 0: continue
+        
+        present = present_map.get(cls_name, 0)
         classes_data.append({
-            "class": cls,
+            "class": cls_name,
             "total": total,
             "present": present,
-            "pct": round(present / total * 100) if total else 0,
+            "pct": round((present / total * 100)) if total else 0
         })
 
-    # Last 7 days overview
+    # 3. Last 7 days overview (Optimized)
+    seven_days_ago = today - timedelta(days=6)
+    history = (
+        AttendanceRecord.objects.filter(session__date__gte=seven_days_ago)
+        .values("session__date")
+        .annotate(
+            present=Count("id", filter=Q(status="Present")),
+            absent=Count("id", filter=Q(status="Absent"))
+        )
+        .order_by("session__date")
+    )
+    
+    # Ensure we show all 7 days even if no data exists
+    history_map = {item["session__date"]: item for item in history}
     week_data = []
     for i in range(6, -1, -1):
         d = today - timedelta(days=i)
-        rec = AttendanceRecord.objects.filter(session__date=d)
+        data = history_map.get(d, {"present": 0, "absent": 0})
         week_data.append({
             "date": d.strftime("%d %b"),
-            "present": rec.filter(status="Present").count(),
-            "absent": rec.filter(status="Absent").count(),
+            "present": data["present"],
+            "absent": data["absent"]
         })
 
     context = {
@@ -90,10 +127,12 @@ def dashboard(request):
         "absent_today": absent_today,
         "total_sessions": total_sessions,
         "classes_data": classes_data,
+        "week_data": week_data,
         "week_data_json": json.dumps(week_data),
         "today": today,
     }
     return render(request, "attendance/dashboard.html", context)
+
 
 
 # ─────────────────────────────────────────────
@@ -170,49 +209,41 @@ def submit_attendance(request):
 
 @login_required(login_url="attendance:login")
 def records(request):
-    sessions = (
-        AttendanceSession.objects
-        .select_related("trainer")
-        .prefetch_related("records__student")
-        .order_by("-date")
-    )
+    """
+    Refined records view: Direct query on AttendanceRecord with optimized joins.
+    """
+    # 1. Filters
     cls_filter    = request.GET.get("class", "")
     status_filter = request.GET.get("status", "")
     date_from     = request.GET.get("from", "")
     date_to       = request.GET.get("to", "")
 
+    # 2. Build Query
+    queryset = AttendanceRecord.objects.select_related(
+        "session", "session__trainer", "student"
+    ).order_by("-session__date", "student__name")
+
     if cls_filter:
-        sessions = sessions.filter(student_class=cls_filter)
+        queryset = queryset.filter(session__student_class=cls_filter)
+    if status_filter:
+        queryset = queryset.filter(status=status_filter)
     if date_from:
-        sessions = sessions.filter(date__gte=date_from)
+        queryset = queryset.filter(session__date__gte=date_from)
     if date_to:
-        sessions = sessions.filter(date__lte=date_to)
+        queryset = queryset.filter(session__date__lte=date_to)
 
-    # flatten to individual records for display
-    flat = []
-    for s in sessions:
-        for r in s.records.all():
-            if status_filter and r.status != status_filter:
-                continue
-            flat.append({
-                "date": s.date.strftime("%d/%m/%Y"),
-                "class": s.student_class,
-                "student": r.student.name,
-                "roll": r.student.roll_number,
-                "status": r.status,
-                "trainer": s.trainer.full_name or s.trainer.username,
-            })
-
+    # 3. Context
     context = {
-        "records": flat,
-        "total": len(flat),
+        "records": queryset,
+        "total": queryset.count(),
         "cls_filter": cls_filter,
         "status_filter": status_filter,
         "date_from": date_from,
         "date_to": date_to,
-        "classes": [f"Class {i}" for i in range(1, 11)],
+        "classes": [c[0] for c in Student.student_class.field.choices],
     }
     return render(request, "attendance/records.html", context)
+
 
 
 # ─────────────────────────────────────────────

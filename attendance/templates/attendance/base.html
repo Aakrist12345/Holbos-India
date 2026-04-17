@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  {% load static %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}AttendERP — Holbos{% endblock %}</title>
@@ -71,17 +72,14 @@
       text-decoration: none
     }
 
-    .topbar-brand-icon {
+    .topbar-brand-img {
       width: 34px;
       height: 34px;
-      border-radius: 9px;
-      background: var(--mag);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      flex-shrink: 0
+      object-fit: contain;
+      display: block;
+      flex-shrink: 0;
     }
+
 
     .topbar-brand-name {
       font-size: 1rem;
@@ -579,7 +577,7 @@
         <span></span><span></span><span></span>
       </button>
       <a href="{% url 'attendance:dashboard' %}" class="topbar-brand">
-        <div class="topbar-brand-icon">📋</div>
+        <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="topbar-brand-img">
         <span class="topbar-brand-name">AttendERP</span>
       </a>
       <span
