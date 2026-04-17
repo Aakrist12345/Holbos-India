@@ -182,6 +182,59 @@
     .stat-num.purple { color: var(--primary); }
     .stat-label { font-size: 0.6rem; color: var(--muted); font-weight: 700; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.06em; }
 
+    /* ── PERFORMANCE DASHBOARD ── */
+    #perfHeaderRight { margin-left: auto; }
+    .btn-admin-login {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--primary); color: #fff; border: none; border-radius: 8px;
+      padding: .5rem 1.1rem; font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .78rem; font-weight: 700; letter-spacing: .04em;
+      cursor: pointer; transition: all .15s; white-space: nowrap;
+    }
+    .btn-admin-login:hover { background: #172554; }
+
+    .admin-modal-bg {
+      position: fixed; inset: 0; background: rgba(15,23,42,.45);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .admin-modal-bg.open { opacity: 1; pointer-events: all; }
+    .admin-modal {
+      background: var(--surface); border-radius: 16px; padding: 2rem;
+      width: 100%; max-width: 380px; border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,.14); position: relative;
+      transform: translateY(8px); transition: transform .22s var(--ease);
+    }
+    .admin-modal-bg.open .admin-modal { transform: translateY(0); }
+    .admin-err {
+      background: #fef2f2; border: 1px solid #fee2e2; border-radius: 7px;
+      padding: .55rem .8rem; font-size: .78rem; color: #ef4444;
+      font-weight: 600; margin-bottom: .9rem; display: none;
+    }
+
+    /* Admin Modal Fields */
+    .field { margin-bottom: 1.2rem; text-align: left; }
+    .field label { display: block; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+    .input-wrap { position: relative; }
+    .input-wrap input {
+      width: 100%; padding: .75rem 1rem; border-radius: 10px; border: 1px solid var(--border);
+      background: #f8fafc; font-family: inherit; font-size: .9rem; transition: all .2s;
+    }
+    .input-wrap input:focus { border-color: var(--primary-light); background: #fff; box-shadow: 0 0 0 4px rgba(59,130,246,.1); outline: none; }
+    .btn-login {
+      width: 100%; padding: .8rem; background: var(--primary); color: #fff; border: none; border-radius: 10px;
+      font-weight: 800; font-size: .9rem; cursor: pointer; transition: all .2s;
+    }
+    .btn-login:hover { background: #172554; transform: translateY(-1px); }
+
+    @media (max-width: 640px) {
+      .navbar { padding: 0 1.2rem; }
+      .stat-grid { grid-template-columns: repeat(2,1fr); }
+      .proj-grid, .locked-grid { grid-template-columns: 1fr; }
+      .nav-parent-tag { display: none; }
+    }
+
     /* ── ATTENDANCE CALENDAR ── */
     .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; margin-top: 0.5rem; }
     .cal-day-label { font-size: 0.6rem; font-weight: 800; color: var(--muted); text-align: center; text-transform: uppercase; padding-bottom: 4px; }
@@ -393,64 +446,53 @@
     </div>
 
     <!-- ══════════════════════════════════════
-         SECTION 2: PROGRESS
+         SECTION 2: PERFORMANCE DASHBOARD (Admin-gated)
     ════════════════════════════════════════ -->
     <div class="box">
       <div class="sec-header">
         <div class="sec-icon">&#128200;</div>
         <div>
-          <div class="sec-title">Learning Progress</div>
-          <div class="sec-sub">Overall programme completion</div>
+          <div class="sec-title">Performance Dashboard</div>
+          <div class="sec-sub">Attendance analytics &amp; insights</div>
+        </div>
+        <div id="perfHeaderRight">
+          <button class="btn-admin-login" onclick="openAdminModal()">
+            <svg style="width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Admin Login
+          </button>
         </div>
       </div>
 
-      <div class="progress-row">
-        <svg width="130" height="130" viewBox="0 0 130 130">
-          <defs>
-            <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#D4208A"/>
-              <stop offset="100%" stop-color="#3B2FC9"/>
-            </linearGradient>
-          </defs>
-          <circle class="ring-bg" cx="65" cy="65" r="52" stroke-width="10"/>
-          <circle class="ring-fill" cx="65" cy="65" r="52" stroke-width="10"
-            stroke="url(#rg)" stroke-dasharray="326.7" stroke-dashoffset="326.7"
-            id="ringFill" transform="rotate(-90 65 65)"/>
-          <text x="65" y="60" class="ring-label" font-size="18" font-weight="800" fill="#F0EAFF">29%</text>
-          <text x="65" y="78" class="ring-label" font-size="9" fill="rgba(240,234,255,.5)">COMPLETE</text>
-        </svg>
-        <div class="prog-stats">
-          <div class="prog-row"><span class="prog-key">Hours Completed</span><span class="prog-val green">14h</span></div>
-          <div class="prog-row"><span class="prog-key">Hours Remaining</span><span class="prog-val amber">34h</span></div>
-          <div class="prog-row"><span class="prog-key">Programme Total</span><span class="prog-val">48h</span></div>
-          <div class="prog-row"><span class="prog-key">Grade</span><span class="prog-val">Grade 3</span></div>
-          <div class="prog-row"><span class="prog-key">Sessions Done</span><span class="prog-val green">7 / 24</span></div>
+      <!-- Locked state (shown to parents by default) -->
+      <div id="perfLocked">
+        <div class="locked-panel" style="text-align:center;padding:2rem 1.4rem">
+          <div style="font-size:1.8rem;margin-bottom:.6rem">&#128274;</div>
+          <div style="font-size:.86rem;font-weight:800;color:#b91c1c;margin-bottom:.3rem">Restricted — Admin Access Only</div>
+          <div style="font-size:.75rem;color:#64748b">Attendance performance data is visible to administrators only.</div>
         </div>
       </div>
 
-      <!-- Projects -->
-      <div class="bar-title">Projects Overview</div>
-      <div class="proj-grid">
-        <div class="proj-card">
-          <div class="proj-top"><span class="proj-name">Heritage Poster</span><span class="proj-badge done">&#10003; Done</span></div>
-          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="100"></div></div>
-          <div class="proj-meta">100% &middot; Due Mar 2025</div>
+      <!-- Admin-only content (hidden until login) -->
+      <div id="perfAdmin" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
+          <span style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274; Admin session active</span>
+          <button onclick="adminLogout()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit">Sign out</button>
         </div>
-        <div class="proj-card">
-          <div class="proj-top"><span class="proj-name">Science Experiment</span><span class="proj-badge wip">In Progress</span></div>
-          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="65"></div></div>
-          <div class="proj-meta">65% &middot; Due Apr 2025</div>
+
+        <!-- Stats -->
+        <div class="stat-grid">
+          <div class="stat-box"><div class="stat-num green" id="perfPresent">18</div><div class="stat-label">Present</div></div>
+          <div class="stat-box"><div class="stat-num red" id="perfAbsent">3</div><div class="stat-label">Absent</div></div>
+          <div class="stat-box"><div class="stat-num amber" id="perfTotal">21</div><div class="stat-label">Total Sessions</div></div>
+          <div class="stat-box"><div class="stat-num purple" id="perfPct">86%</div><div class="stat-label">Attendance %</div></div>
         </div>
-        <div class="proj-card">
-          <div class="proj-top"><span class="proj-name">Math Puzzle Set</span><span class="proj-badge wip">In Progress</span></div>
-          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="40"></div></div>
-          <div class="proj-meta">40% &middot; Due May 2025</div>
-        </div>
-        <div class="proj-card">
-          <div class="proj-top"><span class="proj-name">Art Portfolio</span><span class="proj-badge todo">Upcoming</span></div>
-          <div class="proj-bar"><div class="proj-fill" style="width:0%" data-w="0"></div></div>
-          <div class="proj-meta">0% &middot; Due Jun 2025</div>
-        </div>
+
+        <!-- Class bars -->
+        <div class="bar-title">Class-wise attendance rate</div>
+        <div id="perfBars"></div>
       </div>
     </div>
 
@@ -625,16 +667,13 @@
       </div>`;
   });
 
-  /* ── Animate all bars & ring on load ── */
+  /* ── Animate all bars on load ── */
   window.addEventListener('load', () => {
     setTimeout(() => {
-      // ring: 29% complete → dashoffset = 326.7 * (1 - 0.29) = 231.96
-      const rf = document.getElementById('ringFill');
-      if (rf) rf.style.strokeDashoffset = '231.96';
-
       document.querySelectorAll('.bar-fill, .proj-fill, .course-bar-fill').forEach(el => {
         el.style.width = (el.dataset.w || 0) + '%';
       });
+      buildPerfBars();
     }, 200);
   });
 
@@ -643,6 +682,97 @@
     el.classList.add('active');
     // In real Django: reload with ?child_id=idx or use AJAX
   }
+
+  /* ── Performance Dashboard Logic ── */
+  // ── ADMIN CREDENTIALS (change these in your Django backend) ──
+  const ADMIN_CREDS = { username: 'admin', password: 'admin123' };
+
+  const PERF_CLASSES = [
+    { label: 'Class 1', pct: 91 }, { label: 'Class 3', pct: 83 },
+    { label: 'Class 5', pct: 76 }, { label: 'Class 7', pct: 68 },
+    { label: 'Class 10', pct: 86 }
+  ];
+
+  function openAdminModal() {
+    document.getElementById('adminUser').value = '';
+    document.getElementById('adminPass').value = '';
+    document.getElementById('adminErr').style.display = 'none';
+    document.getElementById('adminModalBg').classList.add('open');
+    setTimeout(() => document.getElementById('adminUser').focus(), 150);
+  }
+  function closeAdminModal() { document.getElementById('adminModalBg').classList.remove('open'); }
+  function adminBgClose(e) { if (e.target === document.getElementById('adminModalBg')) closeAdminModal(); }
+
+  function doAdminLogin() {
+    const u = document.getElementById('adminUser').value.trim();
+    const p = document.getElementById('adminPass').value;
+    if (u === ADMIN_CREDS.username && p === ADMIN_CREDS.password) {
+      closeAdminModal();
+      document.getElementById('perfLocked').style.display = 'none';
+      document.getElementById('perfAdmin').style.display = 'block';
+      document.getElementById('perfHeaderRight').style.display = 'none';
+      buildPerfBars();
+    } else {
+      document.getElementById('adminErr').style.display = 'block';
+      document.getElementById('adminPass').value = '';
+    }
+  }
+
+  function adminLogout() {
+    document.getElementById('perfAdmin').style.display = 'none';
+    document.getElementById('perfLocked').style.display = 'block';
+    document.getElementById('perfHeaderRight').style.display = 'block';
+  }
+
+  function buildPerfBars() {
+    const container = document.getElementById('perfBars');
+    if (!container) return;
+    container.innerHTML = PERF_CLASSES.map(r => `
+      <div class="bar-row">
+        <span class="bar-day" style="width:72px;font-size:.68rem;color:var(--muted)">${r.label}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:0%" data-w="${r.pct}"></div></div>
+        <span style="font-size:.68rem;font-weight:700;color:var(--muted);min-width:32px;text-align:right">${r.pct}%</span>
+      </div>`).join('');
+    setTimeout(() => {
+      document.querySelectorAll('#perfAdmin .bar-fill').forEach(el => {
+        const v = parseInt(el.dataset.w);
+        el.style.width = v + '%';
+        el.style.background = v >= 80 ? '#16a34a' : v >= 65 ? '#d97706' : '#dc2626';
+      });
+    }, 100);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('adminModalBg').classList.contains('open'))
+      doAdminLogin();
+  });
 </script>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="admin-modal-bg" id="adminModalBg" onclick="adminBgClose(event)">
+  <div class="admin-modal">
+    <button onclick="closeAdminModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:4px">&#10005;</button>
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="width:48px;height:48px;background:#eff6ff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.4rem">&#128274;</div>
+      <div style="font-size:1rem;font-weight:800;color:var(--text)">Admin Login</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.25rem">Restricted to administrators only</div>
+    </div>
+    <div class="admin-err" id="adminErr">Invalid credentials. Please try again.</div>
+    <div class="field">
+      <label>Admin Username</label>
+      <div class="input-wrap">
+        <input type="text" id="adminUser" placeholder="Enter admin username" autocomplete="off">
+      </div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <div class="input-wrap">
+        <input type="password" id="adminPass" placeholder="Enter password">
+      </div>
+    </div>
+    <button onclick="doAdminLogin()" class="btn-login" style="margin-top:.5rem">Login as Admin</button>
+  </div>
+</div>
+
 </body>
 </html>

@@ -1,13 +1,16 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+"""Proxy manage.py for running from subfolders."""
 
 import os
 import sys
-
+from pathlib import Path
 
 def main():
-    """Run administrative tasks."""
-    
+    # Get the parent directory (Project Root) and add it to sys.path
+    project_root = str(Path(__file__).resolve().parent.parent)
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "holbos_project.settings")
     
     try:
