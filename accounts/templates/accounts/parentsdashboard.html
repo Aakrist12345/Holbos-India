@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   {% load static %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holbos India — Parent Dashboard</title>
   <link rel="icon" type="image/png" href="{% static 'images/holbosLOGO.png' %}">
-  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --primary:  #1e3a8a;
-      --primary-light: #3b82f6;
-      --bg:       #f8fafc;
-      --surface:  #ffffff;
-      --border:   #e2e8f0;
-      --text:     #1e293b;
-      --muted:    #64748b;
-      --green:    #16a34a;
-      --red:      #dc2626;
-      --amber:    #d97706;
-      --nav-h:    68px;
-      --ease:     cubic-bezier(.23,1,.32,1);
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    html { scroll-behavior: smooth; }
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #d97706;
+      --nav-h: 68px;
+      --ease: cubic-bezier(.23, 1, .32, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
@@ -36,22 +48,39 @@
 
     /* ── BG ── */
     .bg-fixed {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
       background: var(--bg);
     }
 
     /* ── NAVBAR ── */
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: var(--nav-h); z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 0 2.5rem;
       background: var(--surface);
       border-bottom: 2px solid var(--border);
     }
-    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
     .brand-logo {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       object-fit: contain;
       border: 1.5px solid var(--border);
       border-radius: 10px;
@@ -61,603 +90,1222 @@
     }
 
     .brand-name {
-      font-family: 'Yatra One', cursive; font-size: 1.5rem;
+      font-family: 'Yatra One', cursive;
+      font-size: 1.5rem;
       color: var(--primary);
     }
 
     /* Parent badge in navbar */
     .nav-parent-tag {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: #eff6ff; border: 1px solid #dbeafe;
-      border-radius: 4px; padding: 0.2rem 0.65rem;
-      font-size: 0.65rem; font-weight: 800;
-      color: var(--primary-light); letter-spacing: 0.06em; text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      border-radius: 4px;
+      padding: 0.2rem 0.65rem;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
-    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
     .nav-user {
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       padding: 0.3rem 0.8rem 0.3rem 0.4rem;
-      background: #f8fafc; border: 1px solid var(--border); border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
     }
+
     .nav-avatar {
-      width: 28px; height: 28px; border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       background: var(--primary-light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-weight: 800; color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #fff;
     }
-    .nav-username { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+
+    .nav-username {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
     .btn-logout {
-      background: var(--primary); color: #fff; border: none; border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
       padding: 0.42rem 1.1rem;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.78rem;
-      text-decoration: none; letter-spacing: 0.05em; transition: all 0.2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
     }
-    .btn-logout:hover { background: var(--primary-light); }
+
+    .btn-logout:hover {
+      background: var(--primary-light);
+    }
 
     /* ── PAGE BODY ── */
-    .page-body { padding-top: var(--nav-h); position: relative; z-index: 1; }
+    .page-body {
+      padding-top: var(--nav-h);
+      position: relative;
+      z-index: 1;
+    }
 
     /* ── HERO ── */
     .hero {
       text-align: center;
       padding: 2.5rem 1rem 1rem;
     }
+
     .hero-greeting {
-      font-size: clamp(1.5rem, 3.5vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.4rem;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
       color: var(--text);
     }
-    .hero-greeting .hello { color: var(--muted); font-weight: 500; }
-    .hero-greeting .uname { color: var(--primary); }
-    .hero-sub { font-size: 0.88rem; color: var(--muted); }
+
+    .hero-greeting .hello {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .hero-greeting .uname {
+      color: var(--primary);
+    }
+
+    .hero-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
 
     /* ── READ-ONLY BANNER ── */
     .readonly-banner {
-      max-width: 900px; margin: 1.2rem auto 0;
+      max-width: 900px;
+      margin: 1.2rem auto 0;
       padding: 0 1.5rem;
     }
+
     .readonly-strip {
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 0.85rem 1.2rem;
-      display: flex; align-items: center; gap: 12px;
-      font-size: 0.82rem; color: var(--muted); font-weight: 600; line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.5;
     }
-    .readonly-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    .readonly-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
 
     /* ── SECTION WRAPPER ── */
-    .sections { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .sections {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
 
     /* ── SECTION HEADER ── */
     .sec-header {
-      display: flex; align-items: center; gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 1.2rem;
     }
+
     .sec-icon {
-      width: 40px; height: 40px; border-radius: 8px;
-      background: #fff; border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
     }
-    .sec-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
-    .sec-sub   { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    .sec-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .sec-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
 
     /* ── CARD BOX ── */
     .box {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; padding: 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
       margin-bottom: 1.5rem;
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
 
     /* ── STUDENT SELECTOR ── */
-    .student-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .student-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
     .s-tab {
-      display: flex; align-items: center; gap: 8px;
-      padding: 0.5rem 1rem; border-radius: 8px;
-      border: 1px solid var(--border); background: #fff;
-      cursor: pointer; font-size: 0.8rem; font-weight: 700; color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
       transition: all 0.2s;
     }
+
     .s-tab.active {
-      background: var(--primary); border-color: var(--primary); color: #fff;
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
     }
+
     .s-tab-avatar {
-      width: 22px; height: 22px; border-radius: 4px;
-      background: var(--primary-light); display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; font-weight: 800; color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: #fff;
     }
 
     /* ── STAT GRID ── */
-    .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
-    .stat-box {
-      background: #f8fafc; border: 1px solid var(--border);
-      border-radius: 12px; padding: 1rem 0.85rem; text-align: center;
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
     }
-    .stat-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
-    .stat-num.green  { color: var(--green); }
-    .stat-num.red    { color: var(--red); }
-    .stat-num.amber  { color: var(--amber); }
-    .stat-num.purple { color: var(--primary); }
-    .stat-label { font-size: 0.6rem; color: var(--muted); font-weight: 700; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .stat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 0.85rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stat-num.green {
+      color: var(--green);
+    }
+
+    .stat-num.red {
+      color: var(--red);
+    }
+
+    .stat-num.amber {
+      color: var(--amber);
+    }
+
+    .stat-num.purple {
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
     /* ── PERFORMANCE DASHBOARD ── */
-    #perfHeaderRight { margin-left: auto; }
-    .btn-admin-login {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--primary); color: #fff; border: none; border-radius: 8px;
-      padding: .5rem 1.1rem; font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: .78rem; font-weight: 700; letter-spacing: .04em;
-      cursor: pointer; transition: all .15s; white-space: nowrap;
+    #perfHeaderRight {
+      margin-left: auto;
     }
-    .btn-admin-login:hover { background: #172554; }
+
+    .btn-admin-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: .5rem 1.1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .btn-admin-login:hover {
+      background: #172554;
+    }
 
     .admin-modal-bg {
-      position: fixed; inset: 0; background: rgba(15,23,42,.45);
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .45);
       backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999; opacity: 0; pointer-events: none; transition: opacity .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
     }
-    .admin-modal-bg.open { opacity: 1; pointer-events: all; }
+
+    .admin-modal-bg.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
     .admin-modal {
-      background: var(--surface); border-radius: 16px; padding: 2rem;
-      width: 100%; max-width: 380px; border: 1px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,.14); position: relative;
-      transform: translateY(8px); transition: transform .22s var(--ease);
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 380px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .14);
+      position: relative;
+      transform: translateY(8px);
+      transition: transform .22s var(--ease);
     }
-    .admin-modal-bg.open .admin-modal { transform: translateY(0); }
+
+    .admin-modal-bg.open .admin-modal {
+      transform: translateY(0);
+    }
+
     .admin-err {
-      background: #fef2f2; border: 1px solid #fee2e2; border-radius: 7px;
-      padding: .55rem .8rem; font-size: .78rem; color: #ef4444;
-      font-weight: 600; margin-bottom: .9rem; display: none;
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      border-radius: 7px;
+      padding: .55rem .8rem;
+      font-size: .78rem;
+      color: #ef4444;
+      font-weight: 600;
+      margin-bottom: .9rem;
+      display: none;
     }
 
     /* Admin Modal Fields */
-    .field { margin-bottom: 1.2rem; text-align: left; }
-    .field label { display: block; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
-    .input-wrap { position: relative; }
+    .field {
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+
+    .field label {
+      display: block;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: .4rem;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
     .input-wrap input {
-      width: 100%; padding: .75rem 1rem; border-radius: 10px; border: 1px solid var(--border);
-      background: #f8fafc; font-family: inherit; font-size: .9rem; transition: all .2s;
+      width: 100%;
+      padding: .75rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      font-family: inherit;
+      font-size: .9rem;
+      transition: all .2s;
     }
-    .input-wrap input:focus { border-color: var(--primary-light); background: #fff; box-shadow: 0 0 0 4px rgba(59,130,246,.1); outline: none; }
+
+    .input-wrap input:focus {
+      border-color: var(--primary-light);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, .1);
+      outline: none;
+    }
+
     .btn-login {
-      width: 100%; padding: .8rem; background: var(--primary); color: #fff; border: none; border-radius: 10px;
-      font-weight: 800; font-size: .9rem; cursor: pointer; transition: all .2s;
+      width: 100%;
+      padding: .8rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all .2s;
     }
-    .btn-login:hover { background: #172554; transform: translateY(-1px); }
+
+    .btn-login:hover {
+      background: #172554;
+      transform: translateY(-1px);
+    }
 
     @media (max-width: 640px) {
-      .navbar { padding: 0 1.2rem; }
-      .stat-grid { grid-template-columns: repeat(2,1fr); }
-      .proj-grid, .locked-grid { grid-template-columns: 1fr; }
-      .nav-parent-tag { display: none; }
+      .navbar {
+        padding: 0 1.2rem;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .proj-grid,
+      .locked-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-parent-tag {
+        display: none;
+      }
     }
 
     /* ── ATTENDANCE CALENDAR ── */
-    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; margin-top: 0.5rem; }
-    .cal-day-label { font-size: 0.6rem; font-weight: 800; color: var(--muted); text-align: center; text-transform: uppercase; padding-bottom: 4px; }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 0.5rem;
+    }
+
+    .cal-day-label {
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-align: center;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+    }
+
     .cal-cell {
-      aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; font-weight: 700; color: var(--muted);
+      aspect-ratio: 1;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--muted);
       background: #fff;
     }
-    .cal-cell.present { background: #f0fdf4; border-color: #dcfce7; color: #15803d; }
-    .cal-cell.absent  { background: #fef2f2; border-color: #fee2e2; color: #b91c1c; }
-    .cal-cell.today   { border-color: var(--primary); border-width: 2px; color: var(--text); }
-    .cal-cell.empty   { border-color: transparent; background: transparent; }
+
+    .cal-cell.present {
+      background: #f0fdf4;
+      border-color: #dcfce7;
+      color: #15803d;
+    }
+
+    .cal-cell.absent {
+      background: #fef2f2;
+      border-color: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .cal-cell.today {
+      border-color: var(--primary);
+      border-width: 2px;
+      color: var(--text);
+    }
+
+    .cal-cell.empty {
+      border-color: transparent;
+      background: transparent;
+    }
 
     /* Legend */
-    .cal-legend { display: flex; gap: 1rem; margin-top: 0.85rem; }
-    .leg { display: flex; align-items: center; gap: 5px; font-size: 0.68rem; color: var(--muted); font-weight: 600; }
-    .leg-dot { width: 10px; height: 10px; border-radius: 2px; }
-    .leg-dot.g { background: #16a34a; }
-    .leg-dot.r { background: #dc2626; }
-    .leg-dot.e { background: #fff; border: 1px solid var(--border); }
+    .cal-legend {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+
+    .leg {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .leg-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    .leg-dot.g {
+      background: #16a34a;
+    }
+
+    .leg-dot.r {
+      background: #dc2626;
+    }
+
+    .leg-dot.e {
+      background: #fff;
+      border: 1px solid var(--border);
+    }
 
     /* ── PROGRESS RING ── */
-    .progress-row { display: flex; align-items: center; gap: 1.5rem; }
-    .ring-bg   { fill: none; stroke: var(--border); }
-    .ring-fill { fill: none; stroke-linecap: round; transition: stroke-dashoffset 1.4s var(--ease); }
-    .ring-label { text-anchor: middle; dominant-baseline: middle; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; }
-    .prog-stats { flex: 1; }
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--border);
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.4s var(--ease);
+    }
+
+    .ring-label {
+      text-anchor: middle;
+      dominant-baseline: middle;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+    }
+
+    .prog-stats {
+      flex: 1;
+    }
+
     .prog-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--border);
       font-size: 0.78rem;
     }
-    .prog-row:last-child { border-bottom: none; }
-    .prog-key   { color: var(--muted); font-weight: 600; }
-    .prog-val   { font-weight: 800; color: var(--text); }
-    .prog-val.green { color: var(--green); }
-    .prog-val.amber { color: var(--amber); }
-    .prog-val.red   { color: var(--red); }
+
+    .prog-row:last-child {
+      border-bottom: none;
+    }
+
+    .prog-key {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .prog-val {
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .prog-val.green {
+      color: var(--green);
+    }
+
+    .prog-val.amber {
+      color: var(--amber);
+    }
+
+    .prog-val.red {
+      color: var(--red);
+    }
 
     /* ── BAR CHART ── */
-    .bar-title { font-size: 0.68rem; font-weight: 800; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin: 1.1rem 0 0.65rem; }
-    .bar-row  { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.45rem; }
-    .bar-day  { font-size: 0.68rem; color: var(--muted); width: 36px; text-align: right; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
-    .bar-fill  { height: 100%; border-radius: 4px; transition: width 1.3s var(--ease); }
-    .bar-icon  { font-size: 0.68rem; min-width: 14px; }
+    .bar-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 1.1rem 0 0.65rem;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .bar-day {
+      font-size: 0.68rem;
+      color: var(--muted);
+      width: 36px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1.3s var(--ease);
+    }
+
+    .bar-icon {
+      font-size: 0.68rem;
+      min-width: 14px;
+    }
 
     /* ── COURSES LIST ── */
-    .course-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.5rem; }
+    .course-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
     .course-row {
-      display: flex; align-items: center; gap: 12px;
-      background: #f8fafc; border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
     }
-    .course-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .course-name { font-size: 0.86rem; font-weight: 800; color: var(--text); }
-    .course-tag  {
-      font-size: 0.58rem; font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 4px;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5;
+
+    .course-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
     }
-    .course-prog { margin-left: auto; text-align: right; }
-    .course-pct  { font-size: 0.78rem; font-weight: 800; color: var(--primary); }
-    .course-bar-mini { width: 80px; height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; margin-top: 3px; }
-    .course-bar-fill { height: 100%; border-radius: 2px; background: var(--primary); transition: width 1.3s var(--ease); }
+
+    .course-name {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .course-tag {
+      font-size: 0.58rem;
+      font-weight: 800;
+      padding: 0.12rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #ffedd5;
+    }
+
+    .course-prog {
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .course-pct {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .course-bar-mini {
+      width: 80px;
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 3px;
+    }
+
+    .course-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--primary);
+      transition: width 1.3s var(--ease);
+    }
 
     /* ── LOCKED ACTIONS PANEL ── */
     .locked-panel {
-      background: #fef2f2; border: 1px solid #fee2e2;
-      border-radius: 12px; padding: 1.2rem 1.4rem;
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
     }
-    .locked-title { font-size: 0.82rem; font-weight: 800; color: #b91c1c; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
-    .locked-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+
+    .locked-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #b91c1c;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .locked-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
     .locked-item {
-      display: flex; align-items: center; gap: 9px;
-      background: #fff; border: 1px solid #fee2e2;
-      border-radius: 8px; padding: 0.65rem 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #fff;
+      border: 1px solid #fee2e2;
+      border-radius: 8px;
+      padding: 0.65rem 0.8rem;
     }
-    .locked-item-icon { font-size: 1rem; flex-shrink: 0; }
-    .locked-item-text { font-size: 0.74rem; font-weight: 700; color: #991b1b; text-decoration: line-through; opacity: 0.6; }
-    .lock-badge { margin-left: auto; font-size: 0.62rem; }
+
+    .locked-item-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .locked-item-text {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #991b1b;
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .lock-badge {
+      margin-left: auto;
+      font-size: 0.62rem;
+    }
 
     /* ── PROJECTS ── */
-    .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 0.5rem; }
-    .proj-card {
-      background: #f8fafc; border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.9rem 0.85rem;
+    .proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin-top: 0.5rem;
     }
-    .proj-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.45rem; }
-    .proj-name { font-size: 0.78rem; font-weight: 800; color: var(--text); }
-    .proj-badge { font-size: 0.56rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .proj-badge.done { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce7; }
-    .proj-badge.wip  { background: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
-    .proj-badge.todo { background: #f8fafc; color: var(--muted); border: 1px solid var(--border); }
-    .proj-bar  { height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; margin-top: 0.45rem; }
-    .proj-fill { height: 100%; border-radius: 2px; background: var(--primary); transition: width 1.3s var(--ease); }
-    .proj-meta { font-size: 0.6rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .proj-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 0.85rem;
+    }
+
+    .proj-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.45rem;
+    }
+
+    .proj-name {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .proj-badge {
+      font-size: 0.56rem;
+      font-weight: 800;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .proj-badge.done {
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #dcfce7;
+    }
+
+    .proj-badge.wip {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fef3c7;
+    }
+
+    .proj-badge.todo {
+      background: #f8fafc;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .proj-bar {
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.45rem;
+    }
+
+    .proj-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--primary);
+      transition: width 1.3s var(--ease);
+    }
+
+    .proj-meta {
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
 
     /* Footer */
     footer {
-      text-align: center; padding: 1.5rem;
+      text-align: center;
+      padding: 1.5rem;
       border-top: 1px solid var(--border);
-      font-size: 0.78rem; color: var(--muted);
+      font-size: 0.78rem;
+      color: var(--muted);
       background: #fff;
     }
-    footer span { color: var(--primary); }
+
+    footer span {
+      color: var(--primary);
+    }
 
     @media (max-width: 640px) {
-      .navbar { padding: 0 1.2rem; }
-      .stat-grid { grid-template-columns: repeat(2,1fr); }
-      .proj-grid, .locked-grid { grid-template-columns: 1fr; }
-      .progress-row { flex-direction: column; }
-      .nav-parent-tag { display: none; }
+      .navbar {
+        padding: 0 1.2rem;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .proj-grid,
+      .locked-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-row {
+        flex-direction: column;
+      }
+
+      .nav-parent-tag {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<div class="bg-fixed"></div>
+  <div class="bg-fixed"></div>
 
-<!-- ── NAVBAR ── -->
-<nav class="navbar">
-  <a href="/" class="nav-brand">
-    <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="brand-logo">
-    <span class="brand-name">Holbos</span>
-    <span class="nav-parent-tag">&#128100; Parent View</span>
-  </a>
-  <div class="nav-right">
-    <div class="nav-user">
-      <div class="nav-avatar" id="navInitial">P</div>
-      <span class="nav-username">{{ request.user.username }}</span>
-    </div>
-    <a href="{% url 'logout' %}" class="btn-logout">Logout &#8594;</a>
-  </div>
-</nav>
-
-<div class="page-body">
-
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <div class="hero-greeting">
-      <span class="hello">Hello, </span><span class="uname">{{ user.get_full_name|default:user.username }}</span>
-    </div>
-    <p class="hero-sub">Here's your child's learning overview &mdash; read-only parent access.</p>
-  </div>
-
-  <!-- ── READ-ONLY NOTICE ── -->
-  <div class="readonly-banner">
-    <div class="readonly-strip">
-      <span class="readonly-icon">&#128274;</span>
-      <span>You have <strong>read-only</strong> access. You can view attendance, progress and learning content &mdash; but cannot mark attendance, edit records or upload content.</span>
-    </div>
-  </div>
-
-  <div class="sections">
-
-    <!-- ── STUDENT SELECTOR ── -->
-    <div class="student-tabs" id="studentTabs">
-      <!-- Rendered from Django context: {% for child in children %} -->
-      <div class="s-tab active" onclick="selectStudent(this, 0)">
-        <div class="s-tab-avatar">A</div>
-        {{ children.0.first_name|default:"Child 1" }}
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="brand-logo">
+      <span class="brand-name">Holbos</span>
+      <span class="nav-parent-tag">&#128100; Parent View</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="nav-avatar" id="navInitial">P</div>
+        <span class="nav-username">{{ request.user.username }}</span>
       </div>
-      <!-- Add more children if linked -->
+      <a href="{% url 'logout' %}" class="btn-logout">Logout &#8594;</a>
+    </div>
+  </nav>
+
+  <div class="page-body">
+
+    <!-- ── HERO ── -->
+    <div class="hero">
+      <div class="hero-greeting">
+        <span class="hello">Hello, </span><span class="uname">{{ user.get_full_name|default:user.username }}</span>
+      </div>
+      <p class="hero-sub">Here's your child's learning overview &mdash; read-only parent access.</p>
     </div>
 
-    <!-- ══════════════════════════════════════
+    <!-- ── READ-ONLY NOTICE ── -->
+    <div class="readonly-banner">
+      <div class="readonly-strip">
+        <span class="readonly-icon">&#128274;</span>
+        <span>You have <strong>read-only</strong> access. You can view attendance, progress and learning content &mdash;
+          but cannot mark attendance, edit records or upload content.</span>
+      </div>
+    </div>
+
+    <div class="sections">
+
+      <!-- ── STUDENT SELECTOR ── -->
+      <div class="student-tabs" id="studentTabs">
+        <!-- Rendered from Django context: {% for child in children %} -->
+        <div class="s-tab active" onclick="selectStudent(this, 0)">
+          <div class="s-tab-avatar">A</div>
+          {{ children.0.first_name|default:"Child 1" }}
+        </div>
+        <!-- Add more children if linked -->
+      </div>
+
+      <!-- ══════════════════════════════════════
          SECTION 1: ATTENDANCE
     ════════════════════════════════════════ -->
-    <div class="box">
-      <div class="sec-header">
-        <div class="sec-icon">&#128197;</div>
-        <div>
-          <div class="sec-title">Attendance Record</div>
-          <div class="sec-sub">This month's session attendance</div>
+      <div class="box">
+        <div class="sec-header">
+          <div class="sec-icon">&#128197;</div>
+          <div>
+            <div class="sec-title">Attendance Record</div>
+            <div class="sec-sub">This month's session attendance</div>
+          </div>
         </div>
+
+        <!-- Summary stats -->
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-num green" id="attPresent">18</div>
+            <div class="stat-label">Present</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num red" id="attAbsent">3</div>
+            <div class="stat-label">Absent</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num amber" id="attTotal">21</div>
+            <div class="stat-label">Total Sessions</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num purple" id="attPct">86%</div>
+            <div class="stat-label">Attendance %</div>
+          </div>
+        </div>
+
+        <!-- Calendar view -->
+        <div class="cal-grid" id="calGrid">
+          <div class="cal-day-label">Mon</div>
+          <div class="cal-day-label">Tue</div>
+          <div class="cal-day-label">Wed</div>
+          <div class="cal-day-label">Thu</div>
+          <div class="cal-day-label">Fri</div>
+          <div class="cal-day-label">Sat</div>
+          <div class="cal-day-label">Sun</div>
+          <!-- Days filled by JS -->
+        </div>
+
+        <div class="cal-legend">
+          <div class="leg">
+            <div class="leg-dot g"></div>Present
+          </div>
+          <div class="leg">
+            <div class="leg-dot r"></div>Absent
+          </div>
+          <div class="leg">
+            <div class="leg-dot e"></div>No Session
+          </div>
+        </div>
+
+        <!-- Weekly bar -->
+        <div class="bar-title">This Week's Attendance</div>
+        <div id="weekBars"></div>
       </div>
 
-      <!-- Summary stats -->
-      <div class="stat-grid">
-        <div class="stat-box"><div class="stat-num green" id="attPresent">18</div><div class="stat-label">Present</div></div>
-        <div class="stat-box"><div class="stat-num red"   id="attAbsent">3</div><div class="stat-label">Absent</div></div>
-        <div class="stat-box"><div class="stat-num amber" id="attTotal">21</div><div class="stat-label">Total Sessions</div></div>
-        <div class="stat-box"><div class="stat-num purple" id="attPct">86%</div><div class="stat-label">Attendance %</div></div>
-      </div>
-
-      <!-- Calendar view -->
-      <div class="cal-grid" id="calGrid">
-        <div class="cal-day-label">Mon</div>
-        <div class="cal-day-label">Tue</div>
-        <div class="cal-day-label">Wed</div>
-        <div class="cal-day-label">Thu</div>
-        <div class="cal-day-label">Fri</div>
-        <div class="cal-day-label">Sat</div>
-        <div class="cal-day-label">Sun</div>
-        <!-- Days filled by JS -->
-      </div>
-
-      <div class="cal-legend">
-        <div class="leg"><div class="leg-dot g"></div>Present</div>
-        <div class="leg"><div class="leg-dot r"></div>Absent</div>
-        <div class="leg"><div class="leg-dot e"></div>No Session</div>
-      </div>
-
-      <!-- Weekly bar -->
-      <div class="bar-title">This Week's Attendance</div>
-      <div id="weekBars"></div>
-    </div>
-
-    <!-- ══════════════════════════════════════
+      <!-- ══════════════════════════════════════
          SECTION 2: PERFORMANCE DASHBOARD (Admin-gated)
     ════════════════════════════════════════ -->
-    <div class="box">
-      <div class="sec-header">
-        <div class="sec-icon">&#128200;</div>
-        <div>
-          <div class="sec-title">Performance Dashboard</div>
-          <div class="sec-sub">Attendance analytics &amp; insights</div>
+      <div class="box">
+        <div class="sec-header">
+          <div class="sec-icon">&#128200;</div>
+          <div>
+            <div class="sec-title">Performance Dashboard</div>
+            <div class="sec-sub">Attendance analytics &amp; insights</div>
+          </div>
+          <div id="perfHeaderRight">
+            <a href="{% url 'attendance:erp' %}?autologin=true&user={{ request.user.username }}" class="btn-admin-login"
+              style="text-decoration:none" target="_blank">
+              <svg
+                style="width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"
+                viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              Admin Login
+            </a>
+          </div>
         </div>
-        <div id="perfHeaderRight">
-          <button class="btn-admin-login" onclick="openAdminModal()">
-            <svg style="width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle" viewBox="0 0 24 24">
-              <rect x="3" y="11" width="18" height="11" rx="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            Admin Login
-          </button>
+
+        <!-- Locked state (shown to parents by default) -->
+        <div id="perfLocked">
+          <div class="locked-panel" style="text-align:center;padding:2rem 1.4rem">
+            <div style="font-size:1.8rem;margin-bottom:.6rem">&#128274;</div>
+            <div style="font-size:.86rem;font-weight:800;color:#b91c1c;margin-bottom:.3rem">Restricted — Admin Access
+              Only</div>
+            <div style="font-size:.75rem;color:#64748b">Attendance performance data is visible to administrators only.
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin-only content (hidden until login) -->
+        <div id="perfAdmin" style="display:none">
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
+            <span
+              style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274;
+              Admin session active</span>
+            <button onclick="adminLogout()"
+              style="background:none;border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit">Sign
+              out</button>
+          </div>
+
+          <!-- Stats -->
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="stat-num green" id="perfPresent">18</div>
+              <div class="stat-label">Present</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num red" id="perfAbsent">3</div>
+              <div class="stat-label">Absent</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num amber" id="perfTotal">21</div>
+              <div class="stat-label">Total Sessions</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num purple" id="perfPct">86%</div>
+              <div class="stat-label">Attendance %</div>
+            </div>
+          </div>
+
+          <!-- Class bars -->
+          <div class="bar-title">Class-wise attendance rate</div>
+          <div id="perfBars"></div>
         </div>
       </div>
 
-      <!-- Locked state (shown to parents by default) -->
-      <div id="perfLocked">
-        <div class="locked-panel" style="text-align:center;padding:2rem 1.4rem">
-          <div style="font-size:1.8rem;margin-bottom:.6rem">&#128274;</div>
-          <div style="font-size:.86rem;font-weight:800;color:#b91c1c;margin-bottom:.3rem">Restricted — Admin Access Only</div>
-          <div style="font-size:.75rem;color:#64748b">Attendance performance data is visible to administrators only.</div>
-        </div>
-      </div>
-
-      <!-- Admin-only content (hidden until login) -->
-      <div id="perfAdmin" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
-          <span style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274; Admin session active</span>
-          <button onclick="adminLogout()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit">Sign out</button>
-        </div>
-
-        <!-- Stats -->
-        <div class="stat-grid">
-          <div class="stat-box"><div class="stat-num green" id="perfPresent">18</div><div class="stat-label">Present</div></div>
-          <div class="stat-box"><div class="stat-num red" id="perfAbsent">3</div><div class="stat-label">Absent</div></div>
-          <div class="stat-box"><div class="stat-num amber" id="perfTotal">21</div><div class="stat-label">Total Sessions</div></div>
-          <div class="stat-box"><div class="stat-num purple" id="perfPct">86%</div><div class="stat-label">Attendance %</div></div>
-        </div>
-
-        <!-- Class bars -->
-        <div class="bar-title">Class-wise attendance rate</div>
-        <div id="perfBars"></div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════
+      <!-- ══════════════════════════════════════
          SECTION 3: LEARNING CONTENT (view-only)
     ════════════════════════════════════════ -->
-    <div class="box">
-      <div class="sec-header">
-        <div class="sec-icon">&#128218;</div>
-        <div>
-          <div class="sec-title">Learning Modules</div>
-          <div class="sec-sub">Your child's enrolled courses &mdash; view only</div>
+      <div class="box">
+        <div class="sec-header">
+          <div class="sec-icon">&#128218;</div>
+          <div>
+            <div class="sec-title">Learning Modules</div>
+            <div class="sec-sub">Your child's enrolled courses &mdash; view only</div>
+          </div>
+        </div>
+        <div class="course-list">
+          <div class="course-row">
+            <div class="course-icon">&#9876;&#65039;</div>
+            <div>
+              <div class="course-name">Chhatrapati Shivaji Maharaj</div>
+              <span class="course-tag">History</span>
+            </div>
+            <div class="course-prog">
+              <div class="course-pct">75%</div>
+              <div class="course-bar-mini">
+                <div class="course-bar-fill" style="width:0%" data-w="75"></div>
+              </div>
+            </div>
+          </div>
+          <div class="course-row">
+            <div class="course-icon">&#129302;</div>
+            <div>
+              <div class="course-name">Doraemon &amp; Gadgets</div>
+              <span class="course-tag">Anime &amp; Tech</span>
+            </div>
+            <div class="course-prog">
+              <div class="course-pct">50%</div>
+              <div class="course-bar-mini">
+                <div class="course-bar-fill" style="width:0%" data-w="50"></div>
+              </div>
+            </div>
+          </div>
+          <div class="course-row">
+            <div class="course-icon">&#128218;</div>
+            <div>
+              <div class="course-name">Learning Blocks</div>
+              <span class="course-tag">Education</span>
+            </div>
+            <div class="course-prog">
+              <div class="course-pct">30%</div>
+              <div class="course-bar-mini">
+                <div class="course-bar-fill" style="width:0%" data-w="30"></div>
+              </div>
+            </div>
+          </div>
+          <div class="course-row">
+            <div class="course-icon">&#127807;</div>
+            <div>
+              <div class="course-name">Science &amp; Nature</div>
+              <span class="course-tag">Science</span>
+            </div>
+            <div class="course-prog">
+              <div class="course-pct">20%</div>
+              <div class="course-bar-mini">
+                <div class="course-bar-fill" style="width:0%" data-w="20"></div>
+              </div>
+            </div>
+          </div>
+          <div class="course-row">
+            <div class="course-icon">&#127912;</div>
+            <div>
+              <div class="course-name">Art &amp; Creativity</div>
+              <span class="course-tag">Creative</span>
+            </div>
+            <div class="course-prog">
+              <div class="course-pct">10%</div>
+              <div class="course-bar-mini">
+                <div class="course-bar-fill" style="width:0%" data-w="10"></div>
+              </div>
+            </div>
+          </div>
+          <div class="course-row">
+            <div class="course-icon">&#128290;</div>
+            <div>
+              <div class="course-name">Mathematics</div>
+              <span class="course-tag">Math</span>
+            </div>
+            <div class="course-prog">
+              <div class="course-pct">5%</div>
+              <div class="course-bar-mini">
+                <div class="course-bar-fill" style="width:0%" data-w="5"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="course-list">
-        <div class="course-row">
-          <div class="course-icon">&#9876;&#65039;</div>
-          <div>
-            <div class="course-name">Chhatrapati Shivaji Maharaj</div>
-            <span class="course-tag">History</span>
-          </div>
-          <div class="course-prog">
-            <div class="course-pct">75%</div>
-            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="75"></div></div>
-          </div>
-        </div>
-        <div class="course-row">
-          <div class="course-icon">&#129302;</div>
-          <div>
-            <div class="course-name">Doraemon &amp; Gadgets</div>
-            <span class="course-tag">Anime &amp; Tech</span>
-          </div>
-          <div class="course-prog">
-            <div class="course-pct">50%</div>
-            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="50"></div></div>
-          </div>
-        </div>
-        <div class="course-row">
-          <div class="course-icon">&#128218;</div>
-          <div>
-            <div class="course-name">Learning Blocks</div>
-            <span class="course-tag">Education</span>
-          </div>
-          <div class="course-prog">
-            <div class="course-pct">30%</div>
-            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="30"></div></div>
-          </div>
-        </div>
-        <div class="course-row">
-          <div class="course-icon">&#127807;</div>
-          <div>
-            <div class="course-name">Science &amp; Nature</div>
-            <span class="course-tag">Science</span>
-          </div>
-          <div class="course-prog">
-            <div class="course-pct">20%</div>
-            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="20"></div></div>
-          </div>
-        </div>
-        <div class="course-row">
-          <div class="course-icon">&#127912;</div>
-          <div>
-            <div class="course-name">Art &amp; Creativity</div>
-            <span class="course-tag">Creative</span>
-          </div>
-          <div class="course-prog">
-            <div class="course-pct">10%</div>
-            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="10"></div></div>
-          </div>
-        </div>
-        <div class="course-row">
-          <div class="course-icon">&#128290;</div>
-          <div>
-            <div class="course-name">Mathematics</div>
-            <span class="course-tag">Math</span>
-          </div>
-          <div class="course-prog">
-            <div class="course-pct">5%</div>
-            <div class="course-bar-mini"><div class="course-bar-fill" style="width:0%" data-w="5"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ══════════════════════════════════════
+      <!-- ══════════════════════════════════════
          SECTION 4: RESTRICTED ACTIONS
     ════════════════════════════════════════ -->
-    <div class="locked-panel">
-      <div class="locked-title">&#128274; Actions Restricted for Parent Account</div>
-      <div class="locked-grid">
-        <div class="locked-item">
-          <div class="locked-item-icon">&#9998;</div>
-          <div class="locked-item-text">Mark Attendance</div>
-          <div class="lock-badge">&#128274;</div>
-        </div>
-        <div class="locked-item">
-          <div class="locked-item-icon">&#128190;</div>
-          <div class="locked-item-text">Edit Attendance Records</div>
-          <div class="lock-badge">&#128274;</div>
-        </div>
-        <div class="locked-item">
-          <div class="locked-item-icon">&#128228;</div>
-          <div class="locked-item-text">Upload Content</div>
-          <div class="lock-badge">&#128274;</div>
-        </div>
-        <div class="locked-item">
-          <div class="locked-item-icon">&#9881;&#65039;</div>
-          <div class="locked-item-text">Edit Student Profile</div>
-          <div class="lock-badge">&#128274;</div>
+      <div class="locked-panel">
+        <div class="locked-title">&#128274; Actions Restricted for Parent Account</div>
+        <div class="locked-grid">
+          <div class="locked-item">
+            <div class="locked-item-icon">&#9998;</div>
+            <div class="locked-item-text">Mark Attendance</div>
+            <div class="lock-badge">&#128274;</div>
+          </div>
+          <div class="locked-item">
+            <div class="locked-item-icon">&#128190;</div>
+            <div class="locked-item-text">Edit Attendance Records</div>
+            <div class="lock-badge">&#128274;</div>
+          </div>
+          <div class="locked-item">
+            <div class="locked-item-icon">&#128228;</div>
+            <div class="locked-item-text">Upload Content</div>
+            <div class="lock-badge">&#128274;</div>
+          </div>
+          <div class="locked-item">
+            <div class="locked-item-icon">&#9881;&#65039;</div>
+            <div class="locked-item-text">Edit Student Profile</div>
+            <div class="lock-badge">&#128274;</div>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div><!-- /sections -->
-</div><!-- /page-body -->
+    </div><!-- /sections -->
+  </div><!-- /page-body -->
 
-<footer>
-  <p>&copy; 2025 <span>Holbos</span> &middot; Parent Portal &middot; Read-Only Access</p>
-</footer>
+  <footer>
+    <p>&copy; 2025 <span>Holbos</span> &middot; Parent Portal &middot; Read-Only Access</p>
+  </footer>
 
-<script>
-  /* ── Nav initial ── */
-  const uname = "{{ request.user.username }}";
-  document.getElementById('navInitial').textContent = uname.charAt(0).toUpperCase();
+  <script>
+    /* ── Nav initial ── */
+    const uname = "{{ request.user.username }}";
+    document.getElementById('navInitial').textContent = uname.charAt(0).toUpperCase();
 
-  /* ── Calendar build ── */
-  const cal = document.getElementById('calGrid');
-  // April 2025 starts on Tuesday (index 1), 30 days
-  const firstDay = 1; // 0=Mon … 6=Sun
-  const totalDays = 30;
-  // Mock attendance: 1=present, 0=absent, null=no session (weekend)
-  const attendanceMap = {
-    1:1, 2:1, 3:0, 4:1, 7:1, 8:1, 9:1, 10:0, 11:1,
-    14:1, 15:1, 16:1, 17:1, 18:1, 21:0, 22:1, 23:1, 24:1, 25:1,
-    28:1, 29:1, 30:1
-  };
-  // Add empty offset cells
-  for (let i = 0; i < firstDay; i++) {
-    const e = document.createElement('div');
-    e.className = 'cal-cell empty'; cal.appendChild(e);
-  }
-  for (let d = 1; d <= totalDays; d++) {
-    const c = document.createElement('div');
-    c.className = 'cal-cell';
-    const isWeekend = ((d + firstDay - 1) % 7 >= 5);
-    if (isWeekend) {
-      c.classList.add('empty');
-      c.textContent = '';
-    } else {
-      c.textContent = d;
-      if (attendanceMap[d] === 1) c.classList.add('present');
-      else if (attendanceMap[d] === 0) c.classList.add('absent');
+    /* ── Calendar build ── */
+    const cal = document.getElementById('calGrid');
+    // April 2025 starts on Tuesday (index 1), 30 days
+    const firstDay = 1; // 0=Mon … 6=Sun
+    const totalDays = 30;
+    // Mock attendance: 1=present, 0=absent, null=no session (weekend)
+    const attendanceMap = {
+      1: 1, 2: 1, 3: 0, 4: 1, 7: 1, 8: 1, 9: 1, 10: 0, 11: 1,
+      14: 1, 15: 1, 16: 1, 17: 1, 18: 1, 21: 0, 22: 1, 23: 1, 24: 1, 25: 1,
+      28: 1, 29: 1, 30: 1
+    };
+    // Add empty offset cells
+    for (let i = 0; i < firstDay; i++) {
+      const e = document.createElement('div');
+      e.className = 'cal-cell empty'; cal.appendChild(e);
     }
-    if (d === 13) c.classList.add('today');
-    cal.appendChild(c);
-  }
+    for (let d = 1; d <= totalDays; d++) {
+      const c = document.createElement('div');
+      c.className = 'cal-cell';
+      const isWeekend = ((d + firstDay - 1) % 7 >= 5);
+      if (isWeekend) {
+        c.classList.add('empty');
+        c.textContent = '';
+      } else {
+        c.textContent = d;
+        if (attendanceMap[d] === 1) c.classList.add('present');
+        else if (attendanceMap[d] === 0) c.classList.add('absent');
+      }
+      if (d === 13) c.classList.add('today');
+      cal.appendChild(c);
+    }
 
-  /* ── Weekly bars ── */
-  const week = [
-    { day:'Mon', ok:1 }, { day:'Tue', ok:1 },
-    { day:'Wed', ok:1 }, { day:'Thu', ok:0 }, { day:'Fri', ok:1 }
-  ];
-  const wb = document.getElementById('weekBars');
-  week.forEach(w => {
-    wb.innerHTML += `
+    /* ── Weekly bars ── */
+    const week = [
+      { day: 'Mon', ok: 1 }, { day: 'Tue', ok: 1 },
+      { day: 'Wed', ok: 1 }, { day: 'Thu', ok: 0 }, { day: 'Fri', ok: 1 }
+    ];
+    const wb = document.getElementById('weekBars');
+    week.forEach(w => {
+      wb.innerHTML += `
       <div class="bar-row">
         <span class="bar-day">${w.day}</span>
         <div class="bar-track">
@@ -665,114 +1313,52 @@
         </div>
         <span class="bar-icon" style="color:${w.ok ? '#22C55E' : '#EF4444'}">${w.ok ? '✓' : '✗'}</span>
       </div>`;
-  });
+    });
 
-  /* ── Animate all bars on load ── */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.querySelectorAll('.bar-fill, .proj-fill, .course-bar-fill').forEach(el => {
-        el.style.width = (el.dataset.w || 0) + '%';
-      });
-      buildPerfBars();
-    }, 200);
-  });
+    /* ── Animate all bars on load ── */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelectorAll('.bar-fill, .proj-fill, .course-bar-fill').forEach(el => {
+          el.style.width = (el.dataset.w || 0) + '%';
+        });
+        buildPerfBars();
+      }, 200);
+    });
 
-  function selectStudent(el, idx) {
-    document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    // In real Django: reload with ?child_id=idx or use AJAX
-  }
-
-  /* ── Performance Dashboard Logic ── */
-  // ── ADMIN CREDENTIALS (change these in your Django backend) ──
-  const ADMIN_CREDS = { username: 'admin', password: 'admin123' };
-
-  const PERF_CLASSES = [
-    { label: 'Class 1', pct: 91 }, { label: 'Class 3', pct: 83 },
-    { label: 'Class 5', pct: 76 }, { label: 'Class 7', pct: 68 },
-    { label: 'Class 10', pct: 86 }
-  ];
-
-  function openAdminModal() {
-    document.getElementById('adminUser').value = '';
-    document.getElementById('adminPass').value = '';
-    document.getElementById('adminErr').style.display = 'none';
-    document.getElementById('adminModalBg').classList.add('open');
-    setTimeout(() => document.getElementById('adminUser').focus(), 150);
-  }
-  function closeAdminModal() { document.getElementById('adminModalBg').classList.remove('open'); }
-  function adminBgClose(e) { if (e.target === document.getElementById('adminModalBg')) closeAdminModal(); }
-
-  function doAdminLogin() {
-    const u = document.getElementById('adminUser').value.trim();
-    const p = document.getElementById('adminPass').value;
-    if (u === ADMIN_CREDS.username && p === ADMIN_CREDS.password) {
-      closeAdminModal();
-      document.getElementById('perfLocked').style.display = 'none';
-      document.getElementById('perfAdmin').style.display = 'block';
-      document.getElementById('perfHeaderRight').style.display = 'none';
-      buildPerfBars();
-    } else {
-      document.getElementById('adminErr').style.display = 'block';
-      document.getElementById('adminPass').value = '';
+    function selectStudent(el, idx) {
+      document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      // In real Django: reload with ?child_id=idx or use AJAX
     }
-  }
 
-  function adminLogout() {
-    document.getElementById('perfAdmin').style.display = 'none';
-    document.getElementById('perfLocked').style.display = 'block';
-    document.getElementById('perfHeaderRight').style.display = 'block';
-  }
+    /* ── Performance Dashboard Logic ── */
+    const PERF_CLASSES = [
+      { label: 'Class 1', pct: 91 }, { label: 'Class 3', pct: 83 },
+      { label: 'Class 5', pct: 76 }, { label: 'Class 7', pct: 68 },
+      { label: 'Class 10', pct: 86 }
+    ];
 
-  function buildPerfBars() {
-    const container = document.getElementById('perfBars');
-    if (!container) return;
-    container.innerHTML = PERF_CLASSES.map(r => `
+    function buildPerfBars() {
+      const container = document.getElementById('perfBars');
+      if (!container) return;
+      container.innerHTML = PERF_CLASSES.map(r => `
       <div class="bar-row">
         <span class="bar-day" style="width:72px;font-size:.68rem;color:var(--muted)">${r.label}</span>
         <div class="bar-track"><div class="bar-fill" style="width:0%" data-w="${r.pct}"></div></div>
         <span style="font-size:.68rem;font-weight:700;color:var(--muted);min-width:32px;text-align:right">${r.pct}%</span>
       </div>`).join('');
-    setTimeout(() => {
-      document.querySelectorAll('#perfAdmin .bar-fill').forEach(el => {
-        const v = parseInt(el.dataset.w);
-        el.style.width = v + '%';
-        el.style.background = v >= 80 ? '#16a34a' : v >= 65 ? '#d97706' : '#dc2626';
-      });
-    }, 100);
-  }
+      setTimeout(() => {
+        document.querySelectorAll('#perfAdmin .bar-fill').forEach(el => {
+          const v = parseInt(el.dataset.w);
+          el.style.width = v + '%';
+          el.style.background = v >= 80 ? '#16a34a' : v >= 65 ? '#d97706' : '#dc2626';
+        });
+      }, 100);
+    }
+  </script>
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && document.getElementById('adminModalBg').classList.contains('open'))
-      doAdminLogin();
-  });
-</script>
-
-<!-- ADMIN LOGIN MODAL -->
-<div class="admin-modal-bg" id="adminModalBg" onclick="adminBgClose(event)">
-  <div class="admin-modal">
-    <button onclick="closeAdminModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:4px">&#10005;</button>
-    <div style="text-align:center;margin-bottom:1.5rem">
-      <div style="width:48px;height:48px;background:#eff6ff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.4rem">&#128274;</div>
-      <div style="font-size:1rem;font-weight:800;color:var(--text)">Admin Login</div>
-      <div style="font-size:.75rem;color:var(--muted);margin-top:.25rem">Restricted to administrators only</div>
-    </div>
-    <div class="admin-err" id="adminErr">Invalid credentials. Please try again.</div>
-    <div class="field">
-      <label>Admin Username</label>
-      <div class="input-wrap">
-        <input type="text" id="adminUser" placeholder="Enter admin username" autocomplete="off">
-      </div>
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <div class="input-wrap">
-        <input type="password" id="adminPass" placeholder="Enter password">
-      </div>
-    </div>
-    <button onclick="doAdminLogin()" class="btn-login" style="margin-top:.5rem">Login as Admin</button>
-  </div>
-</div>
+  <!-- ADMIN MODAL REMOVED - NOW REDIRECTS TO ATTENDANCE LOGIN -->
 
 </body>
+
 </html>

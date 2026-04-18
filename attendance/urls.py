@@ -4,8 +4,12 @@ from . import views
 app_name = "attendance"
 
 urlpatterns = [
-    # Auth
-    path("",          views.trainer_login,   name="login"),
+    # Auth (New ERP endpoints)
+    path("login/",     views.parent_login,   name="login"),
+    path("erp/",       views.erp_dashboard,  name="erp"),
+
+    # Auth (Original)
+    path("",          views.trainer_login,   name="trainer_login"),
     path("signup/",   views.trainer_signup,  name="signup"),
     path("logout/",   views.trainer_logout,  name="logout"),
 

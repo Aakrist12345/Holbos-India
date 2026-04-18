@@ -11,6 +11,8 @@ from django.views.decorators.http import require_POST
 from .forms import StudentForm, TrainerLoginForm, TrainerSignupForm
 from .models import AttendanceRecord, AttendanceSession, Student
 
+from django.contrib.admin.views.decorators import staff_member_required
+
 
 # ─────────────────────────────────────────────
 # AUTH
@@ -24,6 +26,9 @@ def trainer_login(request):
         login(request, form.trainer)
         return redirect("attendance:dashboard")
     return render(request, "attendance/login.html", {"form": form})
+
+def parent_login(request):
+    return render(request, 'attendance/parent_login.html')
 
 
 def trainer_signup(request):
@@ -132,6 +137,10 @@ def dashboard(request):
         "today": today,
     }
     return render(request, "attendance/dashboard.html", context)
+
+@staff_member_required(login_url='/admin/login/')
+def erp_dashboard(request):
+    return render(request, 'attendance/erp_dashboard.html')
 
 
 
