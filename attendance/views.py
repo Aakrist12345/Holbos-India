@@ -8,8 +8,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from .forms import StudentForm, TrainerLoginForm, TrainerSignupForm
-from .models import AttendanceRecord, AttendanceSession, Student
+from .forms import StudentForm, TrainerLoginForm, TrainerSignupForm, ParentCreateForm
+from .models import AttendanceRecord, AttendanceSession, Student, Trainer
 
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -28,7 +28,13 @@ def trainer_login(request):
     return render(request, "attendance/login.html", {"form": form})
 
 def parent_login(request):
-    return render(request, 'attendance/parent_login.html')
+    if request.user.is_authenticated:
+        return redirect("accounts:parentsdashboard")
+    form = TrainerLoginForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        login(request, form.trainer)
+        return redirect("accounts:parentsdashboard")
+    return render(request, 'attendance/parent_login.html', {"form": form})
 
 
 def trainer_signup(request):
@@ -294,3 +300,32 @@ def delete_student(request, pk):
         student.is_active = False
         student.save()
     return redirect("attendance:students")
+
+
+# ─────────────────────────────────────────────
+# PARENT MANAGEMENT
+# ─────────────────────────────────────────────
+
+@login_required(login_url="attendance:login")
+def parents_list(request):
+    # Only staff/trainers should probably see this
+    parents = Trainer.objects.filter(is_staff=False).exclude(id=request.user.id).order_by("full_name")
+    return render(request, "attendance/parents_list.html", {"parents": parents})
+
+
+@login_required(login_url="attendance:login")
+def create_parent(request):
+    form = ParentCreateForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("attendance:parents_list")
+    return render(request, "attendance/create_parent.html", {"form": form})
+
+
+@login_required(login_url="attendance:login")
+def delete_parent(request, pk):
+    parent = get_object_or_404(Trainer, pk=pk)
+    if request.method == "POST":
+        parent.is_active = False
+        parent.save()
+    return redirect("attendance:parents_list")

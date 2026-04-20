@@ -1817,7 +1817,7 @@
         <div class="nav-avatar" id="navInitial"></div>
         <span class="nav-username" id="navUsername">{{ request.user.username }}</span>
       </div>
-      <a href="{% url 'logout' %}" class="btn-logout">Logout →</a>
+      <a href="{% url 'accounts:logout' %}" class="btn-logout">Logout →</a>
       <button class="hamburger" id="hamburger" onclick="toggleMenu()">
         <span></span><span></span><span></span>
       </button>
@@ -1887,7 +1887,7 @@
           <span class="node-arrow">→</span>
         </div>
 
-        <a href="{% url 'attendance' %}" target="_blank" style="text-decoration:none;">
+        <a href="{% url 'accounts:attendance' %}" target="_blank" style="text-decoration:none;">
           <div class="node web-node" id="node4">
             <div class="node-icon-wrap" style="color: #EAB308;">📅</div>
             <h3>Attendance</h3>

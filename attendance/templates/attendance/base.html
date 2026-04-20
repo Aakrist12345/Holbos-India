@@ -613,6 +613,10 @@
       class="nav-item {% if request.resolver_match.url_name == 'students' %}active{% endif %}">
       <span class="nav-icon">◉</span> Student list
     </a>
+    <a href="{% url 'attendance:parents_list' %}"
+      class="nav-item {% if request.resolver_match.url_name == 'parents_list' %}active{% endif %}">
+      <span class="nav-icon">👤</span> Parent accounts
+    </a>
     <a href="{% url 'attendance:add_student' %}"
       class="nav-item {% if request.resolver_match.url_name == 'add_student' %}active{% endif %}">
       <span class="nav-icon">+</span> Add student

@@ -28,4 +28,9 @@ urlpatterns = [
     path("students/",         views.student_list,  name="students"),
     path("students/add/",     views.add_student,   name="add_student"),
     path("students/<int:pk>/delete/", views.delete_student, name="delete_student"),
+
+    # Parents
+    path("parents/",         views.parents_list,  name="parents_list"),
+    path("parents/add/",     views.create_parent, name="create_parent"),
+    path("parents/<int:pk>/delete/", views.delete_parent, name="delete_parent"),
 ]

@@ -1,0 +1,150 @@
+{% extends "attendance/base.html" %}
+{% load static %}
+{% block title %}My Child's Attendance — Holbos AttendERP{% endblock %}
+
+{% block content %}
+<style>
+  .parent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .child-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .child-av {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(212, 32, 138, .15);
+    border: 1px solid rgba(212, 32, 138, .25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--mag);
+    flex-shrink: 0;
+  }
+
+  @media(max-width:640px) {
+    .parent-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="page-hd" style="display:flex;align-items:center;gap:1.25rem">
+  <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" style="width:64px;height:64px;object-fit:contain">
+  <div>
+    <h1>Welcome, {{ user.full_name|default:user.username }} 👋</h1>
+    <p>Here is your child's attendance overview — {% now "l, j F Y" %}</p>
+  </div>
+</div>
+
+
+<div class="stats-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+  <div class="stat-card" style="background:#eff6ff;border-color:#dbeafe">
+    <div class="stat-num" style="color:#2563eb">{{ children.count }}</div>
+    <div class="stat-lbl" style="color:#1e40af">Linked Student{{ children.count|pluralize }}</div>
+  </div>
+  <div class="stat-card" style="background:#ecfdf5;border-color:#d1fae5">
+    <div class="stat-num" style="color:#059669">{{ total_present }}</div>
+    <div class="stat-lbl" style="color:#065f46">Total Present</div>
+  </div>
+  <div class="stat-card" style="background:#fef2f2;border-color:#fee2e2">
+    <div class="stat-num" style="color:#dc2626">{{ total_absent }}</div>
+    <div class="stat-lbl" style="color:#991b1b">Total Absent</div>
+  </div>
+</div>
+
+
+{% if children %}
+<div class="parent-grid">
+  {% for child in children %}
+  {% with child_records=records|dictsortreversed:"session.date" %}
+  <div class="child-card">
+    <div class="child-av">{{ child.name|first|upper }}</div>
+    <div>
+      <div style="font-weight:800;font-size:.95rem">{{ child.name }}</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:2px">{{ child.student_class }}</div>
+      {% if child.roll_number %}
+      <div style="font-size:.72rem;color:var(--muted)">Roll: {{ child.roll_number }}</div>
+      {% endif %}
+    </div>
+  </div>
+  {% endwith %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="card" style="text-align:center;padding:2.5rem;color:var(--muted);font-size:.85rem;margin-bottom:1.5rem">
+  No children linked to your account yet. Please contact your trainer to link your child.
+</div>
+{% endif %}
+
+
+<div class="card">
+  <div
+    style="font-size:.82rem;font-weight:800;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.1rem">
+    Attendance history
+  </div>
+
+  {% if records %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Student</th>
+          <th>Class</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td style="color:var(--muted)">{{ forloop.counter }}</td>
+          <td>{{ r.session.date|date:"d/m/Y" }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="stu-av" style="width:24px;height:24px;font-size:.6rem">{{ r.student.name|first }}</div>
+              {{ r.student.name }}
+            </div>
+          </td>
+          <td style="color:var(--muted)">{{ r.session.student_class }}</td>
+          <td>
+            {% if r.status == "Present" %}
+            <span class="badge badge-green">Present</span>
+            {% else %}
+            <span class="badge badge-red">Absent</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="text-align:center;padding:2rem;color:var(--muted);font-size:.82rem">
+    No attendance records yet. Check back after the trainer marks attendance.
+  </div>
+  {% endif %}
+</div>
+
+
+<div style="margin-top:1.5rem;text-align:center">
+  <a href="{% url 'attendance:logout' %}" class="btn btn-ghost" style="font-size:.78rem">Sign out</a>
+</div>
+{% endblock %} 
+
+

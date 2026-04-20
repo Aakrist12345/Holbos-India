@@ -48,3 +48,39 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model  = Student
         fields = ["name", "student_class", "roll_number", "parent_email"]
+
+
+class ParentCreateForm(forms.Form):
+    full_name = forms.CharField(max_length=200)
+    username  = forms.CharField(max_length=100)
+    email     = forms.EmailField()
+    password1 = forms.CharField(widget=forms.PasswordInput, min_length=6)
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+
+    def clean_username(self):
+        uname = self.cleaned_data["username"]
+        if Trainer.objects.filter(username=uname).exists():
+            raise forms.ValidationError("Username already taken.")
+        return uname
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if Trainer.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already associated with an account.")
+        return email
+
+    def clean(self):
+        cd = super().clean()
+        if cd.get("password1") != cd.get("password2"):
+            raise forms.ValidationError("Passwords do not match.")
+        return cd
+
+    def save(self):
+        cd = self.cleaned_data
+        parent = Trainer.objects.create_user(
+            username=cd["username"],
+            email=cd["email"],
+            password=cd["password1"],
+            full_name=cd["full_name"]
+        )
+        return parent
