@@ -46,7 +46,6 @@
       overflow-x: hidden;
     }
 
-    /* ── BG ── */
     .bg-fixed {
       position: fixed;
       inset: 0;
@@ -55,7 +54,6 @@
       background: var(--bg);
     }
 
-    /* ── NAVBAR ── */
     .navbar {
       position: fixed;
       top: 0;
@@ -95,7 +93,6 @@
       color: var(--primary);
     }
 
-    /* Parent badge in navbar */
     .nav-parent-tag {
       display: inline-flex;
       align-items: center;
@@ -164,14 +161,12 @@
       background: var(--primary-light);
     }
 
-    /* ── PAGE BODY ── */
     .page-body {
       padding-top: var(--nav-h);
       position: relative;
       z-index: 1;
     }
 
-    /* ── HERO ── */
     .hero {
       text-align: center;
       padding: 2.5rem 1rem 1rem;
@@ -199,7 +194,6 @@
       color: var(--muted);
     }
 
-    /* ── READ-ONLY BANNER ── */
     .readonly-banner {
       max-width: 900px;
       margin: 1.2rem auto 0;
@@ -225,14 +219,12 @@
       flex-shrink: 0;
     }
 
-    /* ── SECTION WRAPPER ── */
     .sections {
       max-width: 900px;
       margin: 0 auto;
       padding: 2rem 1.5rem 3rem;
     }
 
-    /* ── SECTION HEADER ── */
     .sec-header {
       display: flex;
       align-items: center;
@@ -265,7 +257,6 @@
       margin-top: 2px;
     }
 
-    /* ── CARD BOX ── */
     .box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -277,7 +268,6 @@
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
 
-    /* ── STUDENT SELECTOR ── */
     .student-tabs {
       display: flex;
       gap: 8px;
@@ -319,7 +309,6 @@
       color: #fff;
     }
 
-    /* ── STAT GRID ── */
     .stat-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -364,11 +353,6 @@
       margin-top: 0.3rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-    }
-
-    /* ── PERFORMANCE DASHBOARD ── */
-    #perfHeaderRight {
-      margin-left: auto;
     }
 
     .btn-admin-login {
@@ -441,7 +425,7 @@
       display: none;
     }
 
-    /* Admin Modal Fields */
+  
     .field {
       margin-bottom: 1.2rem;
       text-align: left;
@@ -516,7 +500,6 @@
       }
     }
 
-    /* ── ATTENDANCE CALENDAR ── */
     .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -569,7 +552,6 @@
       background: transparent;
     }
 
-    /* Legend */
     .cal-legend {
       display: flex;
       gap: 1rem;
@@ -604,7 +586,6 @@
       border: 1px solid var(--border);
     }
 
-    /* ── PROGRESS RING ── */
     .progress-row {
       display: flex;
       align-items: center;
@@ -668,7 +649,7 @@
       color: var(--red);
     }
 
-    /* ── BAR CHART ── */
+  
     .bar-title {
       font-size: 0.68rem;
       font-weight: 800;
@@ -712,7 +693,6 @@
       min-width: 14px;
     }
 
-    /* ── COURSES LIST ── */
     .course-list {
       display: flex;
       flex-direction: column;
@@ -780,7 +760,6 @@
       transition: width 1.3s var(--ease);
     }
 
-    /* ── LOCKED ACTIONS PANEL ── */
     .locked-panel {
       background: #fef2f2;
       border: 1px solid #fee2e2;
@@ -832,7 +811,6 @@
       font-size: 0.62rem;
     }
 
-    /* ── PROJECTS ── */
     .proj-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -908,7 +886,6 @@
       margin-top: 0.3rem;
     }
 
-    /* Footer */
     footer {
       text-align: center;
       padding: 1.5rem;
@@ -944,6 +921,22 @@
         display: none;
       }
     }
+  
+    .btn-weekend-slot {
+      padding: 0.75rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-weekend-slot:hover {
+      background: #1e40af;
+    }
+
   </style>
 </head>
 
@@ -951,7 +944,6 @@
 
   <div class="bg-fixed"></div>
 
-  <!-- ── NAVBAR ── -->
   <nav class="navbar">
     <a href="/" class="nav-brand">
       <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="brand-logo">
@@ -963,44 +955,79 @@
         <div class="nav-avatar" id="navInitial">P</div>
         <span class="nav-username">{{ request.user.username }}</span>
       </div>
-      <a href="{% url 'logout' %}" class="btn-logout">Logout &#8594;</a>
+      <a href="{% url 'accounts:logout' %}" class="btn-logout">Logout &#8594;</a>
     </div>
   </nav>
 
   <div class="page-body">
 
-    <!-- ── HERO ── -->
     <div class="hero">
       <div class="hero-greeting">
         <span class="hello">Hello, </span><span class="uname">{{ user.get_full_name|default:user.username }}</span>
       </div>
-      <p class="hero-sub">Here's your child's learning overview &mdash; read-only parent access.</p>
+      <p class="hero-sub">Here's your child's learning overview - read-only parent access.</p>
     </div>
 
-    <!-- ── READ-ONLY NOTICE ── -->
     <div class="readonly-banner">
       <div class="readonly-strip">
         <span class="readonly-icon">&#128274;</span>
-        <span>You have <strong>read-only</strong> access. You can view attendance, progress and learning content &mdash;
+        <span>You have <strong>read-only</strong> access. You can view attendance and performance analytics -
           but cannot mark attendance, edit records or upload content.</span>
       </div>
     </div>
 
     <div class="sections">
-
-      <!-- ── STUDENT SELECTOR ── -->
+      
       <div class="student-tabs" id="studentTabs">
-        <!-- Rendered from Django context: {% for child in children %} -->
-        <div class="s-tab active" onclick="selectStudent(this, 0)">
-          <div class="s-tab-avatar">A</div>
-          {{ children.0.first_name|default:"Child 1" }}
+        {% for child in children %}
+        <div class="s-tab {% if forloop.first %}active{% endif %}" onclick="selectStudent(this, '{{ child.id }}')">
+          <div class="s-tab-avatar">{{ child.name|slice:":1"|upper }}</div>
+          {{ child.name }}
         </div>
-        <!-- Add more children if linked -->
+        {% empty %}
+        <div class="s-tab active">
+          <div class="s-tab-avatar">?</div>
+          No children linked
+        </div>
+        {% endfor %}
       </div>
 
-      <!-- ══════════════════════════════════════
-         SECTION 1: ATTENDANCE
-    ════════════════════════════════════════ -->
+      <div class="box" id="weekendBookingBox" style="display:none; border: 2px solid #3b82f6; background: #eff6ff;">
+        <div class="sec-header">
+          <div class="sec-icon">📅</div>
+          <div>
+            <div class="sec-title" style="color:#1e3a8a">Compensation Session Booking</div>
+            <div class="sec-sub">Make-up classes for missed sessions</div>
+          </div>
+        </div>
+        
+        <div id="weekendActiveUI" style="padding: 1rem; background: #fff; border-radius: 12px; margin-top: 1rem; border: 1px solid #dbeafe;">
+          <p style="font-size: 0.85rem; color: #1e293b; margin-bottom: 0.8rem; line-height: 1.5;">
+            Our records show missed sessions on: <strong id="missedDatesList" style="color: #dc2626;"></strong>.
+          </p>
+          <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1.2rem;">
+            Since today is <strong id="weekendDayName"></strong>, you can book a make-up session for this weekend.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <button onclick="bookWeekendSlot('Saturday 11:00 AM')" class="btn-weekend-slot">Saturday 11:00 AM</button>
+            <button onclick="bookWeekendSlot('Saturday 04:00 PM')" class="btn-weekend-slot">Saturday 04:00 PM</button>
+            <button onclick="bookWeekendSlot('Sunday 11:00 AM')" class="btn-weekend-slot">Sunday 11:00 AM</button>
+            <button onclick="bookWeekendSlot('Sunday 04:00 PM')" class="btn-weekend-slot">Sunday 04:00 PM</button>
+          </div>
+        </div>
+
+        <div id="weekendWaitUI" style="display:none; padding: 1.25rem; background: #f8fafc; border-radius: 12px; margin-top: 1rem; border: 1px solid #e2e8f0; text-align: center;">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⏳</div>
+          <p style="font-size: 0.85rem; color: #64748b; font-weight: 600;">
+            Compensation booking for missed sessions is available exclusively on <strong>Saturdays and Sundays</strong>.
+          </p>
+          <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.4rem;">
+            Please revisit this dashboard during the weekend to book your slots.
+          </p>
+        </div>
+      </div>
+
       <div class="box">
         <div class="sec-header">
           <div class="sec-icon">&#128197;</div>
@@ -1010,27 +1037,25 @@
           </div>
         </div>
 
-        <!-- Summary stats -->
         <div class="stat-grid">
           <div class="stat-box">
-            <div class="stat-num green" id="attPresent">18</div>
+            <div class="stat-num green" id="attPresent">0</div>
             <div class="stat-label">Present</div>
           </div>
           <div class="stat-box">
-            <div class="stat-num red" id="attAbsent">3</div>
+            <div class="stat-num red" id="attAbsent">0</div>
             <div class="stat-label">Absent</div>
           </div>
           <div class="stat-box">
-            <div class="stat-num amber" id="attTotal">21</div>
+            <div class="stat-num amber" id="attTotal">0</div>
             <div class="stat-label">Total Sessions</div>
           </div>
           <div class="stat-box">
-            <div class="stat-num purple" id="attPct">86%</div>
+            <div class="stat-num purple" id="attPct">0%</div>
             <div class="stat-label">Attendance %</div>
           </div>
         </div>
 
-        <!-- Calendar view -->
         <div class="cal-grid" id="calGrid">
           <div class="cal-day-label">Mon</div>
           <div class="cal-day-label">Tue</div>
@@ -1039,7 +1064,7 @@
           <div class="cal-day-label">Fri</div>
           <div class="cal-day-label">Sat</div>
           <div class="cal-day-label">Sun</div>
-          <!-- Days filled by JS -->
+
         </div>
 
         <div class="cal-legend">
@@ -1054,14 +1079,10 @@
           </div>
         </div>
 
-        <!-- Weekly bar -->
         <div class="bar-title">This Week's Attendance</div>
         <div id="weekBars"></div>
       </div>
 
-      <!-- ══════════════════════════════════════
-         SECTION 2: PERFORMANCE DASHBOARD (Admin-gated)
-    ════════════════════════════════════════ -->
       <div class="box">
         <div class="sec-header">
           <div class="sec-icon">&#128200;</div>
@@ -1069,295 +1090,177 @@
             <div class="sec-title">Performance Dashboard</div>
             <div class="sec-sub">Attendance analytics &amp; insights</div>
           </div>
-          <div id="perfHeaderRight">
-            <a href="{% url 'attendance:erp' %}?autologin=true&user={{ request.user.username }}" class="btn-admin-login"
-              style="text-decoration:none" target="_blank">
-              <svg
-                style="width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"
-                viewBox="0 0 24 24">
-                <rect x="3" y="11" width="18" height="11" rx="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              Admin Login
-            </a>
-          </div>
         </div>
 
-        <!-- Locked state (shown to parents by default) -->
-        <div id="perfLocked">
-          <div class="locked-panel" style="text-align:center;padding:2rem 1.4rem">
-            <div style="font-size:1.8rem;margin-bottom:.6rem">&#128274;</div>
-            <div style="font-size:.86rem;font-weight:800;color:#b91c1c;margin-bottom:.3rem">Restricted — Admin Access
-              Only</div>
-            <div style="font-size:.75rem;color:#64748b">Attendance performance data is visible to administrators only.
-            </div>
-          </div>
-        </div>
-
-        <!-- Admin-only content (hidden until login) -->
-        <div id="perfAdmin" style="display:none">
-          <div
-            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
-            <span
-              style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274;
-              Admin session active</span>
-            <button onclick="adminLogout()"
-              style="background:none;border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit">Sign
-              out</button>
+        <div id="perfAdmin">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
+            <span style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274; Trainer session active</span>
           </div>
 
-          <!-- Stats -->
           <div class="stat-grid">
             <div class="stat-box">
-              <div class="stat-num green" id="perfPresent">18</div>
+              <div class="stat-num green" id="perfPresent">0</div>
               <div class="stat-label">Present</div>
             </div>
             <div class="stat-box">
-              <div class="stat-num red" id="perfAbsent">3</div>
+              <div class="stat-num red" id="perfAbsent">0</div>
               <div class="stat-label">Absent</div>
             </div>
             <div class="stat-box">
-              <div class="stat-num amber" id="perfTotal">21</div>
+              <div class="stat-num amber" id="perfTotal">0</div>
               <div class="stat-label">Total Sessions</div>
             </div>
             <div class="stat-box">
-              <div class="stat-num purple" id="perfPct">86%</div>
+              <div class="stat-num purple" id="perfPct">0%</div>
               <div class="stat-label">Attendance %</div>
             </div>
           </div>
 
-          <!-- Class bars -->
           <div class="bar-title">Class-wise attendance rate</div>
           <div id="perfBars"></div>
         </div>
       </div>
-
-      <!-- ══════════════════════════════════════
-         SECTION 3: LEARNING CONTENT (view-only)
-    ════════════════════════════════════════ -->
-      <div class="box">
-        <div class="sec-header">
-          <div class="sec-icon">&#128218;</div>
-          <div>
-            <div class="sec-title">Learning Modules</div>
-            <div class="sec-sub">Your child's enrolled courses &mdash; view only</div>
-          </div>
-        </div>
-        <div class="course-list">
-          <div class="course-row">
-            <div class="course-icon">&#9876;&#65039;</div>
-            <div>
-              <div class="course-name">Chhatrapati Shivaji Maharaj</div>
-              <span class="course-tag">History</span>
-            </div>
-            <div class="course-prog">
-              <div class="course-pct">75%</div>
-              <div class="course-bar-mini">
-                <div class="course-bar-fill" style="width:0%" data-w="75"></div>
-              </div>
-            </div>
-          </div>
-          <div class="course-row">
-            <div class="course-icon">&#129302;</div>
-            <div>
-              <div class="course-name">Doraemon &amp; Gadgets</div>
-              <span class="course-tag">Anime &amp; Tech</span>
-            </div>
-            <div class="course-prog">
-              <div class="course-pct">50%</div>
-              <div class="course-bar-mini">
-                <div class="course-bar-fill" style="width:0%" data-w="50"></div>
-              </div>
-            </div>
-          </div>
-          <div class="course-row">
-            <div class="course-icon">&#128218;</div>
-            <div>
-              <div class="course-name">Learning Blocks</div>
-              <span class="course-tag">Education</span>
-            </div>
-            <div class="course-prog">
-              <div class="course-pct">30%</div>
-              <div class="course-bar-mini">
-                <div class="course-bar-fill" style="width:0%" data-w="30"></div>
-              </div>
-            </div>
-          </div>
-          <div class="course-row">
-            <div class="course-icon">&#127807;</div>
-            <div>
-              <div class="course-name">Science &amp; Nature</div>
-              <span class="course-tag">Science</span>
-            </div>
-            <div class="course-prog">
-              <div class="course-pct">20%</div>
-              <div class="course-bar-mini">
-                <div class="course-bar-fill" style="width:0%" data-w="20"></div>
-              </div>
-            </div>
-          </div>
-          <div class="course-row">
-            <div class="course-icon">&#127912;</div>
-            <div>
-              <div class="course-name">Art &amp; Creativity</div>
-              <span class="course-tag">Creative</span>
-            </div>
-            <div class="course-prog">
-              <div class="course-pct">10%</div>
-              <div class="course-bar-mini">
-                <div class="course-bar-fill" style="width:0%" data-w="10"></div>
-              </div>
-            </div>
-          </div>
-          <div class="course-row">
-            <div class="course-icon">&#128290;</div>
-            <div>
-              <div class="course-name">Mathematics</div>
-              <span class="course-tag">Math</span>
-            </div>
-            <div class="course-prog">
-              <div class="course-pct">5%</div>
-              <div class="course-bar-mini">
-                <div class="course-bar-fill" style="width:0%" data-w="5"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════
-         SECTION 4: RESTRICTED ACTIONS
-    ════════════════════════════════════════ -->
-      <div class="locked-panel">
-        <div class="locked-title">&#128274; Actions Restricted for Parent Account</div>
-        <div class="locked-grid">
-          <div class="locked-item">
-            <div class="locked-item-icon">&#9998;</div>
-            <div class="locked-item-text">Mark Attendance</div>
-            <div class="lock-badge">&#128274;</div>
-          </div>
-          <div class="locked-item">
-            <div class="locked-item-icon">&#128190;</div>
-            <div class="locked-item-text">Edit Attendance Records</div>
-            <div class="lock-badge">&#128274;</div>
-          </div>
-          <div class="locked-item">
-            <div class="locked-item-icon">&#128228;</div>
-            <div class="locked-item-text">Upload Content</div>
-            <div class="lock-badge">&#128274;</div>
-          </div>
-          <div class="locked-item">
-            <div class="locked-item-icon">&#9881;&#65039;</div>
-            <div class="locked-item-text">Edit Student Profile</div>
-            <div class="lock-badge">&#128274;</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /sections -->
-  </div><!-- /page-body -->
-
-  <footer>
-    <p>&copy; 2025 <span>Holbos</span> &middot; Parent Portal &middot; Read-Only Access</p>
-  </footer>
-
-  <script>
-    /* ── Nav initial ── */
-    const uname = "{{ request.user.username }}";
+    </div>
+  </div>
+<script>
+    const uname = "{{ request.user.username|escapejs }}";
     document.getElementById('navInitial').textContent = uname.charAt(0).toUpperCase();
 
-    /* ── Calendar build ── */
+    const childStats = JSON.parse('{{ child_stats_json|escapejs }}');
+    let currentChildId = Object.keys(childStats)[0] || null;
+
     const cal = document.getElementById('calGrid');
-    // April 2025 starts on Tuesday (index 1), 30 days
-    const firstDay = 1; // 0=Mon … 6=Sun
-    const totalDays = 30;
-    // Mock attendance: 1=present, 0=absent, null=no session (weekend)
-    const attendanceMap = {
-      1: 1, 2: 1, 3: 0, 4: 1, 7: 1, 8: 1, 9: 1, 10: 0, 11: 1,
-      14: 1, 15: 1, 16: 1, 17: 1, 18: 1, 21: 0, 22: 1, 23: 1, 24: 1, 25: 1,
-      28: 1, 29: 1, 30: 1
-    };
-    // Add empty offset cells
-    for (let i = 0; i < firstDay; i++) {
-      const e = document.createElement('div');
-      e.className = 'cal-cell empty'; cal.appendChild(e);
+    const firstDay = parseInt("{{ first_day|default:0 }}");
+    const totalDays = parseInt("{{ total_days_month|default:30 }}");
+
+    function renderDashboard(childId) {
+      if (!childId || !childStats[childId]) return;
+      const data = childStats[childId];
+
+      document.getElementById('attPresent').textContent = data.present;
+      document.getElementById('attAbsent').textContent = data.absent;
+      document.getElementById('attTotal').textContent = data.total;
+      document.getElementById('attPct').textContent = data.pct + '%';
+
+      document.getElementById('perfPresent').textContent = data.present;
+      document.getElementById('perfAbsent').textContent = data.absent;
+      document.getElementById('perfTotal').textContent = data.total;
+      document.getElementById('perfPct').textContent = data.pct + '%';
+
+      renderCalendar(data.attendance_map);
+      checkWeekendBooking(data);
+      renderWeekBars(data.weekly_history);
+      buildPerfBars(data);
     }
-    for (let d = 1; d <= totalDays; d++) {
-      const c = document.createElement('div');
-      c.className = 'cal-cell';
-      const isWeekend = ((d + firstDay - 1) % 7 >= 5);
-      if (isWeekend) {
-        c.classList.add('empty');
-        c.textContent = '';
-      } else {
+
+    function renderCalendar(attendanceMap) {
+      cal.innerHTML = `
+        <div class="cal-day-label">Mon</div><div class="cal-day-label">Tue</div>
+        <div class="cal-day-label">Wed</div><div class="cal-day-label">Thu</div>
+        <div class="cal-day-label">Fri</div><div class="cal-day-label">Sat</div>
+        <div class="cal-day-label">Sun</div>
+      `;
+      for (let i = 0; i < firstDay; i++) {
+        const e = document.createElement('div');
+        e.className = 'cal-cell empty'; cal.appendChild(e);
+      }
+      for (let d = 1; d <= totalDays; d++) {
+        const c = document.createElement('div');
+        c.className = 'cal-cell';
         c.textContent = d;
         if (attendanceMap[d] === 1) c.classList.add('present');
         else if (attendanceMap[d] === 0) c.classList.add('absent');
+        cal.appendChild(c);
       }
-      if (d === 13) c.classList.add('today');
-      cal.appendChild(c);
     }
 
-    /* ── Weekly bars ── */
-    const week = [
-      { day: 'Mon', ok: 1 }, { day: 'Tue', ok: 1 },
-      { day: 'Wed', ok: 1 }, { day: 'Thu', ok: 0 }, { day: 'Fri', ok: 1 }
-    ];
-    const wb = document.getElementById('weekBars');
-    week.forEach(w => {
-      wb.innerHTML += `
-      <div class="bar-row">
-        <span class="bar-day">${w.day}</span>
-        <div class="bar-track">
-          <div class="bar-fill" style="width:0%;background:${w.ok ? 'var(--primary)' : 'rgba(239,68,68,.5)'}" data-w="${w.ok ? 100 : 22}"></div>
-        </div>
-        <span class="bar-icon" style="color:${w.ok ? '#22C55E' : '#EF4444'}">${w.ok ? '✓' : '✗'}</span>
-      </div>`;
-    });
-
-    /* ── Animate all bars on load ── */
-    window.addEventListener('load', () => {
+    function renderWeekBars(history) {
+      const wb = document.getElementById('weekBars');
+      if (!wb) return;
+      wb.innerHTML = '';
+      if (!history || history.length === 0) {
+        wb.innerHTML = '<p style="font-size:0.75rem; color:var(--muted); padding:1rem 0;">No recent records found.</p>';
+        return;
+      }
+      history.forEach(w => {
+        wb.innerHTML += `
+        <div class="bar-row">
+          <span class="bar-day">${w.day}</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:0%; background:${w.ok ? 'var(--primary)' : 'rgba(239,68,68,.5)'}" data-w="${w.ok ? 100 : 22}"></div>
+          </div>
+          <span class="bar-icon" style="color:${w.ok ? '#22C55E' : '#EF4444'}">${w.ok ? '✓' : '✗'}</span>
+        </div>`;
+      });
       setTimeout(() => {
-        document.querySelectorAll('.bar-fill, .proj-fill, .course-bar-fill').forEach(el => {
-          el.style.width = (el.dataset.w || 0) + '%';
+        wb.querySelectorAll('.bar-fill').forEach(el => {
+          el.style.width = el.dataset.w + '%';
         });
-        buildPerfBars();
-      }, 200);
-    });
+      }, 50);
+    }
 
-    function selectStudent(el, idx) {
+    function selectStudent(el, childId) {
       document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
-      // In real Django: reload with ?child_id=idx or use AJAX
+      currentChildId = childId;
+      renderDashboard(childId);
     }
 
-    /* ── Performance Dashboard Logic ── */
-    const PERF_CLASSES = [
-      { label: 'Class 1', pct: 91 }, { label: 'Class 3', pct: 83 },
-      { label: 'Class 5', pct: 76 }, { label: 'Class 7', pct: 68 },
-      { label: 'Class 10', pct: 86 }
-    ];
-
-    function buildPerfBars() {
+    function buildPerfBars(data) {
       const container = document.getElementById('perfBars');
       if (!container) return;
-      container.innerHTML = PERF_CLASSES.map(r => `
+      const pct = data.pct;
+      container.innerHTML = `
       <div class="bar-row">
-        <span class="bar-day" style="width:72px;font-size:.68rem;color:var(--muted)">${r.label}</span>
-        <div class="bar-track"><div class="bar-fill" style="width:0%" data-w="${r.pct}"></div></div>
-        <span style="font-size:.68rem;font-weight:700;color:var(--muted);min-width:32px;text-align:right">${r.pct}%</span>
-      </div>`).join('');
+        <span class="bar-day" style="width:72px;font-size:.68rem;color:var(--muted)">Attendance</span>
+        <div class="bar-track"><div class="bar-fill" style="width:0%" data-w="${pct}"></div></div>
+        <span style="font-size:.68rem;font-weight:700;color:var(--muted);min-width:32px;text-align:right">${pct}%</span>
+      </div>`;
       setTimeout(() => {
-        document.querySelectorAll('#perfAdmin .bar-fill').forEach(el => {
+        container.querySelectorAll('.bar-fill').forEach(el => {
           const v = parseInt(el.dataset.w);
           el.style.width = v + '%';
           el.style.background = v >= 80 ? '#16a34a' : v >= 65 ? '#d97706' : '#dc2626';
         });
       }, 100);
     }
-  </script>
 
-  <!-- ADMIN MODAL REMOVED - NOW REDIRECTS TO ATTENDANCE LOGIN -->
+    window.addEventListener('load', () => {
+      renderDashboard(currentChildId);
+    });
+  
+    function bookWeekendSlot(slot) {
+      alert("✅ Slot booked: " + slot + ". Your trainer has been notified!");
+    }
+
+    function checkWeekendBooking(data) {
+      const today = new Date();
+      const day = today.getDay(); // 0=Sun, 6=Sat
+      const isWeekend = (day === 0 || day === 6);
+      const dayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][day];
+      
+      const bookingBox = document.getElementById('weekendBookingBox');
+      const activeUI = document.getElementById('weekendActiveUI');
+      const waitUI = document.getElementById('weekendWaitUI');
+
+      if (data.absent > 0) {
+        bookingBox.style.display = 'block';
+        if (isWeekend) {
+          waitUI.style.display = 'none';
+          document.getElementById('weekendDayName').textContent = dayName;
+          document.getElementById('missedDatesList').textContent = (data.absent_dates && data.absent_dates.length > 0) ? data.absent_dates.join(', ') : 'recent sessions';
+        } else {
+          activeUI.style.display = 'none';
+          waitUI.style.display = 'block';
+        }
+      } else {
+        bookingBox.style.display = 'none';
+      }
+    }
+
+    
+
+  </script>
 
 </body>
 

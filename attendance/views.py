@@ -9,33 +9,57 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .forms import StudentForm, TrainerLoginForm, TrainerSignupForm, ParentCreateForm
-from .models import AttendanceRecord, AttendanceSession, Student, Trainer
+from .models import AttendanceRecord, AttendanceSession, Student, Trainer, CLASS_CHOICES
 
 from django.contrib.admin.views.decorators import staff_member_required
-
-
-# ─────────────────────────────────────────────
-# AUTH
-# ─────────────────────────────────────────────
+from django.core.mail import send_mail
+from django.conf import settings
 
 def trainer_login(request):
+
+    if request.GET.get('autologin') == 'true' and request.GET.get('user'):
+        username = request.GET.get('user')
+        if request.user.is_authenticated and request.user.username == username:
+            if getattr(request.user, 'is_parent', False):
+                return redirect("accounts:parentsdashboard")
+            return redirect("attendance:dashboard")
+
     if request.user.is_authenticated:
+        if getattr(request.user, 'is_parent', False):
+            return redirect("accounts:parentsdashboard")
         return redirect("attendance:dashboard")
     form = TrainerLoginForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        login(request, form.trainer)
+        user = form.trainer
+        if getattr(user, 'is_parent', False):
+            from django.contrib import messages
+            messages.error(request, "Parent accounts must use the Parent Login portal.")
+            return render(request, "attendance/login.html", {"form": form})
+        login(request, user)
         return redirect("attendance:dashboard")
     return render(request, "attendance/login.html", {"form": form})
 
 def parent_login(request):
     if request.user.is_authenticated:
-        return redirect("accounts:parentsdashboard")
-    form = TrainerLoginForm(request.POST or None)
+        if getattr(request.user, 'is_parent', False):
+            return redirect("accounts:parentsdashboard")
+        return redirect("attendance:dashboard")
+    from accounts.forms import UserLoginForm
+    form = UserLoginForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        login(request, form.trainer)
-        return redirect("accounts:parentsdashboard")
-    return render(request, 'attendance/parent_login.html', {"form": form})
-
+        from django.contrib.auth import authenticate
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if getattr(user, 'is_parent', False):
+                return redirect("accounts:parentsdashboard")
+            return redirect("attendance:dashboard")
+        else:
+            from django.contrib import messages
+            messages.error(request, "Invalid username or password")
+    return render(request, 'accounts/parentslogin.html', {"form": form})
 
 def trainer_signup(request):
     if request.user.is_authenticated:
@@ -47,28 +71,22 @@ def trainer_signup(request):
         return redirect("attendance:dashboard")
     return render(request, "attendance/signup.html", {"form": form})
 
-
 def trainer_logout(request):
     logout(request)
     return redirect("attendance:login")
 
-
-# ─────────────────────────────────────────────
-# DASHBOARD
-# ─────────────────────────────────────────────
-
 @login_required(login_url="attendance:login")
 def dashboard(request):
-    """
-    Refined dashboard: Optimized queries using aggregation to avoid DB loops.
-    """
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
+    
     today = date.today()
     
-    # 1. Base Stats
+    
     total_students = Student.objects.filter(is_active=True).count()
     today_sessions = AttendanceSession.objects.filter(date=today)
     
-    # Pre-calculate counts for today using annotation
+    
     today_records = AttendanceRecord.objects.filter(session__date=today)
     stats = today_records.aggregate(
         present=Count("id", filter=Q(status="Present")),
@@ -78,8 +96,8 @@ def dashboard(request):
     absent_today  = stats["absent"] or 0
     total_sessions = AttendanceSession.objects.count()
 
-    # 2. Attendance % per class today (Optimized)
-    # Get total students per class
+    
+    
     student_counts = (
         Student.objects.filter(is_active=True)
         .values("student_class")
@@ -87,7 +105,7 @@ def dashboard(request):
     )
     student_map = {item["student_class"]: item["total"] for item in student_counts}
 
-    # Get present students per class
+    
     present_counts = (
         AttendanceRecord.objects.filter(session__date=today, status="Present")
         .values("session__student_class")
@@ -96,7 +114,7 @@ def dashboard(request):
     present_map = {item["session__student_class"]: item["present"] for item in present_counts}
 
     classes_data = []
-    for cls_name, _ in Student.student_class.field.choices:
+    for cls_name, _ in CLASS_CHOICES:
         total = student_map.get(cls_name, 0)
         if total == 0: continue
         
@@ -108,7 +126,7 @@ def dashboard(request):
             "pct": round((present / total * 100)) if total else 0
         })
 
-    # 3. Last 7 days overview (Optimized)
+    
     seven_days_ago = today - timedelta(days=6)
     history = (
         AttendanceRecord.objects.filter(session__date__gte=seven_days_ago)
@@ -119,8 +137,7 @@ def dashboard(request):
         )
         .order_by("session__date")
     )
-    
-    # Ensure we show all 7 days even if no data exists
+
     history_map = {item["session__date"]: item for item in history}
     week_data = []
     for i in range(6, -1, -1):
@@ -148,16 +165,11 @@ def dashboard(request):
 def erp_dashboard(request):
     return render(request, 'attendance/erp_dashboard.html')
 
-
-
-# ─────────────────────────────────────────────
-# MARK ATTENDANCE
-# ─────────────────────────────────────────────
-
 @login_required(login_url="attendance:login")
 def mark_attendance(request):
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
     return render(request, "attendance/mark.html")
-
 
 @login_required(login_url="attendance:login")
 def get_students_for_class(request):
@@ -182,7 +194,6 @@ def get_students_for_class(request):
         pass
 
     return JsonResponse({"students": students, "existing": existing})
-
 
 @login_required(login_url="attendance:login")
 @require_POST
@@ -217,23 +228,19 @@ def submit_attendance(request):
 
     return JsonResponse({"ok": True, "saved": saved, "session_id": session.id})
 
-
-# ─────────────────────────────────────────────
-# RECORDS
-# ─────────────────────────────────────────────
-
 @login_required(login_url="attendance:login")
 def records(request):
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
     """
     Refined records view: Direct query on AttendanceRecord with optimized joins.
     """
-    # 1. Filters
+
     cls_filter    = request.GET.get("class", "")
     status_filter = request.GET.get("status", "")
     date_from     = request.GET.get("from", "")
     date_to       = request.GET.get("to", "")
 
-    # 2. Build Query
     queryset = AttendanceRecord.objects.select_related(
         "session", "session__trainer", "student"
     ).order_by("-session__date", "student__name")
@@ -247,7 +254,6 @@ def records(request):
     if date_to:
         queryset = queryset.filter(session__date__lte=date_to)
 
-    # 3. Context
     context = {
         "records": queryset,
         "total": queryset.count(),
@@ -255,18 +261,14 @@ def records(request):
         "status_filter": status_filter,
         "date_from": date_from,
         "date_to": date_to,
-        "classes": [c[0] for c in Student.student_class.field.choices],
+        "classes": [c[0] for c in Student.student_class.field.choices] if hasattr(Student.student_class, 'field') else [c[0] for c in CLASS_CHOICES],
     }
     return render(request, "attendance/records.html", context)
 
-
-
-# ─────────────────────────────────────────────
-# STUDENT MANAGEMENT
-# ─────────────────────────────────────────────
-
 @login_required(login_url="attendance:login")
 def student_list(request):
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
     q   = request.GET.get("q", "").strip()
     cls = request.GET.get("class", "")
     students = Student.objects.filter(is_active=True).order_by("student_class", "name")
@@ -283,7 +285,6 @@ def student_list(request):
     }
     return render(request, "attendance/students.html", context)
 
-
 @login_required(login_url="attendance:login")
 def add_student(request):
     form = StudentForm(request.POST or None)
@@ -291,7 +292,6 @@ def add_student(request):
         form.save()
         return redirect("attendance:students")
     return render(request, "attendance/add_student.html", {"form": form})
-
 
 @login_required(login_url="attendance:login")
 def delete_student(request, pk):
@@ -301,31 +301,57 @@ def delete_student(request, pk):
         student.save()
     return redirect("attendance:students")
 
-
-# ─────────────────────────────────────────────
-# PARENT MANAGEMENT
-# ─────────────────────────────────────────────
-
 @login_required(login_url="attendance:login")
 def parents_list(request):
-    # Only staff/trainers should probably see this
-    parents = Trainer.objects.filter(is_staff=False).exclude(id=request.user.id).order_by("full_name")
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
+    parents = Trainer.objects.filter(is_parent=True).order_by("full_name")
     return render(request, "attendance/parents_list.html", {"parents": parents})
-
 
 @login_required(login_url="attendance:login")
 def create_parent(request):
     form = ParentCreateForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        user = form.save()
+
+        subject = 'Welcome to Holbos India - Parent Portal'
+        email_body = f'Hi {user.full_name or user.username},\n\n' \
+                     f'Your parent account has been successfully created on Holbos India AttendERP.\n' \
+                     f'You can now log in to the Parent Portal to view your child\'s attendance and performance.\n\n' \
+                     f'Login here: http://{request.get_host()}/parents-login/\n\n' \
+                     f'Best regards,\nHolbos India Team'
+        
+        try:
+            send_mail(
+                subject,
+                email_body,
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=True
+            )
+        except Exception:
+            pass
+            
         return redirect("attendance:parents_list")
     return render(request, "attendance/create_parent.html", {"form": form})
 
-
 @login_required(login_url="attendance:login")
 def delete_parent(request, pk):
+    """Toggles active status of a parent account"""
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
     parent = get_object_or_404(Trainer, pk=pk)
     if request.method == "POST":
-        parent.is_active = False
+        parent.is_active = not parent.is_active
         parent.save()
+    return redirect("attendance:parents_list")
+
+@login_required(login_url="attendance:login")
+def hard_delete_parent(request, pk):
+    """Permanently deletes a parent account"""
+    if getattr(request.user, 'is_parent', False):
+        return redirect("accounts:parentsdashboard")
+    parent = get_object_or_404(Trainer, pk=pk)
+    if request.method == "POST":
+        parent.delete()
     return redirect("attendance:parents_list")

@@ -7,7 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holbos India — Parent Login</title>
   <link rel="icon" type="image/png" href="{% static 'images/holbosLOGO.png' %}">
-  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <style>
     *,
     *::before,
@@ -18,11 +20,11 @@
     }
 
     :root {
-      --primary: #8B2FC9; 
-      --primary-hover: #6b21a8;
-      --bg: #f8fafc; 
+      --primary: #D4208A;
+      --primary-hover: #C21876;
+      --bg: #f8fafc;
       --surface: #ffffff;
-      --text: #1e293b; 
+      --text: #1e293b;
       --text-muted: #64748b;
       --border: #e2e8f0;
       --input-bg: #f1f5f9;
@@ -57,7 +59,6 @@
       box-shadow: var(--shadow);
     }
 
-    
     .logo-container {
       display: flex;
       flex-direction: column;
@@ -239,7 +240,7 @@
       padding-top: 1.5rem;
       border-top: 1px solid var(--border);
     }
-    
+
     .portal-access-title {
       font-size: 0.75rem;
       font-weight: 700;
@@ -273,7 +274,7 @@
     }
 
     .btn-portal:hover {
-      background: #f3e8ff;
+      background: #fff1f2;
       border-color: var(--primary);
       color: var(--primary);
       transform: translateY(-1px);
@@ -295,14 +296,13 @@
 <body>
   <div class="page">
     <div class="card">
-      
+
       <div class="logo-container">
         <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="logo-img">
         <div class="logo-title">Holbos ERP</div>
         <div class="logo-sub">Parent Portal</div>
       </div>
 
-      
       <div class="divider">
         <div class="divider-line"></div>
         <span class="divider-text">Sign in to view attendance</span>
@@ -310,60 +310,69 @@
       </div>
 
       {% if messages %}
-      {% for message in messages %}
-      <div class="error-box">
-        <span class="error-text">{{ message }}</span>
+      <div id="msgContainer">
+        {% for message in messages %}
+        {% if "Thanks for creating an account" not in message.message %}
+        <div class="error-box">
+          <span class="error-text">{{ message }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
       </div>
-      {% endfor %}
       {% endif %}
 
       <form method="POST">
         {% csrf_token %}
-        
+
         {% if form.non_field_errors %}
-          <div class="error-box">
-            <span class="error-text">{{ form.non_field_errors.0 }}</span>
-          </div>
+        <div class="error-box">
+          <span class="error-text">{{ form.non_field_errors.0 }}</span>
+        </div>
         {% endif %}
 
         <div class="field">
           <label for="{{ form.username.id_for_label }}">Username</label>
           <div class="input-wrap">
-            <input type="text" name="username" id="{{ form.username.id_for_label }}" 
-                   value="{{ form.username.value|default:'' }}" placeholder="Enter your parent username" 
-                   required autocomplete="username">
+            <input type="text" name="username" id="{{ form.username.id_for_label }}"
+              value="{{ form.username.value|default:'' }}" placeholder="Enter your parent username" required
+              autocomplete="username">
           </div>
           {% if form.username.errors %}
-            <span class="error-text" style="font-size: 0.75rem;">{{ form.username.errors.0 }}</span>
+          <span class="error-text" style="font-size: 0.75rem;">{{ form.username.errors.0 }}</span>
           {% endif %}
         </div>
 
         <div class="field">
           <label for="{{ form.password.id_for_label }}">Password</label>
           <div class="input-wrap">
-            <input type="password" name="password" id="pwdField" placeholder="Enter your password" 
-                   required autocomplete="current-password">
+            <input type="password" name="password" id="pwdField" placeholder="Enter your password" required
+              autocomplete="current-password">
             <button type="button" class="pwd-toggle" onclick="togglePwd()">👁</button>
           </div>
           {% if form.password.errors %}
-            <span class="error-text" style="font-size: 0.75rem;">{{ form.password.errors.0 }}</span>
+          <span class="error-text" style="font-size: 0.75rem;">{{ form.password.errors.0 }}</span>
           {% endif %}
         </div>
 
-        <button type="submit" class="btn-login">Sign In</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;margin-bottom:1.5rem">
+          <button type="submit" class="btn-login" style="margin:0;width:auto;padding:0.75rem 2rem">Sign In</button>
+          <a href="{% url 'password_reset' %}"
+            style="font-size:0.8rem;color:var(--primary);font-weight:700;text-decoration:none">Forgot Password?</a>
+        </div>
       </form>
 
+      <div class="card-footer" style="text-align:center;margin-bottom:2rem">
+        <p style="font-size:0.9rem;color:var(--text-muted)">New at Holbos? <a href="{% url 'accounts:parents_signup' %}"
+            style="color:var(--primary);font-weight:800;text-decoration:none">Create Parent Account</a></p>
+      </div>
 
       <div class="portal-access">
         <div class="portal-access-title">Other Portals</div>
-        <div class="portal-grid">
-          <a href="{% url 'accounts:login' %}" class="btn-portal">
-            👨‍🎓 Student
-          </a>
+        <div class="portal-grid" style="grid-template-columns: repeat(3, 1fr);">
           <a href="{% url 'accounts:parents_login' %}" class="btn-portal">
             👨‍👩‍👧 Parent
           </a>
-          <a href="{% url 'attendance:login' %}" class="btn-portal">
+          <a href="{% url 'attendance:trainer_login' %}" class="btn-portal">
             👨‍🏫 Trainer
           </a>
           <a href="/admin/" class="btn-portal">

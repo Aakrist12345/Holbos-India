@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import authenticate
 from .models import Trainer, Student, AttendanceRecord
 
-
 class TrainerSignupForm(forms.ModelForm):
     password  = forms.CharField(widget=forms.PasswordInput, min_length=6)
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm password")
@@ -30,7 +29,6 @@ class TrainerSignupForm(forms.ModelForm):
             trainer.save()
         return trainer
 
-
 class TrainerLoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
@@ -43,12 +41,10 @@ class TrainerLoginForm(forms.Form):
         self.trainer = user
         return cd
 
-
 class StudentForm(forms.ModelForm):
     class Meta:
         model  = Student
         fields = ["name", "student_class", "roll_number", "parent_email"]
-
 
 class ParentCreateForm(forms.Form):
     full_name = forms.CharField(max_length=200)
@@ -81,6 +77,7 @@ class ParentCreateForm(forms.Form):
             username=cd["username"],
             email=cd["email"],
             password=cd["password1"],
-            full_name=cd["full_name"]
+            full_name=cd["full_name"],
+            is_parent=True,
         )
         return parent

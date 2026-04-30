@@ -1,49 +1,386 @@
-{% extends "attendance/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Trainer Sign In — Holbos AttendERP{% endblock %}
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holbos AttendERP — Trainer Login</title>
+  <link rel="icon" type="image/png" href="{% static 'images/holbosLOGO.png' %}">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-{% block auth_content %}
-<div class="auth-outer">
-  <div class="auth-card">
-    <div class="auth-logo">
-      <div class="auth-logo-icon">📋</div>
-      <div>
-        <div
-          style="font-size:1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
-          AttendERP</div>
-        <div style="font-size:.68rem;color:var(--muted)">Holbos School System</div>
+    :root {
+      --primary: #D4208A;
+
+      --primary-hover: #8B2FC9;
+      --bg: #f8fafc;
+
+      --surface: #ffffff;
+      --text: #1e293b;
+
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --input-bg: #f1f5f9;
+      --error: #ef4444;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --radius: 12px;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      border: none;
+      border-radius: 16px;
+      background: transparent;
+      display: block;
+      margin-bottom: 1.25rem;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: translateY(-2px);
+    }
+
+    .logo-title {
+      font-family: 'Yatra One', cursive;
+      font-size: 2.5rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      background: linear-gradient(135deg, #D4208A 0%, #3B2FC9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider-text {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .error-text {
+      font-size: 0.85rem;
+      color: var(--error);
+      font-weight: 500;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(212, 32, 138, 0.1);
+    }
+
+    .pwd-toggle {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .btn-login {
+      width: 100%;
+      margin-top: 1rem;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.875rem;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-login:hover {
+      background: var(--primary-hover);
+    }
+
+    .card-footer {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .card-footer p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .card-footer a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .card-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .portal-access {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .portal-access-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .btn-portal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      background: #f8fafc;
+      transition: all 0.2s;
+    }
+
+    .btn-portal:hover {
+      background: #f3e8ff;
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .safe-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="card">
+
+      <div class="logo-container">
+        <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="logo-img">
+        <div class="logo-title">AttendERP</div>
+        <div class="logo-sub">Trainer Portal</div>
       </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">Trainer Sign In</span>
+        <div class="divider-line"></div>
+      </div>
+
+      {% if messages %}
+      {% for message in messages %}
+      <div class="error-box">
+        <span class="error-text">{{ message }}</span>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="error-box">
+          <span class="error-text">{{ form.non_field_errors.0 }}</span>
+        </div>
+        {% endif %}
+
+        <div class="field">
+          <label for="{{ form.username.id_for_label }}">Username</label>
+          <div class="input-wrap">
+            <input type="text" name="username" id="{{ form.username.id_for_label }}"
+              value="{{ form.username.value|default:'' }}" placeholder="Enter your username" required
+              autocomplete="username">
+          </div>
+          {% if form.username.errors %}
+          <span class="error-text" style="font-size: 0.75rem;">{{ form.username.errors.0 }}</span>
+          {% endif %}
+        </div>
+
+        <div class="field">
+          <label for="{{ form.password.id_for_label }}">Password</label>
+          <div class="input-wrap">
+            <input type="password" name="password" id="pwdField" placeholder="Enter your password" required
+              autocomplete="current-password">
+            <button type="button" class="pwd-toggle" onclick="togglePwd()">👁</button>
+          </div>
+          {% if form.password.errors %}
+          <span class="error-text" style="font-size: 0.75rem;">{{ form.password.errors.0 }}</span>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn-login">Sign In</button>
+      </form>
+
+      <div class="card-footer">
+        <p>Don't have an account? <a href="{% url 'attendance:signup' %}">Create one</a></p>
+      </div>
+
+      <div class="portal-access">
+        <div class="portal-access-title">Access Other Portals</div>
+        <div class="portal-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <a href="{% url 'accounts:parents_login' %}" class="btn-portal">
+            👨‍👩‍👧 Parent
+          </a>
+          <a href="{% url 'attendance:trainer_login' %}" class="btn-portal">
+            👨‍🏫 Trainer
+          </a>
+          <a href="/admin/" class="btn-portal">
+            ⚙️ Admin
+          </a>
+        </div>
+      </div>
+
+      <div class="safe-badge">🔐 Dedicated & Secure Educational Platform</div>
     </div>
-
-    <div class="auth-title">Trainer sign in</div>
-    <div class="auth-sub">Enter your credentials to access the attendance dashboard.</div>
-
-    {% if form.non_field_errors %}
-    <div class="form-errors">{{ form.non_field_errors.0 }}</div>
-    {% endif %}
-
-    <form method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <label>Username</label>
-        <input class="form-control" type="text" name="username" value="{{ form.username.value|default:'' }}"
-          placeholder="trainer.name" autocomplete="username" autofocus>
-        {% if form.username.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{
-          form.username.errors.0 }}</div>{% endif %}
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input class="form-control" type="password" name="password" placeholder="••••••••"
-          autocomplete="current-password">
-        {% if form.password.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{
-          form.password.errors.0 }}</div>{% endif %}
-      </div>
-      <button type="submit" class="btn btn-mag"
-        style="width:100%;justify-content:center;padding:.75rem;font-size:.88rem;border-radius:11px;margin-top:.5rem">Sign
-        in →</button>
-    </form>
-
-    <div class="auth-switch">Don't have an account? <a href="{% url 'attendance:signup' %}">Create one</a></div>
   </div>
-</div>
-{% endblock %}
+
+  <script>
+    function togglePwd() {
+      const f = document.getElementById('pwdField');
+      f.type = f.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+</body>
+
+</html>

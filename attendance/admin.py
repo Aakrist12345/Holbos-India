@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Trainer, Student, AttendanceSession, AttendanceRecord
 
-
 @admin.register(Trainer)
 class TrainerAdmin(UserAdmin):
     list_display  = ("username", "full_name", "email", "is_staff", "date_joined")
@@ -18,7 +17,6 @@ class TrainerAdmin(UserAdmin):
         (None, {"fields": ("username", "full_name", "email", "password1", "password2")}),
     )
 
-
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display  = ("name", "student_class", "roll_number", "parent_email", "is_active")
@@ -26,19 +24,16 @@ class StudentAdmin(admin.ModelAdmin):
     search_fields = ("name", "roll_number")
     ordering      = ("student_class", "name")
 
-
 class AttendanceRecordInline(admin.TabularInline):
     model  = AttendanceRecord
     extra  = 0
     fields = ("student", "status")
-
 
 @admin.register(AttendanceSession)
 class AttendanceSessionAdmin(admin.ModelAdmin):
     list_display = ("student_class", "date", "trainer", "present_count", "absent_count")
     list_filter  = ("student_class", "date")
     inlines      = [AttendanceRecordInline]
-
 
 @admin.register(AttendanceRecord)
 class AttendanceRecordAdmin(admin.ModelAdmin):

@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-"""Proxy manage.py for running from subfolders."""
+
 
 import os
 import sys
 from pathlib import Path
 
 def main():
-    # Get the parent directory (Project Root) and add it to sys.path
+    
     project_root = str(Path(__file__).resolve().parent.parent)
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
@@ -22,8 +21,7 @@ def main():
             "activate a virtual environment?"
         ) from exc
 
-    execute_from_command_line(sys.argv)
-
+    execute_from_command_line(sys.argv) 
 
 if __name__ == "__main__":
     main()

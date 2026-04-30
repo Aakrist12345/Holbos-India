@@ -1,1876 +1,3023 @@
 <!DOCTYPE html>
+
 {% load static %}
+
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Holbos India – Dashboard</title>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
     rel="stylesheet">
+
   <style>
     *,
+
     *::before,
+
     *::after {
+
       box-sizing: border-box;
+
       margin: 0;
+
       padding: 0
     }
 
     :root {
+
       --primary: #D4208A;
-      /* Vibrant Magenta */
+
+    
+
       --primary-hover: #8B2FC9;
+
       --primary-light: #FCE7F3;
+
       --bg: #f8fafc;
+
       --surface: #ffffff;
+
       --text: #1e293b;
+
       --muted: #64748b;
+
       --border: #e2e8f0;
+
       --success: #10b981;
+
       --danger: #ef4444;
+
       --warning: #f59e0b;
+
       --nav-h: 68px;
+
       --grad: linear-gradient(135deg, #FF00CC 0%, #3333FF 100%);
+
       --ease: cubic-bezier(.23, 1, .32, 1);
+
       --shadow-sm: 0 1px 12px rgba(212, 32, 138, 0.1);
+
       --shadow-md: 0 8px 32px rgba(212, 32, 138, 0.15);
+
     }
 
     html {
+
       scroll-behavior: smooth
     }
 
     body {
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       background: var(--bg);
+
       color: var(--text);
+
       min-height: 100vh;
+
       overflow-x: hidden
     }
 
-    /* ══ WELCOME ══ */
     .w-overlay {
+
       position: fixed;
+
       inset: 0;
+
       z-index: 9999;
+
       background: rgba(248, 250, 252, 0.95);
+
       backdrop-filter: blur(8px);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center
     }
 
     .w-card {
+
       background: var(--surface);
+
       border: 1px solid var(--border);
+
       border-radius: 28px;
+
       padding: 3rem;
+
       text-align: center;
+
       max-width: 440px;
+
       width: 90%;
+
       position: relative;
+
       box-shadow: var(--shadow-md);
+
       animation: popIn .6s .15s var(--ease) both
     }
 
     @keyframes popIn {
+
       from {
+
         opacity: 0;
+
         transform: scale(.88) translateY(20px)
       }
 
       to {
+
         opacity: 1;
+
         transform: none
       }
+
     }
 
     .wlogo-img {
+
       width: 88px;
+
       height: 88px;
+
       object-fit: contain;
+
       border: 2px solid transparent;
+
       background: transparent;
+
       border-radius: 20px;
+
       display: block;
+
       margin: 0 auto 1.5rem;
+
       position: relative;
+
       padding: 4px;
+
       box-shadow: 0 8px 32px rgba(212, 32, 138, 0.15);
+
     }
 
     .w-hi {
+
       font-size: .75rem;
+
       font-weight: 700;
+
       color: var(--muted);
+
       letter-spacing: .15em;
+
       text-transform: uppercase;
+
       margin-bottom: .5rem
     }
 
     .w-name {
+
       font-size: clamp(1.5rem, 4vw, 2.2rem);
+
       font-weight: 800;
+
       color: var(--primary);
+
       margin-bottom: .75rem
     }
 
     .w-msg {
+
       font-size: .95rem;
+
       color: var(--muted);
+
       line-height: 1.6;
+
       margin-bottom: 2rem
     }
 
     .w-btn {
+
       background: var(--primary);
+
       color: #fff;
+
       border: none;
+
       border-radius: 12px;
+
       padding: 0.875rem 2.5rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-weight: 700;
+
       font-size: 0.95rem;
+
       cursor: pointer;
+
       transition: all .2s;
+
     }
 
     .w-btn:hover {
+
       background: var(--primary-hover);
+
       transform: translateY(-2px);
+
     }
 
-    /* ══ ABSENT BANNER ══ */
     .absent-banner {
+
       background: #fef2f2;
+
       border: 1px solid #fee2e2;
+
       border-radius: 16px;
+
       padding: 1rem 1.25rem;
+
       margin: 1rem auto;
+
       max-width: 860px;
+
       display: none;
+
       align-items: flex-start;
+
       gap: 12px;
+
       box-shadow: var(--shadow-sm);
+
     }
 
     .absent-icon {
+
       font-size: 1.4rem;
+
       flex-shrink: 0;
+
       color: var(--danger);
+
     }
 
     .absent-title {
+
       font-weight: 700;
+
       font-size: .95rem;
+
       color: var(--danger);
+
       margin-bottom: .2rem
     }
 
     .absent-msg {
+
       font-size: .85rem;
+
       color: var(--muted);
+
       line-height: 1.5
     }
 
     .book-btn {
+
       margin-top: .6rem;
+
       background: var(--danger);
+
       color: #fff;
+
       border: none;
+
       border-radius: 8px;
+
       padding: 0.5rem 1.25rem;
+
       font-family: inherit;
+
       font-weight: 700;
+
       font-size: .8rem;
+
       cursor: pointer;
+
       transition: all .2s;
+
     }
 
     .book-btn:hover {
+
       background: #b91c1c;
+
       transform: translateY(-1px);
+
     }
 
-    /* ══ NAVBAR ══ */
     .navbar {
+
       position: fixed;
+
       top: 0;
+
       left: 0;
+
       right: 0;
+
       height: var(--nav-h);
+
       z-index: 1000;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       padding: 0 2.5rem;
+
       background: var(--surface);
+
       border-bottom: 1px solid var(--border);
+
       box-shadow: var(--shadow-sm);
+
     }
 
     .navbar.scrolled {
+
       background: var(--surface);
+
       box-shadow: var(--shadow-md);
+
     }
 
     .nav-brand {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       text-decoration: none
     }
 
     .brand-logo {
+
       width: 38px;
+
       height: 38px;
+
       object-fit: contain;
+
       padding: 3px;
+
       background: transparent;
+
       border-radius: 10px;
+
       display: block;
+
       flex-shrink: 0;
+
       box-shadow: 0 4px 12px rgba(212, 32, 138, 0.1);
+
     }
 
-
     .brand-name,
+
     .footer-brand {
+
       font-family: 'Yatra One', cursive;
+
       background: var(--grad);
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
       background-clip: text;
+
     }
 
     .brand-name {
+
       font-size: 1.25rem;
+
       color: var(--primary);
+
     }
 
     .footer-brand {
+
       font-size: 1.95rem;
+
     }
 
     .nav-links {
+
       display: flex;
+
       align-items: center;
+
       gap: 2px;
+
       list-style: none
     }
 
     .nav-links a {
+
       text-decoration: none;
+
       color: var(--muted);
+
       font-size: .78rem;
+
       font-weight: 700;
+
       padding: .4rem .85rem;
+
       border-radius: 8px;
+
       letter-spacing: .06em;
+
       text-transform: uppercase;
+
       transition: all .2s
     }
 
     .nav-links a:hover,
+
     .nav-links a.active {
+
       color: var(--primary);
+
       background: var(--primary-light)
     }
 
     .nav-right {
+
       display: flex;
+
       align-items: center;
+
       gap: .75rem
     }
 
     .nav-user {
+
       display: flex;
+
       align-items: center;
+
       gap: 8px;
+
       padding: .3rem .8rem .3rem .4rem;
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       border-radius: 50px
     }
 
     .nav-avatar {
+
       width: 28px;
+
       height: 28px;
+
       border-radius: 50%;
+
       background: var(--primary);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       font-size: .7rem;
+
       font-weight: 800;
+
       color: #fff
     }
 
     .nav-username {
+
       font-size: .8rem;
+
       font-weight: 700;
+
       color: var(--text)
     }
 
     .btn-logout {
+
       background: var(--primary);
+
       color: #fff;
+
       border: none;
+
       border-radius: 50px;
+
       padding: .42rem 1.1rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-weight: 700;
+
       font-size: .78rem;
+
       text-decoration: none;
+
       letter-spacing: .05em;
+
       transition: all .2s;
+
     }
 
     .btn-logout:hover {
+
       background: var(--primary-hover);
+
       transform: translateY(-1px);
+
     }
 
     .hamburger {
+
       display: none;
+
       flex-direction: column;
+
       gap: 5px;
+
       padding: 4px;
+
       background: none;
+
       border: none;
+
       cursor: pointer
     }
 
     .hamburger span {
+
       display: block;
+
       width: 22px;
+
       height: 2px;
+
       background: var(--primary);
+
       border-radius: 2px;
+
       transition: all .3s
     }
 
     .hamburger.open span:nth-child(1) {
+
       transform: rotate(45deg) translate(5px, 5px)
     }
 
     .hamburger.open span:nth-child(2) {
+
       opacity: 0
     }
 
     .hamburger.open span:nth-child(3) {
+
       transform: rotate(-45deg) translate(5px, -5px)
     }
 
     .mobile-menu {
+
       display: none;
+
       position: fixed;
+
       top: var(--nav-h);
+
       left: 0;
+
       right: 0;
+
       background: var(--surface);
+
       border-bottom: 1px solid var(--border);
+
       box-shadow: var(--shadow-md);
+
       padding: 1rem 1.5rem;
+
       z-index: 999;
+
       flex-direction: column;
+
       gap: .2rem
     }
 
     .mobile-menu.open {
+
       display: flex
     }
 
     .mobile-menu a {
+
       text-decoration: none;
+
       color: var(--muted);
+
       font-weight: 600;
+
       font-size: .9rem;
+
       padding: .75rem .5rem;
+
       border-bottom: 1px solid var(--border);
+
       text-transform: uppercase;
+
       letter-spacing: .06em;
+
       transition: color .2s
     }
 
     .mobile-menu a:last-child {
+
       border-bottom: none
     }
 
     .mobile-menu a:hover {
+
       color: var(--primary)
     }
 
-    /* ══ PAGE ══ */
     .page-body {
+
       padding-top: var(--nav-h)
     }
 
     .hero-greeting {
+
       text-align: center;
+
       padding: 2rem 1rem .25rem;
+
       position: relative
     }
 
     .greeting-text {
+
       font-size: clamp(1.6rem, 4vw, 2.8rem);
+
       font-weight: 800;
+
       line-height: 1.15;
+
       position: relative;
+
       z-index: 1;
+
       color: var(--text);
+
     }
 
     .greeting-text .hello {
+
       color: var(--muted);
+
       font-weight: 500
     }
 
     .greeting-text .uname {
+
       color: var(--primary);
+
     }
 
     .greeting-sub {
+
       font-size: .88rem;
+
       color: var(--muted);
+
       margin-top: .35rem;
+
       position: relative;
+
       z-index: 1
     }
 
-    /* ══ SPIDER ══ */
-    #home {
       padding: 0
     }
 
     .spider-wrapper {
+
       position: relative;
+
       width: 100%;
+
       height: 740px;
+
       overflow: hidden
     }
 
     .spider-wrapper::before {
+
       content: '';
+
     }
 
     .mandala-rings {
+
       position: absolute;
+
       top: 50%;
+
       left: 50%;
+
       transform: translate(-50%, -50%);
+
       pointer-events: none;
+
       z-index: 0
     }
 
     .m-ring {
+
       position: absolute;
+
       border-radius: 50%;
+
       top: 50%;
+
       left: 50%;
+
       transform: translate(-50%, -50%)
     }
 
     .m-ring:nth-child(1) {
+
       width: 190px;
+
       height: 190px;
+
       border: 1px solid rgba(30, 58, 138, .05);
+
       animation: mSpin 25s linear infinite
     }
 
     .m-ring:nth-child(2) {
+
       width: 360px;
+
       height: 360px;
+
       border: 1px dashed rgba(30, 58, 138, .03);
+
       animation: mSpin 40s linear infinite reverse
     }
 
     .m-ring:nth-child(3) {
+
       width: 530px;
+
       height: 530px;
+
       border: 1px solid rgba(30, 58, 138, .02);
+
       animation: mSpin 60s linear infinite
     }
 
     .m-ring:nth-child(4) {
+
       width: 700px;
+
       height: 700px;
+
       border: 1px dotted rgba(30, 58, 138, .01);
+
       animation: mSpin 80s linear infinite reverse
     }
 
     @keyframes mSpin {
+
       to {
+
         transform: translate(-50%, -50%) rotate(360deg)
       }
+
     }
 
     .web-lines {
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
+
       pointer-events: none;
+
       z-index: 1
     }
 
-    /* ── NODES ── */
     .node {
+
       position: absolute;
+
       transform: translate(-50%, -50%);
+
       text-align: center;
+
       border-radius: 20px;
+
       z-index: 2;
+
       transition: transform .4s var(--ease), box-shadow .4s var(--ease)
     }
 
-    /* Center */
     .center-node {
+
       width: 195px;
+
       background: var(--surface);
+
       border: 1px solid var(--border);
+
       border-radius: 28px;
+
       padding: 1.6rem 1.4rem;
+
       box-shadow: var(--shadow-md);
+
     }
 
     .clogo-img {
+
       width: 68px;
+
       height: 68px;
+
       object-fit: contain;
+
       padding: 5px;
+
       background: transparent;
+
       border-radius: 18px;
+
       display: block;
+
       margin: 0 auto 0.8rem;
+
       box-shadow: 0 12px 40px rgba(212, 32, 138, 0.15);
+
     }
 
     .center-node h2 {
+
       font-family: 'Yatra One', cursive;
+
       font-size: .85rem;
+
       color: var(--primary);
+
       letter-spacing: .06em;
+
       text-transform: uppercase;
+
       line-height: 1.3
     }
 
     .center-node p {
+
       font-size: .64rem;
+
       color: var(--muted);
+
       margin-top: .18rem;
+
       font-style: normal
     }
 
-    /* Web nodes */
     .web-node {
+
       width: 175px;
+
       padding: 1.5rem 1.25rem;
+
       background: var(--surface);
+
       border: 1px solid var(--border);
+
       border-radius: 20px;
+
       box-shadow: var(--shadow-sm);
+
       cursor: pointer;
+
       transition: all .3s var(--ease);
+
       overflow: hidden;
+
       text-decoration: none;
+
       color: inherit;
+
       display: block
     }
 
     .web-node:hover {
+
       transform: translate(-50%, -50%) scale(1.05) translateY(-5px) !important;
+
       border-color: var(--primary);
+
       box-shadow: var(--shadow-md);
+
     }
 
     .web-node:hover .node-icon-wrap {
+
       transform: scale(1.2) rotate(-6deg)
     }
 
     .web-node:hover .node-arrow {
+
       opacity: 1;
+
       transform: translateX(0)
     }
 
     .section-block {
+
       margin: 40px auto;
+
       padding: 30px;
+
       background: var(--surface);
+
       border: 1px solid var(--border);
+
       border-radius: 20px;
+
       max-width: 900px;
+
       box-shadow: var(--shadow-sm);
+
     }
 
     .sec-title {
+
       font-size: 1.5rem;
+
       font-weight: 800;
+
       color: var(--text);
+
       margin-bottom: 20px;
+
       display: inline-block;
+
     }
 
     .upload-tabs {
+
       display: flex;
+
       gap: 10px;
+
       margin-bottom: 20px;
+
     }
 
     .upload-tab {
+
       padding: 10px 18px;
+
       border: 1px solid var(--border);
+
       background: var(--bg);
+
       color: var(--muted);
+
       border-radius: 8px;
+
       cursor: pointer;
+
       font-family: inherit;
+
       font-weight: 600;
+
       transition: all .2s;
+
     }
 
     .upload-tab.active {
+
       background: var(--primary);
+
       border-color: var(--primary);
+
       color: #fff;
+
     }
 
     .portfolio-content {
+
       display: none;
+
       flex-direction: column;
+
       gap: 10px;
+
     }
 
     .portfolio-content.active {
+
       display: flex;
+
     }
 
     .portfolio-content label {
+
       color: var(--text);
+
       font-weight: 600;
+
       margin-top: 10px;
+
       font-size: 0.85rem;
+
     }
 
     .portfolio-content input,
+
     .portfolio-content textarea {
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       color: var(--text);
+
       padding: 12px;
+
       border-radius: 8px;
+
       font-family: inherit;
+
       font-size: 0.9rem;
+
       outline: none;
+
       transition: all .2s;
+
     }
 
     .portfolio-content input:focus,
+
     .portfolio-content textarea:focus {
+
       border-color: var(--primary);
+
       box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+
     }
 
     .upload-btn {
+
       margin-top: 20px;
+
       padding: 14px;
+
       background: var(--primary);
+
       color: white;
+
       border: none;
+
       border-radius: 12px;
+
       cursor: pointer;
+
       font-family: inherit;
+
       font-weight: 700;
+
       font-size: 1rem;
+
       transition: all .2s;
+
       box-shadow: var(--shadow-sm);
+
     }
 
     .upload-btn:hover {
+
       background: var(--primary-hover);
+
       transform: translateY(-1px);
+
     }
 
-    /* Node colours */
-    #node1 {
       --neon: rgba(255, 165, 0, .4);
+
       background: rgba(255, 140, 0, .07);
+
       border: 1px solid rgba(255, 140, 0, .28)
     }
 
-    /* Course — orange */
-    #node2 {
       --neon: rgba(34, 197, 94, .35);
+
       background: rgba(22, 163, 74, .07);
+
       border: 1px solid rgba(34, 197, 94, .28)
     }
 
-    /* Progress — green */
-    #node3 {
       --neon: rgba(59, 130, 246, .35);
+
       background: rgba(37, 99, 235, .07);
+
       border: 1px solid rgba(59, 130, 246, .28)
     }
 
-    /* Projects — blue */
-    #node4 {
       --neon: rgba(234, 179, 8, .4);
+
       background: rgba(202, 138, 4, .07);
+
       border: 1px solid rgba(234, 179, 8, .28)
     }
 
-    /* Awards — gold */
-
     .node-icon-wrap {
+
       width: 48px;
+
       height: 48px;
+
       border-radius: 14px;
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       font-size: 1.4rem;
+
       margin: 0 auto .75rem;
+
       transition: all .3s var(--ease)
     }
 
     .web-node:hover .node-icon-wrap {
+
       background: var(--primary-light);
+
       border-color: var(--primary);
+
     }
 
     .web-node h3 {
+
       font-size: .82rem;
+
       font-weight: 800;
+
       color: var(--text);
+
       margin-bottom: .28rem;
+
       line-height: 1.3
     }
 
     .web-node p {
+
       font-size: .67rem;
+
       color: var(--muted);
+
       line-height: 1.5
     }
 
     .node-tag {
+
       display: inline-flex;
+
       align-items: center;
+
       margin-top: .6rem;
+
       font-size: .62rem;
+
       font-weight: 700;
+
       padding: .2rem .65rem;
+
       border-radius: 50px;
+
       text-transform: uppercase;
+
       letter-spacing: .08em;
+
       background: var(--primary-light);
+
       color: var(--primary);
+
       border: 1px solid var(--border);
+
     }
 
     .node-arrow {
+
       position: absolute;
+
       bottom: .75rem;
+
       right: .75rem;
+
       font-size: .65rem;
+
       color: var(--primary);
+
       opacity: 0;
+
       transition: all .3s;
+
       transform: translateX(-4px)
     }
 
     @keyframes drawLine {
+
       from {
+
         stroke-dashoffset: 500;
+
         opacity: 0
       }
 
       to {
+
         stroke-dashoffset: 0;
+
         opacity: 1
       }
+
     }
 
     .web-line {
+
       animation: drawLine .9s var(--ease) forwards
     }
 
-    /* ══ POPUP ══ */
     .popup-overlay {
+
       position: fixed;
+
       inset: 0;
+
       z-index: 5000;
+
       background: rgba(15, 23, 42, 0.5);
+
       backdrop-filter: blur(6px);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       opacity: 0;
+
       pointer-events: none;
+
       transition: opacity .35s var(--ease)
     }
 
     .popup-overlay.show {
+
       opacity: 1;
+
       pointer-events: all
     }
 
     .popup-sheet {
+
       background: var(--surface);
+
       border: 1px solid var(--border);
+
       border-radius: 24px;
+
       width: 90%;
+
       max-width: 540px;
+
       position: relative;
+
       box-shadow: var(--shadow-md);
+
       transform-origin: top center;
+
       transform: perspective(800px) rotateX(-18deg) scaleY(0);
+
       transition: transform .5s var(--ease);
+
       overflow: hidden;
+
       max-height: 90vh;
+
       overflow-y: auto
     }
 
     .popup-overlay.show .popup-sheet {
+
       transform: perspective(800px) rotateX(0deg) scaleY(1)
     }
 
     .popup-header {
+
       padding: 1.6rem 1.75rem 1.1rem;
+
       display: flex;
+
       align-items: center;
+
       gap: 14px;
+
       border-bottom: 1px solid var(--border)
     }
 
     .popup-header-icon {
+
       width: 50px;
+
       height: 50px;
+
       border-radius: 13px;
+
       background: var(--primary-light);
+
       border: 1px solid var(--border);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       font-size: 1.55rem;
+
       flex-shrink: 0
     }
 
     .popup-header-text h3 {
+
       font-size: 1.1rem;
+
       font-weight: 800;
+
       color: var(--primary);
+
       margin-bottom: .15rem
     }
 
     .popup-header-text p {
+
       font-size: .78rem;
+
       color: var(--muted)
     }
 
     .popup-close {
+
       position: absolute;
+
       top: .9rem;
+
       right: .9rem;
+
       width: 30px;
+
       height: 30px;
+
       border-radius: 50%;
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       font-size: .9rem;
+
       color: var(--muted);
+
       cursor: pointer;
+
       transition: all .2s
     }
 
     .popup-close:hover {
+
       background: #fee2e2;
+
       color: var(--danger)
     }
 
     .popup-body {
+
       padding: 1.4rem 1.75rem 1.75rem
     }
 
-    /* Shared popup components */
     .summary-strip {
+
       display: flex;
+
       gap: .7rem;
+
       margin-bottom: 1.2rem
     }
 
     .sum-box {
+
       flex: 1;
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       border-radius: 12px;
+
       padding: .7rem .65rem;
+
       text-align: center
     }
 
     .sum-num {
+
       font-size: 1.35rem;
+
       font-weight: 800;
+
       line-height: 1
     }
 
     .sum-num.green {
+
       color: var(--success)
     }
 
     .sum-num.amber {
+
       color: var(--warning)
     }
 
     .sum-num.red {
+
       color: var(--danger)
     }
 
     .sum-num.purple {
+
       color: var(--primary);
+
     }
 
     .sum-label {
+
       font-size: .58rem;
+
       color: var(--muted);
+
       font-weight: 700;
+
       margin-top: .2rem;
+
       text-transform: uppercase;
+
       letter-spacing: .06em
     }
 
-    /* Progress ring */
     .progress-ring-wrap {
+
       display: flex;
+
       align-items: center;
+
       gap: 1.5rem;
+
       margin-bottom: 1.1rem
     }
 
     .ring-bg {
+
       fill: none;
+
       stroke: var(--border)
     }
 
     .ring-fill {
+
       fill: none;
+
       stroke-linecap: round;
+
       transition: stroke-dashoffset 1.3s var(--ease)
     }
 
     .ring-label {
+
       text-anchor: middle;
+
       dominant-baseline: middle;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-weight: 800
     }
 
     .progress-stats {
+
       flex: 1
     }
 
     .stat-row {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
       padding: .45rem 0;
+
       border-bottom: 1px solid var(--border)
     }
 
     .stat-row:last-child {
+
       border-bottom: none
     }
 
     .stat-label {
+
       font-size: .73rem;
+
       color: var(--muted);
+
       font-weight: 600
     }
 
     .stat-val {
+
       font-size: .82rem;
+
       font-weight: 800;
+
       color: var(--text)
     }
 
     .stat-val.green {
+
       color: var(--success)
     }
 
     .stat-val.red {
+
       color: var(--danger)
     }
 
     .stat-val.amber {
+
       color: var(--warning)
     }
 
     .bar-chart {
+
       margin-top: .9rem
     }
 
     .bar-chart-title {
+
       font-size: .68rem;
+
       font-weight: 800;
+
       color: var(--muted);
+
       letter-spacing: .08em;
+
       text-transform: uppercase;
+
       margin-bottom: .65rem
     }
 
     .bar-row {
+
       display: flex;
+
       align-items: center;
+
       gap: .7rem;
+
       margin-bottom: .45rem
     }
 
     .bar-label {
+
       font-size: .68rem;
+
       color: var(--muted);
+
       width: 38px;
+
       flex-shrink: 0;
+
       text-align: right
     }
 
     .bar-track {
+
       flex: 1;
+
       height: 8px;
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       border-radius: 4px;
+
       overflow: hidden
     }
 
     .bar-fill {
+
       height: 100%;
+
       border-radius: 4px;
+
       transition: width 1.3s var(--ease)
     }
 
     .bar-count {
+
       font-size: .65rem;
+
       font-weight: 700;
+
       min-width: 20px
     }
 
-    /* Projects */
     .proj-grid {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: .7rem;
+
       margin-top: .5rem
     }
 
     .proj-card {
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       border-radius: 12px;
+
       padding: .85rem .8rem
     }
 
     .proj-top {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       margin-bottom: .45rem
     }
 
     .proj-name {
+
       font-size: .76rem;
+
       font-weight: 800;
+
       color: var(--text)
     }
 
     .proj-badge {
+
       font-size: .56rem;
+
       font-weight: 800;
+
       padding: .12rem .45rem;
+
       border-radius: 50px;
+
       text-transform: uppercase;
+
       letter-spacing: .05em
     }
 
     .proj-badge.done {
+
       background: #dcfce7;
+
       color: #15803d;
+
       border: 1px solid #bbf7d0
     }
 
     .proj-badge.wip {
+
       background: #fef9c3;
+
       color: #a16207;
+
       border: 1px solid #fef08a
     }
 
     .proj-badge.todo {
+
       background: var(--bg);
+
       color: var(--muted);
+
       border: 1px solid var(--border)
     }
 
     .proj-prog-bar {
+
       height: 4px;
+
       background: var(--border);
+
       border-radius: 2px;
+
       overflow: hidden;
+
       margin-top: .45rem
     }
 
     .proj-prog-fill {
+
       height: 100%;
+
       border-radius: 2px;
+
       background: var(--primary);
+
       transition: width 1.3s var(--ease)
     }
 
     .proj-meta {
+
       font-size: .6rem;
+
       color: var(--muted);
+
       margin-top: .3rem
     }
 
-    /* Course cards */
     .course-grid {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: .75rem;
+
       margin-top: .5rem
     }
 
     .course-card {
+
       background: var(--bg);
+
       border: 1px solid var(--border);
+
       border-radius: 14px;
+
       padding: 1rem;
+
       cursor: pointer;
+
       transition: all .25s;
+
       text-decoration: none;
+
       color: inherit;
+
       display: block
     }
 
     .course-card:hover {
+
       border-color: var(--primary);
+
       background: var(--primary-light);
+
       transform: translateY(-3px);
+
       box-shadow: var(--shadow-sm);
+
     }
 
     .course-card-icon {
+
       font-size: 1.8rem;
+
       margin-bottom: .5rem
     }
 
     .course-card-name {
+
       font-size: .82rem;
+
       font-weight: 800;
+
       color: var(--text);
+
       margin-bottom: .2rem
     }
 
     .course-card-desc {
+
       font-size: .68rem;
+
       color: var(--muted);
+
       line-height: 1.45
     }
 
     .course-card-tag {
+
       display: inline-block;
+
       margin-top: .45rem;
+
       font-size: .58rem;
+
       font-weight: 700;
+
       padding: .12rem .5rem;
+
       border-radius: 50px;
+
       text-transform: uppercase;
+
       letter-spacing: .06em;
+
       background: #fef9c3;
+
       color: #a16207;
+
       border: 1px solid #fef08a
     }
 
-    /* Awards */
     .awards-grid {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: .75rem;
+
       margin-top: .5rem
     }
 
     .award-card {
+
       background: #fffbeb;
+
       border: 1px solid #fef08a;
+
       border-radius: 14px;
+
       padding: 1rem;
+
       text-align: center;
+
       position: relative;
+
       overflow: hidden;
+
       transition: all .25s
     }
 
     .award-card:hover {
+
       transform: translateY(-3px);
+
       box-shadow: var(--shadow-sm);
+
     }
 
     .award-icon {
+
       font-size: 2rem;
+
       margin-bottom: .5rem;
+
     }
 
     .award-name {
+
       font-size: .8rem;
+
       font-weight: 700;
+
       color: var(--text);
+
       margin-bottom: .2rem
     }
 
     .award-desc {
+
       font-size: .66rem;
+
       color: var(--muted);
+
       line-height: 1.45
     }
 
     .award-badge {
+
       display: inline-block;
+
       margin-top: .4rem;
+
       font-size: .58rem;
+
       font-weight: 700;
+
       padding: .12rem .5rem;
+
       border-radius: 50px;
+
       text-transform: uppercase;
+
       background: #fef9c3;
+
       color: #a16207;
+
       border: 1px solid #fef08a
     }
 
     .award-locked {
+
       opacity: .4;
+
       filter: grayscale(60%)
     }
 
     .award-locked .award-icon::after {
+
       content: '🔒';
+
       font-size: .9rem;
+
       position: absolute;
+
       bottom: 0;
+
       right: 0
     }
 
-    /* ══ COMPENSATION SECTION — Vivid, standalone ══ */
     .comp-section-wrapper {
+
       max-width: 860px;
+
       margin: 0 auto 0;
+
       padding: 0 1.5rem 2.5rem;
+
       display: none;
+
     }
 
     .comp-section-wrapper.show {
+
       display: block;
+
       animation: slideDown .5s var(--ease)
     }
 
     @keyframes slideDown {
+
       from {
+
         opacity: 0;
+
         transform: translateY(-20px)
       }
 
       to {
+
         opacity: 1;
+
         transform: none
       }
+
     }
 
     .comp-card {
+
       border-radius: 24px;
+
       padding: 2rem 2.25rem 2.25rem;
+
       position: relative;
+
       overflow: hidden;
+
       background: linear-gradient(135deg, rgba(30, 5, 5, .95) 0%, rgba(20, 5, 40, .95) 100%);
+
       border: 1px solid rgba(239, 68, 68, .4);
+
       box-shadow: 0 0 0 1px rgba(239, 68, 68, .15), 0 20px 60px rgba(239, 68, 68, .15), 0 0 80px rgba(139, 0, 0, .12);
+
     }
 
-    /* Animated top glow bar */
     .comp-card::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       right: 0;
+
       height: 3px;
+
       background: linear-gradient(90deg, #EF4444, #F97316, #FBBF24, #F97316, #EF4444);
+
       background-size: 200%;
+
       animation: shimmer 3s linear infinite;
+
     }
 
     @keyframes shimmer {
+
       0% {
+
         background-position: 0%
       }
 
       100% {
+
         background-position: 200%
       }
+
     }
 
-    /* Decorative circles */
     .comp-card::after {
+
       content: '⚡';
+
       position: absolute;
+
       right: -10px;
+
       top: -10px;
+
       font-size: 7rem;
+
       opacity: .04;
+
       pointer-events: none;
+
       animation: bounce 3s ease-in-out infinite;
+
     }
 
     @keyframes bounce {
 
       0%,
+
       100% {
+
         transform: translateY(0)
       }
 
       50% {
+
         transform: translateY(-8px)
       }
+
     }
 
     .comp-header {
+
       display: flex;
+
       align-items: flex-start;
+
       gap: 14px;
+
       margin-bottom: 1.5rem
     }
 
     .comp-alert-icon {
+
       width: 52px;
+
       height: 52px;
+
       border-radius: 14px;
+
       flex-shrink: 0;
+
       background: linear-gradient(135deg, rgba(239, 68, 68, .25), rgba(249, 115, 22, .2));
+
       border: 1px solid rgba(239, 68, 68, .4);
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       font-size: 1.5rem;
+
       box-shadow: 0 4px 16px rgba(239, 68, 68, .3);
+
     }
 
     .comp-header-text h3 {
+
       font-size: 1.1rem;
+
       font-weight: 800;
+
       background: linear-gradient(90deg, #FCA5A5, #FBBF24);
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
       background-clip: text;
+
       margin-bottom: .2rem;
+
     }
 
     .comp-header-text p {
+
       font-size: .8rem;
+
       color: rgba(252, 165, 165, .75);
+
       line-height: 1.5
     }
 
     .comp-info-strip {
+
       display: flex;
+
       gap: .75rem;
+
       margin-bottom: 1.5rem;
+
       flex-wrap: wrap
     }
 
     .comp-info-box {
+
       flex: 1;
+
       min-width: 130px;
+
       background: rgba(239, 68, 68, .08);
+
       border: 1px solid rgba(239, 68, 68, .2);
+
       border-radius: 12px;
+
       padding: .7rem .85rem;
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
     }
 
     .comp-info-icon {
+
       font-size: 1.2rem;
+
       flex-shrink: 0
     }
 
     .comp-info-title {
+
       font-size: .66rem;
+
       color: rgba(252, 165, 165, .65);
+
       text-transform: uppercase;
+
       letter-spacing: .07em;
+
       font-weight: 700
     }
 
     .comp-info-val {
+
       font-size: .82rem;
+
       color: #FCA5A5;
+
       font-weight: 800;
+
       margin-top: 1px
     }
 
     .comp-slots-title {
+
       font-size: .8rem;
+
       font-weight: 800;
+
       background: linear-gradient(90deg, #FCA5A5, #FBBF24);
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
       background-clip: text;
+
       letter-spacing: .08em;
+
       text-transform: uppercase;
+
       margin-bottom: .85rem;
+
     }
 
     .comp-slots {
+
       display: grid;
+
       grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+
       gap: .65rem
     }
 
     .slot-btn {
+
       background: rgba(255, 255, 255, .04);
+
       border: 1.5px solid rgba(239, 68, 68, .25);
+
       border-radius: 12px;
+
       padding: .65rem .9rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-size: .78rem;
+
       font-weight: 700;
+
       color: rgba(252, 165, 165, .8);
+
       cursor: pointer;
+
       transition: all .25s var(--ease);
+
       display: flex;
+
       align-items: center;
+
       gap: 8px;
+
       text-align: left;
+
     }
 
     .slot-btn:hover {
+
       border-color: #EF4444;
+
       color: #FCA5A5;
+
       background: rgba(239, 68, 68, .12);
+
       transform: translateY(-2px);
+
       box-shadow: 0 6px 18px rgba(239, 68, 68, .25);
+
     }
 
     .slot-btn.selected {
+
       border-color: #F97316;
+
       color: #FBBF24;
+
       background: linear-gradient(135deg, rgba(239, 68, 68, .2), rgba(249, 115, 22, .15));
+
       box-shadow: 0 0 0 3px rgba(249, 115, 22, .2), 0 6px 18px rgba(239, 68, 68, .3);
+
       transform: translateY(-2px);
+
     }
 
     .slot-day {
+
       font-size: .65rem;
+
       font-weight: 800;
+
       text-transform: uppercase;
+
       letter-spacing: .08em;
+
       opacity: .7;
+
       display: block
     }
 
     .slot-time {
+
       font-size: .8rem;
+
       font-weight: 800;
+
       display: block;
+
       margin-top: 1px
     }
 
     .comp-online-note {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       background: rgba(59, 130, 246, .08);
+
       border: 1px solid rgba(59, 130, 246, .2);
+
       border-radius: 12px;
+
       padding: .8rem 1rem;
+
       margin: 1.2rem 0;
+
       font-size: .78rem;
+
       color: rgba(147, 197, 253, .85);
+
       line-height: 1.5;
+
     }
 
     .comp-online-note .note-icon {
+
       font-size: 1.1rem;
+
       flex-shrink: 0
     }
 
     .confirm-slot-btn {
+
       display: none;
+
       width: 100%;
+
       margin-top: 1.1rem;
+
       background: linear-gradient(135deg, #EF4444 0%, #F97316 50%, #FBBF24 100%);
+
       color: #000;
+
       border: none;
+
       border-radius: 14px;
+
       padding: 1rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-weight: 800;
+
       font-size: .95rem;
+
       cursor: pointer;
+
       letter-spacing: .04em;
+
       box-shadow: 0 8px 28px rgba(239, 68, 68, .45);
+
       transition: transform .25s var(--ease), box-shadow .25s;
+
       background-size: 200%;
+
       animation: shimmer 3s linear infinite;
+
     }
 
     .confirm-slot-btn:hover {
+
       transform: translateY(-3px);
+
       box-shadow: 0 14px 40px rgba(239, 68, 68, .6)
     }
 
     .confirm-slot-btn:active {
+
       transform: translateY(0)
     }
 
-    /* Inline comp (inside progress popup) */
     .comp-inline {
+
       background: rgba(239, 68, 68, .07);
+
       border: 1px solid rgba(239, 68, 68, .25);
+
       border-radius: 14px;
+
       padding: 1.1rem 1.25rem;
+
       margin-top: 1.2rem
     }
 
     .comp-inline-title {
+
       font-size: .82rem;
+
       font-weight: 800;
+
       color: #FCA5A5;
+
       margin-bottom: .3rem
     }
 
     .comp-inline-slots {
+
       display: flex;
+
       gap: .55rem;
+
       flex-wrap: wrap;
+
       margin-top: .7rem
     }
 
     .comp-inline-slot {
+
       background: rgba(255, 255, 255, .05);
+
       border: 1px solid rgba(255, 255, 255, .1);
+
       border-radius: 8px;
+
       padding: .42rem .8rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-size: .7rem;
+
       font-weight: 700;
+
       color: var(--muted);
+
       cursor: pointer;
+
       transition: all .2s
     }
 
     .comp-inline-slot:hover {
+
       border-color: rgba(239, 68, 68, .5);
+
       color: #FCA5A5;
+
       background: rgba(239, 68, 68, .1)
     }
 
     .comp-inline-slot.selected {
+
       border-color: #EF4444;
+
       color: #FCA5A5;
+
       background: rgba(239, 68, 68, .15)
     }
 
     .confirm-inline-btn {
+
       display: none;
+
       margin-top: .8rem;
+
       background: linear-gradient(135deg, #EF4444, #DC2626);
+
       color: #fff;
+
       border: none;
+
       border-radius: 10px;
+
       padding: .55rem 1.4rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-weight: 800;
+
       font-size: .78rem;
+
       cursor: pointer;
+
       transition: transform .2s, box-shadow .2s
     }
 
     .confirm-inline-btn:hover {
+
       transform: translateY(-2px);
+
       box-shadow: 0 8px 22px rgba(239, 68, 68, .5)
     }
 
     .popup-cta {
+
       display: block;
+
       width: 100%;
+
       background: var(--primary);
+
       color: #fff;
+
       border: none;
+
       border-radius: 12px;
+
       padding: .875rem;
+
       font-family: 'Plus Jakarta Sans', sans-serif;
+
       font-weight: 700;
+
       font-size: .9rem;
+
       text-align: center;
+
       text-decoration: none;
+
       cursor: pointer;
+
       box-shadow: var(--shadow-sm);
+
       transition: all .2s;
+
       margin-top: 1.2rem
     }
 
     .popup-cta:hover {
+
       background: var(--primary-hover);
+
       transform: translateY(-2px);
+
       box-shadow: var(--shadow-md);
+
     }
 
-    /* Footer, Toast, Reveal */
     footer {
+
       text-align: center;
+
       padding: 2rem 1.5rem;
+
       border-top: 1px solid var(--border);
+
       background: var(--surface);
+
     }
 
     .footer-row {
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       gap: 10px;
+
       margin-bottom: .5rem
     }
 
     .flogo {
+
       width: 32px;
+
       height: 32px;
+
       border-radius: 8px;
+
       padding: 4px;
+
       background: transparent;
+
       border: 1px solid var(--border);
+
     }
 
-    .flogo-in {
+    .footer-logo-inner {
+
       width: 100%;
+
       height: 100%;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
     }
 
-    .flogo-in img {
+    .footer-logo-inner img {
+
       width: 100%;
+
       height: 100%;
+
       object-fit: contain;
+
       display: block
     }
 
     .footer-brand {
+
       font-family: 'Yatra One', cursive;
+
       font-size: 1.05rem;
+
       background: linear-gradient(135deg, #D4208A 0%, #3B2FC9 100%);
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
       background-clip: text
     }
 
     footer p {
+
       color: var(--muted);
+
       font-size: .8rem
     }
 
     footer span {
+
       color: var(--primary)
     }
 
     .reveal {
+
       opacity: 0;
+
       transform: translateY(28px);
+
       transition: opacity .75s var(--ease), transform .75s var(--ease)
     }
 
     .reveal.visible {
+
       opacity: 1;
+
       transform: none
     }
 
     .toast {
+
       position: fixed;
+
       bottom: 1.5rem;
+
       right: 1.5rem;
+
       background: var(--surface);
+
       border: 1px solid var(--border);
+
       border-left: 3px solid var(--primary);
+
       border-radius: 12px;
+
       padding: .85rem 1.1rem;
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
       box-shadow: var(--shadow-md);
+
       z-index: 9000;
+
       transform: translateY(120%);
+
       transition: transform .4s var(--ease);
+
       font-size: .85rem;
+
       font-weight: 600;
+
       color: var(--text)
     }
 
     .toast.show {
+
       transform: translateY(0)
     }
 
-    /* Mobile */
     @media(max-width:640px) {
 
       .nav-links,
+
       .nav-user {
+
         display: none
       }
 
       .hamburger {
+
         display: flex
       }
 
       .spider-wrapper {
+
         height: auto;
+
         overflow: visible;
+
         padding: .75rem;
+
         display: flex;
+
         flex-direction: column;
+
         gap: .65rem
       }
 
       .spider-wrapper::before,
+
       .mandala-rings,
+
       .web-lines {
+
         display: none
       }
 
       .node {
+
         position: static !important;
+
         transform: none !important;
+
         width: 100% !important;
+
         border-radius: 14px !important
       }
 
       .center-node,
+
       .web-node {
+
         width: 100% !important
       }
 
       .web-node:hover {
+
         transform: none !important
       }
 
       .proj-grid,
+
       .course-grid,
+
       .awards-grid {
+
         grid-template-columns: 1fr
       }
 
       .comp-slots {
+
         grid-template-columns: 1fr 1fr
       }
+
     }
   </style>
+
 </head>
 
 <body>
 
-  <!-- ══ WELCOME POPUP ══ -->
   <div class="popup-overlay" id="welcomePopup">
+
     <div class="popup-sheet">
-      <img src="" id="wLogoImg" alt="Holbos Logo" class="wlogo-img">
+
+      <img src="" id="wLogoImg" alt="Holbos Logooo" class=" wlogo-img">
+
       <div class="popup-header">
+
         <div class="popup-header-icon">👋</div>
+
         <div class="popup-header-text">
+
           <h3>Welcome Back, {{ user.first_name }}!</h3>
+
           <p>Here's a quick overview of your dashboard.</p>
+
         </div>
+
         <div class="popup-close" onclick="closePopup('welcomePopup')">✕</div>
+
       </div>
+
       <div class="popup-body">
+
         <p>Explore your portfolio, check your progress, and discover new opportunities to grow your skills and
+
           career. Let's make today productive!</p>
-        <a href="#portfolio-section" class="popup-cta" onclick="closePopup('welcomePopup')">View Portfolio</a>
+
+        <a href="#portfoli-section" class="popup-cta" onclick="closePopup('welcomePopup')">View Portfolio</a>
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- ══ NAVBAR ══ -->
   <nav class="navbar" id="navbar">
+
     <a href="#home" class="nav-brand">
-      <img src="" id="navLogoImg" alt="Holbos Logo" class="brand-logo">
-      <span class="brand-name">Holbos</span>
+
+      <img src="" id="navLogoImg" alt="Holbos Logooo" class="brand-logo">
+
+      <span class=" brand-name">Holbos</span>
+
     </a>
 
     <ul class="nav-links">
+
       <li><a href="#home" class="active">Home</a></li>
+
     </ul>
+
     <div class="nav-right">
+
       <div class="nav-user">
+
         <div class="nav-avatar" id="navInitial"></div>
+
         <span class="nav-username" id="navUsername">{{ request.user.username }}</span>
+
       </div>
+
       <a href="{% url 'accounts:logout' %}" class="btn-logout">Logout →</a>
+
       <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+
         <span></span><span></span><span></span>
+
       </button>
+
     </div>
+
   </nav>
 
-  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
+
     <a href="#home" onclick="closeMenu()">🏠 Home</a>
+
   </div>
 
   <div class="page-body">
 
-    <!-- ══ ABSENT BANNER (JS managed) ══ -->
-    <div class="absent-banner" id="absentBanner">
+    {% if not user.is_parent %}<div class="absent-banner" id="absentBanner">
+
       <div class="absent-icon">⚠️</div>
+
       <div>
+
         <div class="absent-title">Attendance Alert</div>
+
         <div class="absent-msg" id="absentMsg"></div>
+
         <button class="book-btn" onclick="scrollToComp()">Book Compensation Slot</button>
+
       </div>
-    </div>
+
+    </div>{% endif %}
 
     <header class="hero-greeting">
+
       <div class="greeting-text"><span class="hello">Hello,</span> <span class="uname" id="greetName">{{
+
           user.first_name|default:user.username }}</span></div>
+
       <div class="greeting-sub">Track your progress and access your learning modules below.</div>
+
     </header>
 
-    <!-- ══ SPIDER WEB ══ -->
     <div id="home">
+
       <div class="spider-wrapper" id="spiderWrapper">
+
         <div class="mandala-rings">
+
           <div class="m-ring"></div>
+
           <div class="m-ring"></div>
+
           <div class="m-ring"></div>
+
           <div class="m-ring"></div>
+
         </div>
 
         <svg class="web-lines" id="webLines" xmlns="http://www.w3.org/2000/svg"></svg>
 
         <div class="node center-node" id="centerNode">
-          <img src="" id="cLogoImg" alt="Logo" class="clogo-img">
+
+          <img src="" id="cLogoImg" alt="Logooo" class=" clogo-img">
+
         </div>
 
-        <div class="node web-node" id="node1" onclick="openPopup('course')">
+        {% if not user.is_parent %}<div class="node web-node" id="node1" onclick="openPopup('course')">
+
           <div class="node-icon-wrap">📚</div>
-          <h3>My Courses</h3>
-          <p>Access your modules.</p>
-          <span class="node-tag">Explore</span>
-          <span class="node-arrow">→</span>
-        </div>
 
+          <h3>My Courses</h3>
+
+          <p>Access your modules.</p>
+
+          <span class="node-tag">Explore</span>
+
+          <span class="node-arrow">→</span>
+
+        </div>{% endif %}
+
+        {% if not user.is_parent %}
         <div class="node web-node" id="node2" onclick="openPopup('portfolio')">
           <div class="node-icon-wrap">📁</div>
           <h3>Portfolio</h3>
@@ -1878,7 +3025,9 @@
           <span class="node-tag">View</span>
           <span class="node-arrow">→</span>
         </div>
+        {% endif %}
 
+        {% if not user.is_parent %}
         <div class="node web-node" id="node3" onclick="openPopup('projects')">
           <div class="node-icon-wrap">🛠️</div>
           <h3>My Projects</h3>
@@ -1886,168 +3035,254 @@
           <span class="node-tag">Check</span>
           <span class="node-arrow">→</span>
         </div>
+        {% endif %}
 
-        <a href="{% url 'accounts:attendance' %}" target="_blank" style="text-decoration:none;">
-          <div class="node web-node" id="node4">
-            <div class="node-icon-wrap" style="color: #EAB308;">📅</div>
-            <h3>Attendance</h3>
-            <p>Record daily presence.</p>
-            <span class="node-tag">Track</span>
-            <span class="node-arrow">→</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  <!-- ══ COMPENSATION SECTION ══ -->
-  <section class="comp-section-wrapper" id="compSection">
-    <div class="comp-card">
-      <div class="comp-header">
-        <div class="comp-alert-icon">⚠️</div>
-        <div class="comp-header-text">
-          <h3>Missed Session Recovery</h3>
-          <p id="compSectionMsg"></p>
+        <div class="node web-node" id="node4" onclick="openPopup('attendance')">
+          <div class="node-icon-wrap" style="color: #EAB308;">📅</div>
+          <h3>Attendance</h3>
+          <p>Student Performance</p>
+          <span class="node-tag">Track</span>
+          <span class="node-arrow">→</span>
         </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <section class="comp-section-wrapper" id="compSection">
+
+    <div class="comp-card">
+
+      <div class="comp-header">
+
+        <div class="comp-alert-icon">⚠️</div>
+
+        <div class="comp-header-text">
+
+          <h3>Missed Session Recovery</h3>
+
+          <p id="compSectionMsg"></p>
+
+        </div>
+
       </div>
 
       <div class="comp-info-strip">
+
         <div class="comp-info-box">
+
           <div class="comp-info-icon">📅</div>
+
           <div>
+
             <div class="comp-info-title">Missed Date</div>
+
             <div class="comp-info-val" id="compMissedDate">--</div>
+
           </div>
+
         </div>
+
         <div class="comp-info-box">
+
           <div class="comp-info-icon">⏰</div>
+
           <div>
+
             <div class="comp-info-title">Session Time</div>
+
             <div class="comp-info-val" id="compMissedTime">--</div>
+
           </div>
+
         </div>
+
       </div>
 
       <div class="comp-slots-title">Select an available compensation slot</div>
+
       <div class="comp-slots" id="mainCompSlots">
+
         <button class="slot-btn" onclick="selectMainSlot(this)">
+
           <span style="font-size:1.2rem">🗓️</span>
+
           <div><span class="slot-day">Mon</span><span class="slot-time">10:00 AM</span></div>
+
         </button>
+
         <button class="slot-btn" onclick="selectMainSlot(this)">
+
           <span style="font-size:1.2rem">🗓️</span>
+
           <div><span class="slot-day">Mon</span><span class="slot-time">04:00 PM</span></div>
+
         </button>
+
         <button class="slot-btn" onclick="selectMainSlot(this)">
+
           <span style="font-size:1.2rem">🗓️</span>
+
           <div><span class="slot-day">Wed</span><span class="slot-time">10:00 AM</span></div>
+
         </button>
+
         <button class="slot-btn" onclick="selectMainSlot(this)">
+
           <span style="font-size:1.2rem">🗓️</span>
+
           <div><span class="slot-day">Fri</span><span class="slot-time">10:00 AM</span></div>
+
         </button>
+
         <button class="slot-btn" onclick="selectMainSlot(this)">
+
           <span style="font-size:1.2rem">🗓️</span>
+
           <div><span class="slot-day">Fri</span><span class="slot-time">04:00 PM</span></div>
+
         </button>
+
       </div>
 
       <div class="comp-online-note">
+
         <span class="note-icon">💻</span>
+
         <span>All compensation sessions are conducted <strong>online</strong>. A link will be sent to your
+
           registered email once confirmed.</span>
+
       </div>
 
       <button class="confirm-slot-btn" id="mainConfirmBtn" onclick="confirmMainSlot()">Confirm Slot & Notify
+
         Trainer</button>
+
     </div>
+
   </section>
 
-  <!-- ═════════ PORTFOLIO TEMPLATE ═════════ -->
   <div style="display:none;" id="portfolioTemplate">
 
-    <!-- Tabs -->
     <div class="upload-tabs">
-      <button class="upload-tab active" onclick="switchPortfolioTab(this,'imageTab')">🖼 Images</button>
+
+      <button class="upload-tab active" onclick="switchPortfolioTab(this,'imageTab')">�-� Images</button>
+
       <button class="upload-tab" onclick="switchPortfolioTab(this,'videoTab')">🎬 Videos</button>
+
       <button class="upload-tab" onclick="switchPortfolioTab(this,'articleTab')">📄 Article</button>
+
     </div>
 
-    <!-- IMAGE TEMPLATE -->
     <div class="portfolio-content active" id="imageTab">
-      <!-- Google Drive Link Section -->
+
       <div
         style="margin-bottom: 20px; padding: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 14px; display: flex; align-items: center; gap: 15px; position: relative; overflow: hidden;">
+
         <div
           style="position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: var(--mag); opacity: 0.05; border-radius: 0 0 0 100%; pointer-events: none;">
+
         </div>
+
         <div
           style="width: 45px; height: 45px; border-radius: 10px; background: rgba(191, 31, 143, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
+
           📂</div>
+
         <div style="flex: 1;">
+
           <div style="font-size: 0.88rem; font-weight: 800; color: var(--text); margin-bottom: 2px;">
+
             Google Drive Portfolio</div>
+
           <div style="font-size: 0.72rem; color: var(--muted); line-height: 1.4;">Access and manage your
+
             shared gallery in the cloud.</div>
+
         </div>
+
         <a href="https://drive.google.com/drive/folders/12cHOgaCUNaVoIDs8y2GAMscHb3DtmV8F" target="_blank"
           style="background: var(--mag); color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-decoration: none; transition: transform 0.2s; white-space: nowrap; box-shadow: 0 4px 12px rgba(191, 31, 143, 0.3);">
+
           Open Drive ↗
+
         </a>
+
       </div>
 
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+
         <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.05);"></div>
+
         <span
           style="font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;">OR
+
           UPLOAD NEW</span>
+
         <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.05);"></div>
+
       </div>
 
       {% csrf_token %}
+
       <label>Upload Image</label>
+
       <input type="file" accept="image/*" onchange="previewImage(this)" required>
+
       <img src="" alt="Image Preview"
         style="display:none; width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-top:10px; border:1px solid rgba(255,255,255,0.1);">
 
       <label>Image Title</label>
+
       <input type="text" placeholder="Enter title" required>
 
       <label>Description</label>
+
       <textarea placeholder="Write description"></textarea>
 
       <button class="upload-btn" onclick="submitPortfolio('Image')">Upload Image</button>
 
     </div>
 
-
-    <!-- VIDEO TEMPLATE -->
     <div class="portfolio-content" id="videoTab">
+
       {% csrf_token %}
+
       <label>Upload Video</label>
+
       <input type="file" accept="video/*" onchange="previewVideoName(this)" required>
+
       <p style="color:var(--mag); font-size:0.8rem; margin-top:5px; font-weight:600; display:none;"></p>
 
       <label>Video Title</label>
+
       <input type="text" placeholder="Enter title" required>
 
       <label>Short Explanation</label>
-      <textarea placeholder="Explain video"></textarea>
 
-      <button class="upload-btn" onclick="submitPortfolio('Video')">Upload Video</button>
+      <textarea placeholder="Explain video></textarea>
+
+      <button class=" upload-btn" onclick="submitPortfolio('Video')">Upload Video</button>
 
     </div>
 
-
-    <!-- ARTICLE TEMPLATE -->
     <div class="portfolio-content" id="articleTab">
+
       {% csrf_token %}
+
       <label>Title</label>
+
       <input type="text" placeholder="Article title" required>
 
       <label>Paragraph Content</label>
+
       <textarea placeholder="Write article" required></textarea>
 
       <label>Author Name</label>
+
       <input type="text" placeholder="Author name" required>
 
       <button class="upload-btn" onclick="submitPortfolio('Article')">Publish Article</button>
@@ -2056,56 +3291,78 @@
 
   </div>
 
-  <!-- ═════════ ATTENDANCE TEMPLATE ═════════ -->
   <div style="display:none;" id="attendanceTemplate">
+
     <iframe src="/attendance/?autologin=true&user={{ user.username }}"
       style="width:100%; height:80vh; border:none; border-radius:12px;"></iframe>
+
   </div>
 
-  </div> <!-- /page-body -->
+  </div>
 
-  <!-- ══ GENERIC POPUP ══ -->
   <div class="popup-overlay" id="popupOverlay" onclick="closePopupOutside(event)">
+
     <div class="popup-sheet">
+
       <div class="popup-header">
+
         <div class="popup-header-icon" id="popupIcon"></div>
+
         <div class="popup-header-text">
+
           <h3 id="popupTitle"></h3>
+
           <p id="popupSub"></p>
+
         </div>
+
         <div class="popup-close" onclick="closePopup()">✕</div>
+
       </div>
+
       <div class="popup-body" id="popupBody">
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- ══ FOOTER ══ -->
   <footer>
+
     <div class="footer-row">
-      <div class="flogo">
-        <div class="flogo-in"><img src="" id="fLogoImg" alt="Logo"></div>
+
+      <div class="footer-logo">
+
+        <div class="footer-logo-inner"><img src="" id="fLogoImg" alt="Logooo"></div>
+
       </div>
+
       <div class="footer-brand">Holbos</div>
+
     </div>
+
     <p>© 2025 <span>Holbos</span> · Learning Platform</p>
+
   </footer>
 
-  <!-- Toast -->
   <div class="toast" id="toast">✅ Action successful!</div>
 
   <script>
-    /* ══ REAL LOGO ══ */
-    const LOGO_SRC = "data:image/png;base64,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";
 
-    /* ══ Student data — swap with Django context ══ */
+    const LOGO_SRC = "{% static 'images/holbosLOGO.png' %}";
+
+    const PARENT_DASHBOARD_URL = "{% url 'accounts:parentsdashboard' %}";
+
+    const IS_PARENT = ("{{ user.is_parent|yesno:'true,false,false' }}" === "true");
+
     const STUDENT = {
       username: document.getElementById('navUsername')?.textContent?.trim() || 'Student',
       grade: 3,
       totalHours: 48,
       completedHours: 14,
       absentToday: true,
-      absentSession: '10:00 AM – 11:00 AM',
+      absentSession: '10:00 AM - 11:00 AM',
       absentDate: 'Thursday, 3 Apr 2025',
       projects: [
         { name: 'Heritage Poster', status: 'done', pct: 100, due: 'Mar 2025' },
@@ -2113,411 +3370,662 @@
         { name: 'Math Puzzle Set', status: 'wip', pct: 40, due: 'May 2025' },
         { name: 'Art Portfolio', status: 'todo', pct: 0, due: 'Jun 2025' },
         { name: 'Story Writing', status: 'todo', pct: 0, due: 'Jul 2025' },
-        { name: 'Tech Gadget Sketch', status: 'todo', pct: 0, due: 'Aug 2025' },
+        { name: 'Tech Gadget Sketch', status: 'todo', pct: 0, due: 'Aug 2025' }
       ],
       weeklyAttendance: [
         { day: 'Mon', ok: 1 }, { day: 'Tue', ok: 1 }, { day: 'Wed', ok: 0 }, { day: 'Thu', ok: 0 }, { day: 'Fri', ok: 1 }
       ],
       awards: [
-        { icon: '🥇', name: 'First Submission', desc: 'Submitted your first project on time!', badge: 'Gold', earned: true },
+        { icon: '🏆', name: 'First Submission', desc: 'Submitted your first project on time!', badge: 'Gold', earned: true },
         { icon: '⭐', name: 'Star Student', desc: 'Achieved 90%+ attendance this month.', badge: 'Star', earned: true },
         { icon: '🔬', name: 'Science Explorer', desc: 'Completed all Science & Nature modules.', badge: 'Explorer', earned: false },
-        { icon: '📖', name: 'Bookworm', desc: 'Finished 5 reading-based lessons.', badge: 'Reader', earned: false },
+        { icon: '📚', name: 'Bookworm', desc: 'Finished 5 reading-based lessons.', badge: 'Reader', earned: false },
         { icon: '🎨', name: 'Creative Mind', desc: 'Submitted an original Art project.', badge: 'Creative', earned: false },
-        { icon: '🏅', name: '100% Attendance', desc: 'Perfect attendance for a full month.', badge: 'Perfect', earned: false },
+        { icon: '📅', name: '100% Attendance', desc: 'Perfect attendance for a full month.', badge: 'Perfect', earned: false }
       ]
     };
 
     function switchPortfolioTab(button, tabId) {
 
       let overlay = document.getElementById("popupOverlay");
+
       let tabs = overlay.querySelectorAll(".upload-tab");
+
       let contents = overlay.querySelectorAll(".portfolio-content");
 
       tabs.forEach(tab => tab.classList.remove("active"));
+
       contents.forEach(c => c.classList.remove("active"));
 
       button.classList.add("active");
+
       overlay.querySelector('#' + tabId).classList.add("active");
 
     }
 
     function previewImage(input) {
+
       const preview = input.parentElement.querySelector('img');
+
       if (input.files && input.files[0]) {
+
         const reader = new FileReader();
+
         reader.onload = function (e) {
+
           preview.src = e.target.result;
+
           preview.style.display = 'block';
+
         }
+
         reader.readAsDataURL(input.files[0]);
+
       } else {
+
         preview.src = "";
+
         preview.style.display = 'none';
+
       }
+
     }
 
     function previewVideoName(input) {
+
       const nameLabel = input.parentElement.querySelector('p');
+
       if (input.files && input.files[0]) {
+
         nameLabel.textContent = "Selected: " + input.files[0].name;
+
         nameLabel.style.display = 'block';
+
       } else {
+
         nameLabel.textContent = "";
+
         nameLabel.style.display = 'none';
+
       }
+
     }
 
     function submitPortfolio(type) {
+
       let tabId = type.toLowerCase() + 'Tab';
+
       let tab = document.getElementById(tabId);
 
       let titleInput = tab.querySelector('input[type="text"]');
+
       let descInput = tab.querySelector('textarea');
+
       let fileInput = tab.querySelector('input[type="file"]');
 
       let formData = new FormData();
+
       formData.append('type', type);
+
       formData.append('title', titleInput ? titleInput.value : '');
+
       if (descInput) formData.append('description', descInput.value);
+
       if (fileInput && fileInput.files[0]) formData.append('file', fileInput.files[0]);
 
       const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
       fetch('/upload-portfolio/', {
+
         method: 'POST',
+
         headers: { 'X-CSRFToken': csrfToken },
+
         body: formData
+
       })
+
         .then(res => res.json())
+
         .then(data => {
-          if (data.error) {
-            showToast('❌ Error: ' + data.error);
+          if (!data.success) {
+            showToast('❌ Error: ' + (data.message || 'Upload failed'));
           } else {
             showToast('✅ ' + type + ' successfully published to Portfolio!');
             setTimeout(() => closePopup(), 1200);
           }
         })
-        .catch(err => showToast('❌ Upload failed!'));
+        .catch(err => {
+          console.error(err);
+          showToast('❌ Upload failed!');
+        });
+
     }
 
     function toggleAtt(btn, status) {
+
       const btns = btn.parentElement.querySelectorAll('button');
+
       btns.forEach(b => {
+
         b.style.background = 'rgba(255,255,255,0.05)';
+
         b.style.color = 'var(--muted)';
+
         b.style.borderColor = 'rgba(255,255,255,0.1)';
+
         b.dataset.selected = 'false';
+
       });
+
       const isPresent = status === 'present';
+
       const valMatch = isPresent ? { bg: 'rgba(34,197,94,0.15)', col: '#86EFAC', border: 'rgba(34,197,94,0.3)' } : { bg: 'rgba(239,68,68,0.15)', col: '#FCA5A5', border: 'rgba(239,68,68,0.3)' };
+
       btn.style.background = valMatch.bg;
+
       btn.style.color = valMatch.col;
+
       btn.style.borderColor = valMatch.border;
+
       btn.dataset.selected = 'true';
+
     }
 
     function saveAttendance() {
+
       showToast('✅ Student attendance successfully saved!');
+
       setTimeout(() => closePopup(), 1200);
+
     }
-    /* ── Init logos ── */
+
     document.addEventListener('DOMContentLoaded', () => {
+
       ['wLogoImg', 'navLogoImg', 'cLogoImg', 'fLogoImg'].forEach(id => {
+
         const el = document.getElementById(id); if (el) el.src = LOGO_SRC;
+
       });
+
       const u = STUDENT.username;
+
       const wn = document.getElementById('wName'); if (wn) wn.textContent = u + '!';
+
       const gn = document.getElementById('greetName'); if (gn) gn.textContent = u;
+
       const ni = document.getElementById('navInitial'); if (ni) ni.textContent = u.charAt(0).toUpperCase();
 
       const key = 'holbos_wp_' + u;
+
       if (!sessionStorage.getItem(key)) {
+
         document.getElementById('wOverlay').style.display = 'flex';
+
       } else {
+
         document.getElementById('wOverlay').style.display = 'none';
+
         checkAbsent();
+
       }
+
     });
 
     function closeWelcome() {
+
       const u = STUDENT.username;
+
       sessionStorage.setItem('holbos_wp_' + u, '1');
+
       const ov = document.getElementById('wOverlay');
+
       ov.style.opacity = '0'; ov.style.transition = 'opacity .4s';
+
       setTimeout(() => { ov.style.display = 'none'; checkAbsent(); }, 420);
+
     }
 
     function checkAbsent() {
       if (!STUDENT.absentToday) return;
       const b = document.getElementById('absentBanner');
+      if (!b) return;
       document.getElementById('absentMsg').textContent =
         `Your trainer has marked you absent for today's session (${STUDENT.absentSession}). Book an online compensation slot below.`;
       b.style.display = 'flex';
-      // Fill comp section details
-      document.getElementById('compMissedDate').textContent = STUDENT.absentDate;
-      document.getElementById('compMissedTime').textContent = STUDENT.absentSession;
-      document.getElementById('compSectionMsg').textContent =
-        `Your trainer marked you absent for the ${STUDENT.absentSession} session on ${STUDENT.absentDate}. Book an online compensation slot — your trainer will be notified instantly via email.`;
-      document.getElementById('compSection').classList.add('show');
+      const cmd = document.getElementById('compMissedDate'); if (cmd) cmd.textContent = STUDENT.absentDate;
+      const cmt = document.getElementById('compMissedTime'); if (cmt) cmt.textContent = STUDENT.absentSession;
+      const csm = document.getElementById('compSectionMsg'); if (csm) csm.textContent = `Your trainer marked you absent for the ${STUDENT.absentSession} session on ${STUDENT.absentDate}. Book an online compensation slot — your trainer will be notified instantly via email.`;
+      const cs = document.getElementById('compSection'); if (cs) cs.classList.add('show');
     }
 
     function scrollToComp() {
-      document.getElementById('compSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      document.getElementById('compSection').classList.add('show');
+      const cs = document.getElementById('compSection');
+      if (cs) {
+        cs.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        cs.classList.add('show');
+      }
     }
 
-    /* Nav */
     window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20); });
+
     function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobileMenu').classList.toggle('open'); }
+
     function closeMenu() { document.getElementById('hamburger').classList.remove('open'); document.getElementById('mobileMenu').classList.remove('open'); }
 
-    /* Scroll reveal */
     const ro = new IntersectionObserver(e => { e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }); }, { threshold: .12 });
+
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-    /* ══ POPUP ══ */
+  
     function openPopup(type) {
+
       const icon = document.getElementById('popupIcon');
+
       const title = document.getElementById('popupTitle');
+
       const sub = document.getElementById('popupSub');
+
       const body = document.getElementById('popupBody');
 
       if (type === 'course') {
+
         icon.textContent = '📚'; title.textContent = 'My Courses'; sub.textContent = 'All learning modules for Grade ' + STUDENT.grade;
+
         const courses = [
+
           { icon: '🗡️', name: 'Chhatrapati Shivaji Maharaj', tag: 'History', desc: '8 lessons on leadership & the Maratha Empire.', url: "{% url 'shivaji' %}" },
-          { icon: '🤖', name: 'Doraemon & Gadgets', tag: 'Anime & Tech', desc: '6 lessons exploring robotics & future tech.', url: "{% url 'doraemon' %}" },
-          { icon: '📖', name: 'Learning Blocks', tag: 'Education', desc: '12 modules on reading, reasoning & comprehension.', url: "{% url 'learning_blocks' %}" },
+
+          { icon: '�-', name: 'Doraemon & Gadgets', tag: 'Anime & Tech', desc: '6 lessons exploring robotics & future tech.', url: "{% url 'doraemon' %}" },
+
+          { icon: '�-', name: 'Learning Blocks', tag: 'Education', desc: '12 modules on reading, reasoning & comprehension.', url: "{% url 'learning_blocks' %}" },
+
           { icon: '🌿', name: 'Science & Nature', tag: 'Science', desc: '10 lessons on biology, physics & ecology.', url: "{% url 'science' %}" },
+
           { icon: '🎨', name: 'Art & Creativity', tag: 'Creative', desc: 'Express yourself through colours & storytelling.', url: "{% url 'art' %}" },
+
           { icon: '🔢', name: 'Mathematics', tag: 'Math', desc: '15 lessons with Vedic math tricks & puzzles.', url: "{% url 'math' %}" },
+
         ];
+
         body.innerHTML = `
+
       <p style="font-size:.84rem;color:var(--muted);line-height:1.65;margin-bottom:1.1rem">Tap any course to open it. Each is tailored for Grade ${STUDENT.grade} learners.</p>
+
       <div class="course-grid">
+
         ${courses.map(c => `
+
           <a href="${c.url}" class="course-card">
+
             <div class="course-card-icon">${c.icon}</div>
+
             <div class="course-card-name">${c.name}</div>
+
             <div class="course-card-desc">${c.desc}</div>
+
             <span class="course-card-tag">${c.tag}</span>
+
           </a>`).join('')}
+
       </div>`;
 
       } else if (type === 'progress') {
+
         const done = STUDENT.completedHours, total = STUDENT.totalHours;
+
         const pct = Math.round(done / total * 100);
+
         const C = 2 * Math.PI * 52, offset = C * (1 - pct / 100);
+
         const sDone = Math.round(done / 2), sTotal = Math.round(total / 2);
+
         const absent = STUDENT.weeklyAttendance.filter(d => !d.ok).length;
+
         icon.textContent = '📈'; title.textContent = 'My Progress'; sub.textContent = `Grade ${STUDENT.grade} · ${total}h Programme`;
+
         body.innerHTML = `
+
       <div class="summary-strip">
+
         <div class="sum-box"><div class="sum-num green">${sDone}</div><div class="sum-label">Sessions Done</div></div>
+
         <div class="sum-box"><div class="sum-num amber">${sTotal - sDone}</div><div class="sum-label">Remaining</div></div>
+
         <div class="sum-box"><div class="sum-num red">${absent}</div><div class="sum-label">Absences</div></div>
+
         <div class="sum-box"><div class="sum-num purple">${pct}%</div><div class="sum-label">Complete</div></div>
+
       </div>
+
       <div class="progress-ring-wrap">
+
         <svg width="130" height="130" viewBox="0 0 130 130">
+
           <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+
             <stop offset="0%" stop-color="#D4208A"/><stop offset="100%" stop-color="#3B2FC9"/>
+
           </linearGradient></defs>
+
           <circle class="ring-bg" cx="65" cy="65" r="52" stroke-width="10"/>
+
           <circle class="ring-fill" cx="65" cy="65" r="52" stroke-width="10"
+
             stroke="url(#rg)" stroke-dasharray="${C}" stroke-dashoffset="${C}" id="ringFill"
+
             transform="rotate(-90 65 65)"/>
+
           <text x="65" y="60" class="ring-label" font-size="18" font-weight="800" fill="#F0EAFF">${pct}%</text>
+
           <text x="65" y="78" class="ring-label" font-size="9" fill="rgba(240,234,255,.5)">COMPLETE</text>
+
         </svg>
+
         <div class="progress-stats">
+
           <div class="stat-row"><span class="stat-label">Hours Completed</span><span class="stat-val green">${done}h</span></div>
+
           <div class="stat-row"><span class="stat-label">Hours Remaining</span><span class="stat-val amber">${total - done}h</span></div>
+
           <div class="stat-row"><span class="stat-label">Programme Total</span><span class="stat-val">${total}h</span></div>
+
           <div class="stat-row"><span class="stat-label">Grade</span><span class="stat-val">Grade ${STUDENT.grade}</span></div>
+
         </div>
+
       </div>
+
       <div class="bar-chart">
+
         <div class="bar-chart-title">This Week's Attendance</div>
+
         ${STUDENT.weeklyAttendance.map(d => `
+
           <div class="bar-row">
+
             <span class="bar-label">${d.day}</span>
+
             <div class="bar-track"><div class="bar-fill" style="width:0%;background:${d.ok ? 'var(--grad)' : 'rgba(239,68,68,.55)'}" data-w="${d.ok ? 100 : 28}"></div></div>
-            <span class="bar-count" style="color:${d.ok ? 'var(--green)' : 'var(--red)'}">${d.ok ? '✓' : '✗'}</span>
+
+            <span class="bar-count" style="color:${d.ok ? 'var(--green)' : 'var(--red)'}">${d.ok ? '' : '-'}</span>
+
           </div>`).join('')}
+
       </div>
-      ${STUDENT.absentToday ? `
-      <div class="comp-inline">
-        <div class="comp-inline-title">⚠️ Absent today? Quick-book your compensation slot:</div>
-        <p style="font-size:.75rem;color:rgba(252,165,165,.7);line-height:1.5;margin-top:.2rem">Or scroll down to the full booking section below.</p>
-        <div class="comp-inline-slots">
-          <button class="comp-inline-slot" onclick="inlineSelectSlot(this)">Mon 10–11 AM</button>
-          <button class="comp-inline-slot" onclick="inlineSelectSlot(this)">Mon 4–5 PM</button>
-          <button class="comp-inline-slot" onclick="inlineSelectSlot(this)">Wed 10–11 AM</button>
-          <button class="comp-inline-slot" onclick="inlineSelectSlot(this)">Fri 10–11 AM</button>
-          <button class="comp-inline-slot" onclick="inlineSelectSlot(this)">Fri 4–5 PM</button>
-        </div>
-        <button class="confirm-inline-btn" id="inlineConfirmBtn" onclick="confirmInlineSlot()">Confirm & Notify Trainer →</button>
-      </div>`: ''}
+
     `;
+
         requestAnimationFrame(() => setTimeout(() => {
+
           const rf = document.getElementById('ringFill'); if (rf) rf.style.strokeDashoffset = offset;
+
           document.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+
         }, 80));
 
       } else if (type === 'projects') {
+
         const done = STUDENT.projects.filter(p => p.status === 'done').length;
+
         const wip = STUDENT.projects.filter(p => p.status === 'wip').length;
+
         const todo = STUDENT.projects.filter(p => p.status === 'todo').length;
+
         icon.textContent = '🛠️'; title.textContent = 'My Projects'; sub.textContent = `Grade ${STUDENT.grade} – Year overview`;
+
         body.innerHTML = `
+
       <div class="summary-strip">
+
         <div class="sum-box"><div class="sum-num green">${done}</div><div class="sum-label">Completed</div></div>
+
         <div class="sum-box"><div class="sum-num amber">${wip}</div><div class="sum-label">In Progress</div></div>
+
         <div class="sum-box"><div class="sum-num" style="color:var(--muted)">${todo}</div><div class="sum-label">Upcoming</div></div>
+
         <div class="sum-box"><div class="sum-num purple">${STUDENT.projects.length}</div><div class="sum-label">Total</div></div>
+
       </div>
+
       <div class="proj-grid">
+
         ${STUDENT.projects.map(p => `
+
           <div class="proj-card">
-            <div class="proj-top"><span class="proj-name">${p.name}</span><span class="proj-badge ${p.status}">${p.status === 'done' ? '✓ Done' : p.status === 'wip' ? 'In Progress' : 'Upcoming'}</span></div>
+
+            <div class="proj-top"><span class="proj-name">${p.name}</span><span class="proj-badge ${p.status}">${p.status === 'done' ? ' Done' : p.status === 'wip' ? 'In Progress' : 'Upcoming'}</span></div>
+
             <div class="proj-prog-bar"><div class="proj-prog-fill" style="width:0%" data-w="${p.pct}"></div></div>
+
             <div class="proj-meta">${p.pct}% · Due ${p.due}</div>
+
           </div>`).join('')}
+
       </div>`;
+
         requestAnimationFrame(() => setTimeout(() => {
+
           document.querySelectorAll('.proj-prog-fill').forEach(b => b.style.width = b.dataset.w + '%');
+
         }, 80));
 
       } else if (type === 'awards') {
+
         const earned = STUDENT.awards.filter(a => a.earned).length;
+
         icon.textContent = '🏆'; title.textContent = 'Awards & Recognition'; sub.textContent = `Grade ${STUDENT.grade} · ${earned} of ${STUDENT.awards.length} earned`;
+
         body.innerHTML = `
+
       <div class="summary-strip">
+
         <div class="sum-box"><div class="sum-num" style="color:#FDE68A">${earned}</div><div class="sum-label">Earned</div></div>
+
         <div class="sum-box"><div class="sum-num" style="color:var(--muted)">${STUDENT.awards.length - earned}</div><div class="sum-label">Locked</div></div>
+
         <div class="sum-box"><div class="sum-num purple">${STUDENT.awards.length}</div><div class="sum-label">Total</div></div>
+
       </div>
+
       <div class="awards-grid">
+
         ${STUDENT.awards.map(a => `
+
           <div class="award-card${a.earned ? '' : ' award-locked'}">
+
             <div class="award-icon" style="position:relative;display:inline-block">
+
               ${a.icon}${!a.earned ? '<span style="position:absolute;bottom:-2px;right:-4px;font-size:.7rem">🔒</span>' : ''}
+
             </div>
+
             <div class="award-name">${a.name}</div>
+
             <div class="award-desc">${a.desc}</div>
-            <span class="award-badge">${a.earned ? '✓ Earned' : 'Locked'}</span>
+
+            <span class="award-badge">${a.earned ? ' Earned' : 'Locked'}</span>
+
           </div>`).join('')}
+
       </div>`;
+
       } else if (type === 'portfolio') {
+
         icon.textContent = '📁'; title.textContent = 'Portfolio'; sub.textContent = 'Manage your uploaded content';
+
         body.innerHTML = document.getElementById('portfolioTemplate').innerHTML;
+
       } else if (type === 'attendance') {
-        icon.textContent = '📅'; title.textContent = 'Attendance Tracker'; sub.textContent = 'Record daily student attendance';
-        const origin = window.location.origin;
-        body.innerHTML = '<iframe src="' + origin + '/attendance/?autologin=true&user={{ user.username }}" style="width:100%; height:80vh; border:none; border-radius:12px;"></iframe>';
+
+        icon.textContent = '📅'; title.textContent = 'Student Performance'; sub.textContent = 'View attendance analytics and charts';
+
+        const url = IS_PARENT ? PARENT_DASHBOARD_URL : (window.location.origin + '/attendance/?autologin=true&user={{ user.username }}');
+
+        body.innerHTML = `<iframe src="${url}" style="width:100%; height:80vh; border:none; border-radius:12px;"></iframe>`;
+
       }
 
       document.getElementById('popupOverlay').classList.add('show');
+
     }
 
     function closePopup() { document.getElementById('popupOverlay').classList.remove('show'); }
+
     function closePopupOutside(e) { if (e.target === document.getElementById('popupOverlay')) closePopup(); }
 
-    /* ── Inline comp slot ── */
     function inlineSelectSlot(btn) {
+
       document.querySelectorAll('.comp-inline-slot').forEach(b => b.classList.remove('selected'));
+
       btn.classList.add('selected');
+
       const cb = document.getElementById('inlineConfirmBtn'); if (cb) cb.style.display = 'block';
+
     }
+
     function confirmInlineSlot() {
       const sel = document.querySelector('.comp-inline-slot.selected'); if (!sel) return;
       closePopup();
-      document.getElementById('absentBanner').style.display = 'none';
-      document.getElementById('compSection').classList.remove('show');
+      const ab = document.getElementById('absentBanner'); if (ab) ab.style.display = 'none';
+      const cs = document.getElementById('compSection'); if (cs) cs.classList.remove('show');
       showToast('✅ Slot booked: ' + sel.textContent + '. Trainer notified!');
     }
 
-    /* ── Main comp slot ── */
     function selectMainSlot(btn) {
+
       document.querySelectorAll('#mainCompSlots .slot-btn').forEach(b => b.classList.remove('selected'));
+
       btn.classList.add('selected');
+
       document.getElementById('mainConfirmBtn').style.display = 'block';
+
     }
+
     function confirmMainSlot() {
       const sel = document.querySelector('#mainCompSlots .slot-btn.selected'); if (!sel) return;
       const t = sel.querySelector('.slot-day')?.textContent + ' ' + sel.querySelector('.slot-time')?.textContent;
-      document.getElementById('absentBanner').style.display = 'none';
-      document.getElementById('compSection').classList.remove('show');
+      const ab = document.getElementById('absentBanner'); if (ab) ab.style.display = 'none';
+      const cs = document.getElementById('compSection'); if (cs) cs.classList.remove('show');
       showToast('✅ Slot booked: ' + t + '. Your trainer has been notified via email!');
     }
 
-    /* Toast */
     function showToast(msg) {
+
       const t = document.getElementById('toast'); t.textContent = msg;
+
       t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 4500);
+
     }
 
-    /* ══ SPIDER LAYOUT — cross ══ */
     const ORBIT = 265;
+
     function layout() {
+
       if (window.innerWidth <= 640) return;
+
       const w = document.getElementById('spiderWrapper');
+
       const cx = w.offsetWidth / 2, cy = w.offsetHeight / 2;
+
       document.getElementById('centerNode').style.left = cx + 'px';
+
       document.getElementById('centerNode').style.top = cy + 'px';
+
       const map = [
-        { id: 'node1', x: cx, y: cy - ORBIT },  // top
-        { id: 'node2', x: cx - ORBIT, y: cy },        // left
-        { id: 'node3', x: cx + ORBIT, y: cy },        // right
-        { id: 'node4', x: cx, y: cy + ORBIT },  // bottom
+
+        { id: 'node1', x: cx, y: cy - ORBIT }, 
+
+        { id: 'node2', x: cx - ORBIT, y: cy },       
+        { id: 'node3', x: cx + ORBIT, y: cy },       
+
+        { id: 'node4', x: cx, y: cy + ORBIT },
       ];
+
       map.forEach(n => {
+
         const el = document.getElementById(n.id); if (!el) return;
+
         el.style.left = n.x + 'px'; el.style.top = n.y + 'px';
+
       });
+
       drawLines(cx, cy, map);
+
     }
 
     function drawLines(cx, cy, map) {
+
       const svg = document.getElementById('webLines'); svg.innerHTML = '';
-      // Cross-web: top↔right, right↔bottom, bottom↔left, left↔top
+
       [[0, 2], [2, 3], [3, 1], [1, 0]].forEach(([a, b]) => {
+
         const na = map[a], nb = map[b];
+
         const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
         l.setAttribute('x1', na.x); l.setAttribute('y1', na.y);
+
         l.setAttribute('x2', nb.x); l.setAttribute('y2', nb.y);
+
         l.setAttribute('stroke', 'rgba(191,31,143,0.06)'); l.setAttribute('stroke-width', '1');
+
         svg.appendChild(l);
+
       });
+
       map.forEach(({ x, y }, i) => {
+
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
         line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+
         line.setAttribute('x2', x); line.setAttribute('y2', y);
+
         line.setAttribute('stroke', 'rgba(191,31,143,0.3)'); line.setAttribute('stroke-width', '1.8');
+
         line.setAttribute('stroke-dasharray', '7 5');
+
         line.classList.add('web-line'); line.style.animationDelay = (i * 0.15) + 's';
+
         svg.appendChild(line);
+
         const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
         halo.setAttribute('cx', x); halo.setAttribute('cy', y);
+
         halo.setAttribute('r', '12'); halo.setAttribute('fill', 'rgba(191,31,143,0.07)');
+
         svg.appendChild(halo);
+
         const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
         dot.setAttribute('cx', x); dot.setAttribute('cy', y);
+
         dot.setAttribute('r', '4.5'); dot.setAttribute('fill', '#D4208A'); dot.setAttribute('opacity', '0.75');
+
         svg.appendChild(dot);
+
       });
+
       const ch = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
       ch.setAttribute('cx', cx); ch.setAttribute('cy', cy); ch.setAttribute('r', '18'); ch.setAttribute('fill', 'rgba(191,31,143,0.09)'); svg.appendChild(ch);
+
       const cd = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
       cd.setAttribute('cx', cx); cd.setAttribute('cy', cy); cd.setAttribute('r', '5.5'); cd.setAttribute('fill', '#3B2FC9'); cd.setAttribute('opacity', '0.85'); svg.appendChild(cd);
+
     }
 
     window.addEventListener('load', layout);
+
     window.addEventListener('resize', layout);
+
     layout();
+
   </script>
+
 </body>
 
 </html>

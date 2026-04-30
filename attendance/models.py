@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 
-
 class TrainerManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not username:
@@ -18,16 +17,15 @@ class TrainerManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(username, email, password, **extra_fields)
 
-
 class Trainer(AbstractBaseUser, PermissionsMixin):
     username   = models.CharField(max_length=100, unique=True)
     full_name  = models.CharField(max_length=200)
     email      = models.EmailField(unique=True)
     is_active  = models.BooleanField(default=True)
     is_staff   = models.BooleanField(default=False)
+    is_parent  = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    # Prevent reverse accessor clashes with Django's built-in auth.User
     groups = models.ManyToManyField(
         'auth.Group',
         blank=True,
@@ -49,9 +47,11 @@ class Trainer(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.full_name or self.username
 
+    def get_linked_students(self):
+        from .models import Student
+        return Student.objects.filter(parent_email=self.email, is_active=True)
 
 CLASS_CHOICES = [(f"Class {i}", f"Class {i}") for i in range(1, 11)]
-
 
 class Student(models.Model):
     name       = models.CharField(max_length=200)
@@ -67,9 +67,7 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.name} ({self.student_class})"
 
-
 STATUS_CHOICES = [("Present", "Present"), ("Absent", "Absent")]
-
 
 class AttendanceSession(models.Model):
     trainer       = models.ForeignKey(Trainer, on_delete=models.CASCADE, related_name="sessions")
@@ -91,7 +89,6 @@ class AttendanceSession(models.Model):
     @property
     def absent_count(self):
         return self.records.filter(status="Absent").count()
-
 
 class AttendanceRecord(models.Model):
     session = models.ForeignKey(AttendanceSession, on_delete=models.CASCADE, related_name="records")

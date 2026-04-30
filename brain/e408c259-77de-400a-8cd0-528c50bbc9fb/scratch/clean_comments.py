@@ -24,9 +24,9 @@ def remove_comments(source):
         if toktype == tokenize.COMMENT:
             pass
         elif toktype == tokenize.STRING:
-            # Check if it's a docstring or just a string
+
             if prev_toktype == tokenize.INDENT or prev_toktype == tokenize.NEWLINE or prev_toktype == tokenize.NL:
-                # Potential docstring
+
                 pass
             else:
                 out += ttext
@@ -39,29 +39,12 @@ def remove_comments(source):
         
     return out
 
-# Actually, the user's instruction is:
-# - Remove single-line comments (# ...)
-# - Remove inline comments
-# - Remove multi-line comments (""" """ or ''' ''')
-# - Keep the code exactly the same except comments (including docstrings? usually docstrings ARE multi-line comments in this context)
-
 def clean_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    
-    # We'll use a regex for a simpler, "keep formatting exactly" approach if tokenize is too aggressive with whitespace
-    # But tokenize is better for strings.
-    # Let's use a simpler regex for # comments and then handle tri-quotes.
-    
-    # Remove single line comments
+
     content = re.sub(r'#.*', '', content)
-    
-    # Remove tri-quote comments (docstrings/multiline)
-    # This is tricky because tri-quotes can be part of variables.
-    # We'll assume for simplicity that tri-quotes on their own lines or as docstrings are to be removed.
-    # This might not be 100% perfect for all edge cases but follows the spirit.
-    
-    # Simple regex for multiline comments (non-greedy)
+
     content = re.sub(r'""".*?"""', '', content, flags=re.DOTALL)
     content = re.sub(r"'''.*?'''", '', content, flags=re.DOTALL)
     

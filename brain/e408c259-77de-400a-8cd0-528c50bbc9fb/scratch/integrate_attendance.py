@@ -2,17 +2,14 @@ import os
 
 def integrate_attendance():
     root_dir = r"c:\Users\AAKRIST SHARMA\OneDrive\Desktop\HolbosIndia"
-    
-    # Files to update
+
     attendance_file = os.path.join(root_dir, "accounts", "templates", "accounts", "attendance.html")
     dashboard_file = os.path.join(root_dir, "accounts", "templates", "accounts", "dashboard.html")
-    
-    # 1. Update attendance.html with auto-login logic
+
     if os.path.exists(attendance_file):
         with open(attendance_file, 'r', encoding='utf-8') as f:
             content = f.read()
-        
-        # Avoid double insertion
+
         if 'autologin' not in content:
             replacement = """        document.getElementById('attDate').value = new Date().toISOString().split('T')[0];
 
@@ -39,16 +36,13 @@ def integrate_attendance():
                 f.write(content)
             print("Updated attendance.html")
 
-    # 2. Update dashboard.html node4
     if os.path.exists(dashboard_file):
         with open(dashboard_file, 'r', encoding='utf-8') as f:
             content = f.read()
-            
-        # Update node4 HTML
-        # Look for the attendance node and add title/desc/tag
+
         old_part_start = '<div class="node web-node" id="node4" onclick="openPopup(\'attendance\')">'
         if old_part_start in content:
-            # We want to insert after the icon wrap
+
             insertion_point = content.find('</div>', content.find('<div class="node-icon-wrap"', content.find(old_part_start)))
             if insertion_point != -1:
                 insertion_point += 6 # after </div>
@@ -59,8 +53,7 @@ def integrate_attendance():
                     <span class="node-arrow">→</span>"""
                 if '<h3>Attendance</h3>' not in content:
                     content = content[:insertion_point] + new_text + content[insertion_point:]
-            
-            # Update iframe URL
+
             content = content.replace('src="/attendance/"', 'src="/attendance/?autologin=true&user={{ user.username }}"')
             
             with open(dashboard_file, 'w', encoding='utf-8') as f:

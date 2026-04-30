@@ -7,7 +7,6 @@
   <p>Select a date and class, then mark each student present or absent.</p>
 </div>
 
-<!-- Controls -->
 <div class="card" style="margin-bottom:1.25rem">
   <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:flex-end">
     <div class="form-group" style="margin:0">
@@ -18,29 +17,36 @@
       <label>Class</label>
       <select class="form-control" id="classSelect">
         <option value="">— select class —</option>
-          <option>Class 1</option><option>Class 2</option><option>Class 3</option>
-        <option>Class 4</option><option>Class 5</option><option>Class 6</option>
-        <option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option>
+        <option>Class 1</option>
+        <option>Class 2</option>
+        <option>Class 3</option>
+        <option>Class 4</option>
+        <option>Class 5</option>
+        <option>Class 6</option>
+        <option>Class 7</option>
+        <option>Class 8</option>
+        <option>Class 9</option>
+        <option>Class 10</option>
       </select>
     </div>
     <button class="btn btn-mag" onclick="loadStudents()">Load students</button>
   </div>
 </div>
 
-<!-- Empty state -->
 <div id="emptyState" class="card" style="text-align:center;padding:3rem;color:var(--muted);font-size:.85rem">
   Select a date and class above to load the student list.
 </div>
 
-<!-- Student table -->
 <div id="attendanceSection" style="display:none">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:.75rem">
+  <div
+    style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:.75rem">
     <div>
       <div style="font-size:1rem;font-weight:800" id="sectionLabel">—</div>
       <div style="font-size:.75rem;color:var(--muted)" id="sectionSub">Loading...</div>
     </div>
     <div style="display:flex;align-items:center;gap:.75rem">
-      <input class="search-input" type="text" id="searchInput" placeholder="Search student..." oninput="filterTable(this.value)">
+      <input class="search-input" type="text" id="searchInput" placeholder="Search student..."
+        oninput="filterTable(this.value)">
       <button class="btn btn-ghost" onclick="markAll('Present')">✓ All present</button>
       <button class="btn btn-ghost" onclick="markAll('Absent')">✕ All absent</button>
     </div>
@@ -61,7 +67,6 @@
     </table>
   </div>
 
-  <!-- Summary + submit -->
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
     <div style="font-size:.8rem;color:var(--muted)">
       Marked <strong id="cntMarked" style="color:var(--text)">0</strong> /
@@ -69,19 +74,23 @@
       Present: <strong id="cntPresent" style="color:var(--green)">0</strong> |
       Absent: <strong id="cntAbsent" style="color:var(--red)">0</strong>
     </div>
-    <button class="btn btn-mag" style="padding:.7rem 1.75rem;font-size:.88rem" onclick="submitAttendance()">Submit attendance →</button>
+    <button class="btn btn-mag" style="padding:.7rem 1.75rem;font-size:.88rem" onclick="submitAttendance()">Submit
+      attendance →</button>
   </div>
 </div>
 
-<!-- Success banner -->
 <div id="successBanner" style="display:none;border-color:rgba(34,197,94,.3)" class="card">
   <div style="display:flex;align-items:center;gap:12px">
-    <div style="width:42px;height:42px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">✓</div>
+    <div
+      style="width:42px;height:42px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">
+      ✓</div>
     <div>
-      <div style="font-size:.9rem;font-weight:800;color:var(--green);margin-bottom:.15rem" id="successTitle">Attendance submitted!</div>
+      <div style="font-size:.9rem;font-weight:800;color:var(--green);margin-bottom:.15rem" id="successTitle">Attendance
+        submitted!</div>
       <div style="font-size:.78rem;color:var(--muted)" id="successDetail"></div>
     </div>
-    <button class="btn btn-ghost" style="margin-left:auto" onclick="document.getElementById('successBanner').style.display='none'">Dismiss</button>
+    <button class="btn btn-ghost" style="margin-left:auto"
+      onclick="document.getElementById('successBanner').style.display='none'">Dismiss</button>
   </div>
 </div>
 
@@ -89,45 +98,45 @@
 
 {% block extra_js %}
 <script>
-const CSRF = '{{ csrf_token }}';
-let students = [];
-let attendance = {};
+  const CSRF = '{{ csrf_token }}';
+  let students = [];
+  let attendance = {};
 
-document.getElementById('attDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('attDate').value = new Date().toISOString().split('T')[0];
 
-function fmtDate(d){
-  if(!d) return '';
-  const [y,m,day] = d.split('-');
-  return `${day}/${m}/${y}`;
-}
+  function fmtDate(d) {
+    if (!d) return '';
+    const [y, m, day] = d.split('-');
+    return `${day}/${m}/${y}`;
+  }
 
-async function loadStudents(){
-  const cls  = document.getElementById('classSelect').value;
-  const date = document.getElementById('attDate').value;
-  if(!cls){ showToast('Please select a class', 'error'); return; }
-  if(!date){ showToast('Please select a date', 'error'); return; }
+  async function loadStudents() {
+    const cls = document.getElementById('classSelect').value;
+    const date = document.getElementById('attDate').value;
+    if (!cls) { showToast('Please select a class', 'error'); return; }
+    if (!date) { showToast('Please select a date', 'error'); return; }
 
-  try {
-    const res  = await fetch(`/attendance/api/students/?class=${encodeURIComponent(cls)}&date=${date}`);
-    const data = await res.json();
-    if(data.error){ showToast(data.error,'error'); return; }
-    students   = data.students;
-    attendance = data.existing || {};
-    document.getElementById('sectionLabel').textContent = `${cls} — ${fmtDate(date)}`;
-    document.getElementById('sectionSub').textContent   = `${students.length} students`;
-    document.getElementById('emptyState').style.display = 'none';
-    document.getElementById('attendanceSection').style.display = 'block';
-    document.getElementById('successBanner').style.display = 'none';
-    renderTable(students);
-  } catch(e){ showToast('Failed to load students', 'error'); }
-}
+    try {
+      const res = await fetch(`/attendance/api/students/?class=${encodeURIComponent(cls)}&date=${date}`);
+      const data = await res.json();
+      if (data.error) { showToast(data.error, 'error'); return; }
+      students = data.students;
+      attendance = data.existing || {};
+      document.getElementById('sectionLabel').textContent = `${cls} — ${fmtDate(date)}`;
+      document.getElementById('sectionSub').textContent = `${students.length} students`;
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('attendanceSection').style.display = 'block';
+      document.getElementById('successBanner').style.display = 'none';
+      renderTable(students);
+    } catch (e) { showToast('Failed to load students', 'error'); }
+  }
 
-function renderTable(list){
-  const tbody = document.getElementById('studentTbody');
-  tbody.innerHTML = list.map((s, i) => {
-    const st = attendance[s.id] || '';
-    return `<tr id="row-${s.id}">
-      <td style="color:var(--muted)">${i+1}</td>
+  function renderTable(list) {
+    const tbody = document.getElementById('studentTbody');
+    tbody.innerHTML = list.map((s, i) => {
+      const st = attendance[s.id] || '';
+      return `<tr id="row-${s.id}">
+      <td style="color:var(--muted)">${i + 1}</td>
       <td>
         <div style="display:flex;align-items:center;gap:10px">
           <div class="stu-av">${s.name.charAt(0)}</div>
@@ -138,91 +147,91 @@ function renderTable(list){
       <td>
         <div style="display:flex;gap:6px">
           <button onclick="mark(${s.id},'Present',this)"
-            style="width:36px;height:32px;border-radius:8px;border:1px solid ${st==='Present'?'rgba(34,197,94,.5)':'var(--border)'};background:${st==='Present'?'rgba(34,197,94,.15)':'transparent'};color:${st==='Present'?'var(--green)':'var(--muted)'};font-size:.95rem;cursor:pointer;transition:all .2s"
+            style="width:36px;height:32px;border-radius:8px;border:1px solid ${st === 'Present' ? 'rgba(34,197,94,.5)' : 'var(--border)'};background:${st === 'Present' ? 'rgba(34,197,94,.15)' : 'transparent'};color:${st === 'Present' ? 'var(--green)' : 'var(--muted)'};font-size:.95rem;cursor:pointer;transition:all .2s"
             title="Present" id="btn-p-${s.id}">✓</button>
           <button onclick="mark(${s.id},'Absent',this)"
-            style="width:36px;height:32px;border-radius:8px;border:1px solid ${st==='Absent'?'rgba(239,68,68,.5)':'var(--border)'};background:${st==='Absent'?'rgba(239,68,68,.15)':'transparent'};color:${st==='Absent'?'var(--red)':'var(--muted)'};font-size:.95rem;cursor:pointer;transition:all .2s"
+            style="width:36px;height:32px;border-radius:8px;border:1px solid ${st === 'Absent' ? 'rgba(239,68,68,.5)' : 'var(--border)'};background:${st === 'Absent' ? 'rgba(239,68,68,.15)' : 'transparent'};color:${st === 'Absent' ? 'var(--red)' : 'var(--muted)'};font-size:.95rem;cursor:pointer;transition:all .2s"
             title="Absent" id="btn-a-${s.id}">✕</button>
         </div>
       </td>
       <td id="status-${s.id}">
-        ${st==='Present'?'<span class="badge badge-green">Present</span>':st==='Absent'?'<span class="badge badge-red">Absent</span>':'<span style="font-size:.72rem;color:var(--muted)">Not marked</span>'}
+        ${st === 'Present' ? '<span class="badge badge-green">Present</span>' : st === 'Absent' ? '<span class="badge badge-red">Absent</span>' : '<span style="font-size:.72rem;color:var(--muted)">Not marked</span>'}
       </td>
     </tr>`;
-  }).join('');
-  updateSummary();
-}
-
-function mark(id, status, btn){
-  const cur = attendance[id];
-  if(cur === status){ delete attendance[id]; }
-  else { attendance[id] = status; }
-  updateBtns(id);
-  updateSummary();
-}
-
-function updateBtns(id){
-  const st = attendance[id] || '';
-  const bp = document.getElementById(`btn-p-${id}`);
-  const ba = document.getElementById(`btn-a-${id}`);
-  const sd = document.getElementById(`status-${id}`);
-  if(bp){
-    bp.style.background = st==='Present'?'rgba(34,197,94,.15)':'transparent';
-    bp.style.borderColor = st==='Present'?'rgba(34,197,94,.5)':'var(--border)';
-    bp.style.color = st==='Present'?'var(--green)':'var(--muted)';
+    }).join('');
+    updateSummary();
   }
-  if(ba){
-    ba.style.background = st==='Absent'?'rgba(239,68,68,.15)':'transparent';
-    ba.style.borderColor = st==='Absent'?'rgba(239,68,68,.5)':'var(--border)';
-    ba.style.color = st==='Absent'?'var(--red)':'var(--muted)';
+
+  function mark(id, status, btn) {
+    const cur = attendance[id];
+    if (cur === status) { delete attendance[id]; }
+    else { attendance[id] = status; }
+    updateBtns(id);
+    updateSummary();
   }
-  if(sd) sd.innerHTML = st==='Present'?'<span class="badge badge-green">Present</span>':st==='Absent'?'<span class="badge badge-red">Absent</span>':'<span style="font-size:.72rem;color:var(--muted)">Not marked</span>';
-}
 
-function markAll(status){
-  students.forEach(s => { attendance[s.id] = status; updateBtns(s.id); });
-  updateSummary();
-}
-
-function updateSummary(){
-  const keys = Object.keys(attendance);
-  document.getElementById('cntTotal').textContent = students.length;
-  document.getElementById('cntMarked').textContent = keys.length;
-  document.getElementById('cntPresent').textContent = keys.filter(k=>attendance[k]==='Present').length;
-  document.getElementById('cntAbsent').textContent = keys.filter(k=>attendance[k]==='Absent').length;
-}
-
-function filterTable(q){
-  const filtered = students.filter(s => s.name.toLowerCase().includes(q.toLowerCase()));
-  renderTable(filtered);
-}
-
-async function submitAttendance(){
-  const cls  = document.getElementById('classSelect').value;
-  const date = document.getElementById('attDate').value;
-  const keys = Object.keys(attendance);
-  if(keys.length === 0){ showToast('Please mark at least one student', 'error'); return; }
-
-  try {
-    const res = await fetch('/attendance/api/submit/', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'X-CSRFToken': CSRF },
-      body: JSON.stringify({ class: cls, date, records: attendance })
-    });
-    const data = await res.json();
-    if(data.ok){
-      const present = keys.filter(k=>attendance[k]==='Present').length;
-      const absent  = keys.filter(k=>attendance[k]==='Absent').length;
-      document.getElementById('successBanner').style.display = 'block';
-      document.getElementById('successTitle').textContent = `Attendance saved — ${cls}, ${fmtDate(date)}`;
-      document.getElementById('successDetail').textContent = `${present} present · ${absent} absent · ${keys.length} total records submitted.`;
-      document.getElementById('successBanner').style.borderColor = 'rgba(34,197,94,.35)';
-      document.getElementById('successBanner').style.background = 'rgba(34,197,94,.05)';
-      showToast('✓ Attendance submitted successfully!');
-    } else {
-      showToast(data.error || 'Submission failed', 'error');
+  function updateBtns(id) {
+    const st = attendance[id] || '';
+    const bp = document.getElementById(`btn-p-${id}`);
+    const ba = document.getElementById(`btn-a-${id}`);
+    const sd = document.getElementById(`status-${id}`);
+    if (bp) {
+      bp.style.background = st === 'Present' ? 'rgba(34,197,94,.15)' : 'transparent';
+      bp.style.borderColor = st === 'Present' ? 'rgba(34,197,94,.5)' : 'var(--border)';
+      bp.style.color = st === 'Present' ? 'var(--green)' : 'var(--muted)';
     }
-  } catch(e){ showToast('Network error — please retry', 'error'); }
-}
+    if (ba) {
+      ba.style.background = st === 'Absent' ? 'rgba(239,68,68,.15)' : 'transparent';
+      ba.style.borderColor = st === 'Absent' ? 'rgba(239,68,68,.5)' : 'var(--border)';
+      ba.style.color = st === 'Absent' ? 'var(--red)' : 'var(--muted)';
+    }
+    if (sd) sd.innerHTML = st === 'Present' ? '<span class="badge badge-green">Present</span>' : st === 'Absent' ? '<span class="badge badge-red">Absent</span>' : '<span style="font-size:.72rem;color:var(--muted)">Not marked</span>';
+  }
+
+  function markAll(status) {
+    students.forEach(s => { attendance[s.id] = status; updateBtns(s.id); });
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const keys = Object.keys(attendance);
+    document.getElementById('cntTotal').textContent = students.length;
+    document.getElementById('cntMarked').textContent = keys.length;
+    document.getElementById('cntPresent').textContent = keys.filter(k => attendance[k] === 'Present').length;
+    document.getElementById('cntAbsent').textContent = keys.filter(k => attendance[k] === 'Absent').length;
+  }
+
+  function filterTable(q) {
+    const filtered = students.filter(s => s.name.toLowerCase().includes(q.toLowerCase()));
+    renderTable(filtered);
+  }
+
+  async function submitAttendance() {
+    const cls = document.getElementById('classSelect').value;
+    const date = document.getElementById('attDate').value;
+    const keys = Object.keys(attendance);
+    if (keys.length === 0) { showToast('Please mark at least one student', 'error'); return; }
+
+    try {
+      const res = await fetch('/attendance/api/submit/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+        body: JSON.stringify({ class: cls, date, records: attendance })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        const present = keys.filter(k => attendance[k] === 'Present').length;
+        const absent = keys.filter(k => attendance[k] === 'Absent').length;
+        document.getElementById('successBanner').style.display = 'block';
+        document.getElementById('successTitle').textContent = `Attendance saved — ${cls}, ${fmtDate(date)}`;
+        document.getElementById('successDetail').textContent = `${present} present · ${absent} absent · ${keys.length} total records submitted.`;
+        document.getElementById('successBanner').style.borderColor = 'rgba(34,197,94,.35)';
+        document.getElementById('successBanner').style.background = 'rgba(34,197,94,.05)';
+        showToast('✓ Attendance submitted successfully!');
+      } else {
+        showToast(data.error || 'Submission failed', 'error');
+      }
+    } catch (e) { showToast('Network error — please retry', 'error'); }
+  }
 </script>
 {% endblock %}

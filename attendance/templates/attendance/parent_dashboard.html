@@ -51,11 +51,14 @@
   </div>
 </div>
 
-
-<div class="stats-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+<div class="stats-grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
   <div class="stat-card" style="background:#eff6ff;border-color:#dbeafe">
     <div class="stat-num" style="color:#2563eb">{{ children.count }}</div>
     <div class="stat-lbl" style="color:#1e40af">Linked Student{{ children.count|pluralize }}</div>
+  </div>
+  <div class="stat-card" style="background:#fefce8;border-color:#fef08a">
+    <div class="stat-num" style="color:#ca8a04">{{ attendance_percentage }}%</div>
+    <div class="stat-lbl" style="color:#854d0e">Attendance Rate</div>
   </div>
   <div class="stat-card" style="background:#ecfdf5;border-color:#d1fae5">
     <div class="stat-num" style="color:#059669">{{ total_present }}</div>
@@ -67,30 +70,33 @@
   </div>
 </div>
 
-
 {% if children %}
 <div class="parent-grid">
   {% for child in children %}
-  {% with child_records=records|dictsortreversed:"session.date" %}
-  <div class="child-card">
+  <div class="child-card" style="position:relative;overflow:hidden">
     <div class="child-av">{{ child.name|first|upper }}</div>
-    <div>
-      <div style="font-weight:800;font-size:.95rem">{{ child.name }}</div>
-      <div style="font-size:.75rem;color:var(--muted);margin-top:2px">{{ child.student_class }}</div>
-      {% if child.roll_number %}
-      <div style="font-size:.72rem;color:var(--muted)">Roll: {{ child.roll_number }}</div>
-      {% endif %}
+    <div style="flex:1">
+      <div style="font-weight:800;font-size:1.1rem;color:var(--text)">{{ child.name }}</div>
+      <div style="display:flex;align-items:center;gap:.5rem;margin-top:4px">
+        <span class="badge badge-amber" style="font-size:.65rem">{{ child.student_class }}</span>
+        {% if child.roll_number %}
+        <span style="font-size:.72rem;color:var(--muted)">Roll: {{ child.roll_number }}</span>
+        {% endif %}
+      </div>
     </div>
+    {% with child_stats=records|dictsort:"student.id" %}
+
+    {% endwith %}
   </div>
-  {% endwith %}
   {% endfor %}
 </div>
 {% else %}
-<div class="card" style="text-align:center;padding:2.5rem;color:var(--muted);font-size:.85rem;margin-bottom:1.5rem">
-  No children linked to your account yet. Please contact your trainer to link your child.
+<div class="card" style="text-align:center;padding:4rem 2.5rem;background:rgba(239,68,68,.02);border-color:rgba(239,68,68,.1)">
+  <div style="font-size:3rem;margin-bottom:1rem">👥</div>
+  <h3 style="margin-bottom:.5rem;color:var(--text)">No children linked yet</h3>
+  <p style="color:var(--muted);font-size:.85rem;max-width:320px;margin:0 auto">Your child's attendance will appear here once the trainer links your email (<strong>{{ user.email }}</strong>) to their student profile.</p>
 </div>
 {% endif %}
-
 
 <div class="card">
   <div
@@ -107,6 +113,7 @@
           <th>Date</th>
           <th>Student</th>
           <th>Class</th>
+          <th>Trainer</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -122,6 +129,7 @@
             </div>
           </td>
           <td style="color:var(--muted)">{{ r.session.student_class }}</td>
+          <td style="color:var(--muted);font-size:.75rem">{{ r.session.trainer.full_name|default:r.session.trainer.username }}</td>
           <td>
             {% if r.status == "Present" %}
             <span class="badge badge-green">Present</span>
@@ -141,10 +149,8 @@
   {% endif %}
 </div>
 
-
 <div style="margin-top:1.5rem;text-align:center">
   <a href="{% url 'attendance:logout' %}" class="btn btn-ghost" style="font-size:.78rem">Sign out</a>
 </div>
 {% endblock %} 
-
 
