@@ -1,6 +1,5 @@
 {% extends "attendance/base.html" %}
 {% block title %}Dashboard — Holbos AttendERP{% endblock %}
-
 {% block content %}
 <style>
   .dash-wrap {
@@ -9,20 +8,17 @@
     gap: 1rem;
     margin-bottom: 1rem;
   }
-
   .class-row {
     display: flex;
     align-items: center;
     gap: .75rem;
     margin-bottom: .7rem;
   }
-
   .class-name {
     font-size: .75rem;
     color: var(--muted);
     width: 64px;
   }
-
   .bar-track {
     flex: 1;
     height: 7px;
@@ -30,28 +26,24 @@
     border-radius: 4px;
     overflow: hidden;
   }
-
   .bar-fill {
     width: 0;
     height: 100%;
     background: #2563eb;
     border-radius: 4px;
   }
-
   .pct-label {
     font-size: .72rem;
     color: var(--muted);
     width: 34px;
     text-align: right;
   }
-
   .week-chart {
     display: flex;
     gap: .6rem;
     align-items: flex-end;
     height: 120px;
   }
-
   .week-day {
     flex: 1;
     display: flex;
@@ -59,7 +51,6 @@
     align-items: center;
     gap: 4px;
   }
-
   .week-stack {
     width: 100%;
     display: flex;
@@ -68,34 +59,28 @@
     height: 90px;
     gap: 2px;
   }
-
   .week-fill {
     width: 100%;
     border-radius: 4px 4px 0 0;
     min-height: 4px;
   }
-
   .week-fill.present {
     background: #22c55e;
   }
-
   .week-fill.absent {
     background: #ef4444;
   }
-
   .week-empty {
     width: 100%;
     background: #e5e7eb;
     border-radius: 4px;
     height: 8px;
   }
-
   .legend {
     display: flex;
     gap: 1.25rem;
     margin-top: .75rem;
   }
-
   .legend-item {
     display: flex;
     align-items: center;
@@ -103,7 +88,6 @@
     font-size: .72rem;
     color: var(--muted);
   }
-
   .legend-box {
     width: 10px;
     height: 10px;
@@ -111,7 +95,6 @@
     display: inline-block;
   }
 </style>
-
 <div class="page-hd">
   <h1>
     {% now "G" as hour %}
@@ -119,7 +102,6 @@
       {{ user.get_full_name|default:user.username|truncatewords:1 }} 👋 </h1>
       <p>Today is {% now "l, j F Y" %} — here's your attendance overview.</p>
 </div>
-
 <div class="stats-grid">
   <div class="stat-card">
     <div class="stat-num c-blue">{{ total_students }}</div>
@@ -138,25 +120,20 @@
     <div class="stat-lbl">Sessions logged</div>
   </div>
 </div>
-
 <div class="dash-wrap">
-
   <div class="card">
     <div
       style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.25rem">
       Attendance by class — today
     </div>
-
     {% if classes_data %}
     {% for c in classes_data %}
     <div class="class-row">
       <span class="class-name" style="width:72px">{{ c.class }}</span>
-
       <div class="bar-track">
         <div class="bar-fill js-class-bar" style="background:var(--grad)"
           data-pct="{{ c.pct|default:0|floatformat:0 }}"></div>
       </div>
-
       <span class="pct-label" style="font-weight:700;color:var(--primary)">{{ c.pct|default:0|floatformat:0 }}%</span>
     </div>
     {% endfor %}
@@ -166,15 +143,12 @@
     </div>
     {% endif %}
   </div>
-
 </div>
-
 <div class="card">
   <div
     style="font-size:.82rem;font-weight:800;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.1rem">
     Last 7 days — present vs absent
   </div>
-
   <div class="week-chart">
     {% for d in week_data %}
     <div class="week-day">
@@ -186,19 +160,16 @@
         {% if d.absent %}
         <div class="week-fill js-week-bar" style="background:#fecaca" data-count="{{ d.absent|default:0 }}"></div>
         {% endif %}
-
         {% if not d.present and not d.absent %}
         <div class="week-empty"></div>
         {% endif %}
       </div>
-
       <div style="font-size:.65rem;color:var(--muted)">
         {{ d.date }}
       </div>
     </div>
     {% endfor %}
   </div>
-
   <div class="legend">
     <div class="legend-item">
       <span class="legend-box" style="background:var(--primary)"></span>
@@ -210,7 +181,6 @@
     </div>
   </div>
 </div>
-
 <script>
   (function () {
     document.querySelectorAll('.js-class-bar').forEach(function (el) {
@@ -219,11 +189,9 @@
       if (pct > 100) pct = 100;
       el.style.width = pct + '%';
     });
-
     document.querySelectorAll('.js-week-bar').forEach(function (el) {
       var count = Number(el.dataset.count || 0);
       if (isNaN(count) || count < 0) count = 0;
-
       var maxCount = 30;
       var height = Math.max(4, Math.min(90, (count / maxCount) * 90));
       el.style.height = height + 'px';

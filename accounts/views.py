@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import UserSignupForm, UserLoginForm, ParentSignupForm
-
 from .models import PortfolioItem
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -33,14 +32,12 @@ def parents_signup_view(request):
     form = ParentSignupForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         user = form.save()
-
         subject = 'Welcome to Holbos India - Parent Portal'
         email_body = f'Hi {user.full_name or user.username},\n\n' \
                      f'Your parent account has been successfully created on Holbos India AttendERP.\n' \
                      f'You can now log in to the Parent Portal to view your child\'s attendance and performance.\n\n' \
                      f'Login here: http://{request.get_host()}/parents-login/\n\n' \
                      f'Best regards,\nHolbos India Team'
-        
         try:
             send_mail(
                 subject,
@@ -51,14 +48,12 @@ def parents_signup_view(request):
             )
         except Exception:
             pass
-
         messages.success(request, "Thanks for creating an account at Holbos")
         return redirect('accounts:parents_login')
     return render(request, 'accounts/parents_signup.html', {'form': form})
 
 def login_view(request):
     if request.user.is_authenticated:
-
         if getattr(request.user, 'is_parent', False):
             return redirect('accounts:parentsdashboard')
         if getattr(request.user, 'is_staff', False) or getattr(request.user, 'is_superuser', False):
@@ -82,9 +77,10 @@ def login_view(request):
 
 @login_required
 def dashboard_view(request):
-
     if getattr(request.user, 'is_staff', False) or getattr(request.user, 'is_superuser', False):
         return redirect('attendance:dashboard')
+    if getattr(request.user, 'is_parent', False):
+        return redirect('accounts:parentsdashboard')
     return render(request, 'accounts/dashboard.html')
 
 def logout_view(request):
@@ -122,12 +118,7 @@ def parents_dashboard_view(request):
     if not getattr(request.user, 'is_parent', False) and not request.user.is_staff:
         return redirect('accounts:dashboard')
     
-    
-    
-    
-
-    children = Student.objects.filter(parent_email=request.user.email, is_active=True)
-    
+    children = Student.objects.filter(parent_email__iexact=request.user.email, is_active=True)
     now = timezone.now()
     _, total_days_in_month = calendar.monthrange(now.year, now.month)
     first_day_of_month = calendar.weekday(now.year, now.month, 1) 
@@ -136,7 +127,6 @@ def parents_dashboard_view(request):
         student__in=children
     ).select_related('session', 'student').order_by('-session__date')
     
-    
     child_stats = {}
     for child in children:
         child_records = records.filter(student=child)
@@ -144,10 +134,7 @@ def parents_dashboard_view(request):
         c_absent = child_records.filter(status="Absent").count()
         c_total = c_present + c_absent
         c_pct = round((c_present / c_total) * 100) if c_total > 0 else 0
-        
-        
         c_map = {str(r.session.date.day): (1 if r.status == "Present" else 0) for r in child_records if r.session.date.month == now.month}
-        
         
         c_weekly = []
         for r in child_records[:5]:
@@ -156,8 +143,6 @@ def parents_dashboard_view(request):
                 'ok': 1 if r.status == 'Present' else 0
             })
         c_weekly.reverse()
-
-        
         c_absent_dates = [r.session.date.strftime('%d %b') for r in child_records if r.status == 'Absent']
 
         child_stats[str(child.id)] = {
@@ -171,7 +156,6 @@ def parents_dashboard_view(request):
             'name': child.name
         }
 
-    
     total_present = records.filter(status='Present').count()
     total_absent = records.filter(status='Absent').count()
     total_days = total_present + total_absent

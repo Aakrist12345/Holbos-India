@@ -1,17 +1,23 @@
 {% extends "attendance/base.html" %}
 {% block title %}Mark Attendance — Holbos AttendERP{% endblock %}
-
 {% block content %}
 <div class="page-hd">
   <h1>Mark attendance</h1>
   <p>Select a date and class, then mark each student present or absent.</p>
 </div>
-
 <div class="card" style="margin-bottom:1.25rem">
   <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:flex-end">
     <div class="form-group" style="margin:0">
       <label>Date</label>
-      <input class="form-control" type="date" id="attDate">
+      <input class="form-control" type="date" id="attDate" disabled max="{% now 'Y-m-d' %}">
+      {% if user.is_staff %}
+      <div style="margin-top: 6px;">
+        <label style="font-size: 0.72rem; font-weight: 600; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          <input type="checkbox" id="backdateToggle" onchange="document.getElementById('attDate').disabled = !this.checked" style="accent-color: var(--primary);">
+          Enable past date selection (Admin)
+        </label>
+      </div>
+      {% endif %}
     </div>
     <div class="form-group" style="margin:0">
       <label>Class</label>
@@ -32,11 +38,9 @@
     <button class="btn btn-mag" onclick="loadStudents()">Load students</button>
   </div>
 </div>
-
 <div id="emptyState" class="card" style="text-align:center;padding:3rem;color:var(--muted);font-size:.85rem">
   Select a date and class above to load the student list.
 </div>
-
 <div id="attendanceSection" style="display:none">
   <div
     style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:.75rem">
@@ -51,7 +55,6 @@
       <button class="btn btn-ghost" onclick="markAll('Absent')">✕ All absent</button>
     </div>
   </div>
-
   <div class="table-wrap" style="margin-bottom:1.1rem">
     <table>
       <thead>
@@ -66,7 +69,6 @@
       <tbody id="studentTbody"></tbody>
     </table>
   </div>
-
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
     <div style="font-size:.8rem;color:var(--muted)">
       Marked <strong id="cntMarked" style="color:var(--text)">0</strong> /
@@ -78,7 +80,6 @@
       attendance →</button>
   </div>
 </div>
-
 <div id="successBanner" style="display:none;border-color:rgba(34,197,94,.3)" class="card">
   <div style="display:flex;align-items:center;gap:12px">
     <div
@@ -93,29 +94,24 @@
       onclick="document.getElementById('successBanner').style.display='none'">Dismiss</button>
   </div>
 </div>
-
 {% endblock %}
-
 {% block extra_js %}
 <script>
   const CSRF = '{{ csrf_token }}';
   let students = [];
   let attendance = {};
-
-  document.getElementById('attDate').value = new Date().toISOString().split('T')[0];
-
+  const attDateInput = document.getElementById('attDate');
+  attDateInput.value = new Date().toISOString().split('T')[0];
   function fmtDate(d) {
     if (!d) return '';
     const [y, m, day] = d.split('-');
     return `${day}/${m}/${y}`;
   }
-
   async function loadStudents() {
     const cls = document.getElementById('classSelect').value;
     const date = document.getElementById('attDate').value;
     if (!cls) { showToast('Please select a class', 'error'); return; }
     if (!date) { showToast('Please select a date', 'error'); return; }
-
     try {
       const res = await fetch(`/attendance/api/students/?class=${encodeURIComponent(cls)}&date=${date}`);
       const data = await res.json();
@@ -130,7 +126,6 @@
       renderTable(students);
     } catch (e) { showToast('Failed to load students', 'error'); }
   }
-
   function renderTable(list) {
     const tbody = document.getElementById('studentTbody');
     tbody.innerHTML = list.map((s, i) => {
@@ -161,7 +156,6 @@
     }).join('');
     updateSummary();
   }
-
   function mark(id, status, btn) {
     const cur = attendance[id];
     if (cur === status) { delete attendance[id]; }
@@ -169,7 +163,6 @@
     updateBtns(id);
     updateSummary();
   }
-
   function updateBtns(id) {
     const st = attendance[id] || '';
     const bp = document.getElementById(`btn-p-${id}`);
@@ -187,12 +180,10 @@
     }
     if (sd) sd.innerHTML = st === 'Present' ? '<span class="badge badge-green">Present</span>' : st === 'Absent' ? '<span class="badge badge-red">Absent</span>' : '<span style="font-size:.72rem;color:var(--muted)">Not marked</span>';
   }
-
   function markAll(status) {
     students.forEach(s => { attendance[s.id] = status; updateBtns(s.id); });
     updateSummary();
   }
-
   function updateSummary() {
     const keys = Object.keys(attendance);
     document.getElementById('cntTotal').textContent = students.length;
@@ -200,18 +191,15 @@
     document.getElementById('cntPresent').textContent = keys.filter(k => attendance[k] === 'Present').length;
     document.getElementById('cntAbsent').textContent = keys.filter(k => attendance[k] === 'Absent').length;
   }
-
   function filterTable(q) {
     const filtered = students.filter(s => s.name.toLowerCase().includes(q.toLowerCase()));
     renderTable(filtered);
   }
-
   async function submitAttendance() {
     const cls = document.getElementById('classSelect').value;
     const date = document.getElementById('attDate').value;
     const keys = Object.keys(attendance);
     if (keys.length === 0) { showToast('Please mark at least one student', 'error'); return; }
-
     try {
       const res = await fetch('/attendance/api/submit/', {
         method: 'POST',

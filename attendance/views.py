@@ -1,22 +1,18 @@
 import json
 from datetime import date, timedelta
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-
 from .forms import StudentForm, TrainerLoginForm, TrainerSignupForm, ParentCreateForm
 from .models import AttendanceRecord, AttendanceSession, Student, Trainer, CLASS_CHOICES
-
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
 from django.conf import settings
 
 def trainer_login(request):
-
     if request.GET.get('autologin') == 'true' and request.GET.get('user'):
         username = request.GET.get('user')
         if request.user.is_authenticated and request.user.username == username:
@@ -81,11 +77,8 @@ def dashboard(request):
         return redirect("accounts:parentsdashboard")
     
     today = date.today()
-    
-    
     total_students = Student.objects.filter(is_active=True).count()
     today_sessions = AttendanceSession.objects.filter(date=today)
-    
     
     today_records = AttendanceRecord.objects.filter(session__date=today)
     stats = today_records.aggregate(
@@ -96,8 +89,6 @@ def dashboard(request):
     absent_today  = stats["absent"] or 0
     total_sessions = AttendanceSession.objects.count()
 
-    
-    
     student_counts = (
         Student.objects.filter(is_active=True)
         .values("student_class")
@@ -105,7 +96,6 @@ def dashboard(request):
     )
     student_map = {item["student_class"]: item["total"] for item in student_counts}
 
-    
     present_counts = (
         AttendanceRecord.objects.filter(session__date=today, status="Present")
         .values("session__student_class")
@@ -117,7 +107,6 @@ def dashboard(request):
     for cls_name, _ in CLASS_CHOICES:
         total = student_map.get(cls_name, 0)
         if total == 0: continue
-        
         present = present_map.get(cls_name, 0)
         classes_data.append({
             "class": cls_name,
@@ -126,7 +115,6 @@ def dashboard(request):
             "pct": round((present / total * 100)) if total else 0
         })
 
-    
     seven_days_ago = today - timedelta(days=6)
     history = (
         AttendanceRecord.objects.filter(session__date__gte=seven_days_ago)
@@ -173,7 +161,6 @@ def mark_attendance(request):
 
 @login_required(login_url="attendance:login")
 def get_students_for_class(request):
-    """AJAX: return students + existing attendance for a class+date."""
     cls  = request.GET.get("class", "")
     dt   = request.GET.get("date", "")
     if not cls or not dt:
@@ -198,7 +185,6 @@ def get_students_for_class(request):
 @login_required(login_url="attendance:login")
 @require_POST
 def submit_attendance(request):
-    """AJAX: save a full attendance session."""
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -206,8 +192,7 @@ def submit_attendance(request):
 
     cls      = data.get("class", "").strip()
     dt       = data.get("date", "").strip()
-    records  = data.get("records", {})   # {student_id: "Present"|"Absent"}
-
+    records  = data.get("records", {})
     if not cls or not dt or not records:
         return JsonResponse({"error": "class, date, and records are required"}, status=400)
 
@@ -225,16 +210,39 @@ def submit_attendance(request):
             defaults={"status": status},
         )
         saved += 1
-
     return JsonResponse({"ok": True, "saved": saved, "session_id": session.id})
+
+@login_required(login_url="attendance:login")
+@require_POST
+def book_compensation_slot(request):
+    try:
+        data = json.loads(request.body)
+        slot = data.get("slot")
+        student_name = data.get("student_name", request.user.username).strip().replace("\n", "").replace("\r", "")
+        
+        subject = f"New Compensation Slot Booking: {student_name}"
+        subject = subject.replace("\n", "").replace("\r", "")
+        message = f"Hello Holbos India,\n\n" \
+                  f"A parent of student '{student_name}' has booked a compensation slot for: {slot}.\n\n" \
+                  f"Please send them the corresponding timing for that day.\n\n" \
+                  f"Student/Parent User: {request.user.username}\n" \
+                  f"Email: {request.user.email}\n"
+                  
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            ['holbosindia@gmail.com', 'aakholbos7497@gmail.com'],
+            fail_silently=False,
+        )
+        return JsonResponse({"ok": True})
+    except Exception as e:
+        return JsonResponse({"ok": False, "error": str(e)}, status=500)
 
 @login_required(login_url="attendance:login")
 def records(request):
     if getattr(request.user, 'is_parent', False):
         return redirect("accounts:parentsdashboard")
-    """
-    Refined records view: Direct query on AttendanceRecord with optimized joins.
-    """
 
     cls_filter    = request.GET.get("class", "")
     status_filter = request.GET.get("status", "")
@@ -313,14 +321,12 @@ def create_parent(request):
     form = ParentCreateForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
-
         subject = 'Welcome to Holbos India - Parent Portal'
         email_body = f'Hi {user.full_name or user.username},\n\n' \
                      f'Your parent account has been successfully created on Holbos India AttendERP.\n' \
                      f'You can now log in to the Parent Portal to view your child\'s attendance and performance.\n\n' \
                      f'Login here: http://{request.get_host()}/parents-login/\n\n' \
                      f'Best regards,\nHolbos India Team'
-        
         try:
             send_mail(
                 subject,
@@ -331,13 +337,11 @@ def create_parent(request):
             )
         except Exception:
             pass
-            
         return redirect("attendance:parents_list")
     return render(request, "attendance/create_parent.html", {"form": form})
 
 @login_required(login_url="attendance:login")
 def delete_parent(request, pk):
-    """Toggles active status of a parent account"""
     if getattr(request.user, 'is_parent', False):
         return redirect("accounts:parentsdashboard")
     parent = get_object_or_404(Trainer, pk=pk)
@@ -348,7 +352,6 @@ def delete_parent(request, pk):
 
 @login_required(login_url="attendance:login")
 def hard_delete_parent(request, pk):
-    """Permanently deletes a parent account"""
     if getattr(request.user, 'is_parent', False):
         return redirect("accounts:parentsdashboard")
     parent = get_object_or_404(Trainer, pk=pk)

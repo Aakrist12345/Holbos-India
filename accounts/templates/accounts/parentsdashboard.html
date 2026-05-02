@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   {% load static %}
   <meta charset="UTF-8">
@@ -18,7 +17,6 @@
       margin: 0;
       padding: 0;
     }
-
     :root {
       --primary: #1e3a8a;
       --primary-light: #3b82f6;
@@ -33,11 +31,9 @@
       --nav-h: 68px;
       --ease: cubic-bezier(.23, 1, .32, 1);
     }
-
     html {
       scroll-behavior: smooth;
     }
-
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
@@ -45,7 +41,6 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     .bg-fixed {
       position: fixed;
       inset: 0;
@@ -53,7 +48,6 @@
       pointer-events: none;
       background: var(--bg);
     }
-
     .navbar {
       position: fixed;
       top: 0;
@@ -68,14 +62,12 @@
       background: var(--surface);
       border-bottom: 2px solid var(--border);
     }
-
     .nav-brand {
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
     }
-
     .brand-logo {
       width: 36px;
       height: 36px;
@@ -86,13 +78,11 @@
       display: block;
       flex-shrink: 0;
     }
-
     .brand-name {
       font-family: 'Yatra One', cursive;
       font-size: 1.5rem;
       color: var(--primary);
     }
-
     .nav-parent-tag {
       display: inline-flex;
       align-items: center;
@@ -107,13 +97,11 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
-
     .nav-right {
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-
     .nav-user {
       display: flex;
       align-items: center;
@@ -123,7 +111,6 @@
       border: 1px solid var(--border);
       border-radius: 8px;
     }
-
     .nav-avatar {
       width: 28px;
       height: 28px;
@@ -136,13 +123,11 @@
       font-weight: 800;
       color: #fff;
     }
-
     .nav-username {
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--text);
     }
-
     .btn-logout {
       background: var(--primary);
       color: #fff;
@@ -156,22 +141,18 @@
       letter-spacing: 0.05em;
       transition: all 0.2s;
     }
-
     .btn-logout:hover {
       background: var(--primary-light);
     }
-
     .page-body {
       padding-top: var(--nav-h);
       position: relative;
       z-index: 1;
     }
-
     .hero {
       text-align: center;
       padding: 2.5rem 1rem 1rem;
     }
-
     .hero-greeting {
       font-size: clamp(1.5rem, 3.5vw, 2.4rem);
       font-weight: 800;
@@ -179,27 +160,22 @@
       margin-bottom: 0.4rem;
       color: var(--text);
     }
-
     .hero-greeting .hello {
       color: var(--muted);
       font-weight: 500;
     }
-
     .hero-greeting .uname {
       color: var(--primary);
     }
-
     .hero-sub {
       font-size: 0.88rem;
       color: var(--muted);
     }
-
     .readonly-banner {
       max-width: 900px;
       margin: 1.2rem auto 0;
       padding: 0 1.5rem;
     }
-
     .readonly-strip {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -213,25 +189,21 @@
       font-weight: 600;
       line-height: 1.5;
     }
-
     .readonly-icon {
       font-size: 1.2rem;
       flex-shrink: 0;
     }
-
     .sections {
       max-width: 900px;
       margin: 0 auto;
       padding: 2rem 1.5rem 3rem;
     }
-
     .sec-header {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 1.2rem;
     }
-
     .sec-icon {
       width: 40px;
       height: 40px;
@@ -244,19 +216,16 @@
       font-size: 1.1rem;
       flex-shrink: 0;
     }
-
     .sec-title {
       font-size: 1.05rem;
       font-weight: 800;
       color: var(--text);
     }
-
     .sec-sub {
       font-size: 0.75rem;
       color: var(--muted);
       margin-top: 2px;
     }
-
     .box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -267,14 +236,12 @@
       overflow: hidden;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
-
     .student-tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 1.5rem;
     }
-
     .s-tab {
       display: flex;
       align-items: center;
@@ -289,13 +256,11 @@
       color: var(--muted);
       transition: all 0.2s;
     }
-
     .s-tab.active {
       background: var(--primary);
       border-color: var(--primary);
       color: #fff;
     }
-
     .s-tab-avatar {
       width: 22px;
       height: 22px;
@@ -308,14 +273,12 @@
       font-weight: 800;
       color: #fff;
     }
-
     .stat-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
-
     .stat-box {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -323,29 +286,23 @@
       padding: 1rem 0.85rem;
       text-align: center;
     }
-
     .stat-num {
       font-size: 1.6rem;
       font-weight: 800;
       line-height: 1;
     }
-
     .stat-num.green {
       color: var(--green);
     }
-
     .stat-num.red {
       color: var(--red);
     }
-
     .stat-num.amber {
       color: var(--amber);
     }
-
     .stat-num.purple {
       color: var(--primary);
     }
-
     .stat-label {
       font-size: 0.6rem;
       color: var(--muted);
@@ -354,7 +311,6 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
-
     .btn-admin-login {
       display: inline-flex;
       align-items: center;
@@ -372,11 +328,9 @@
       transition: all .15s;
       white-space: nowrap;
     }
-
     .btn-admin-login:hover {
       background: #172554;
     }
-
     .admin-modal-bg {
       position: fixed;
       inset: 0;
@@ -390,12 +344,10 @@
       pointer-events: none;
       transition: opacity .2s;
     }
-
     .admin-modal-bg.open {
       opacity: 1;
       pointer-events: all;
     }
-
     .admin-modal {
       background: var(--surface);
       border-radius: 16px;
@@ -408,11 +360,9 @@
       transform: translateY(8px);
       transition: transform .22s var(--ease);
     }
-
     .admin-modal-bg.open .admin-modal {
       transform: translateY(0);
     }
-
     .admin-err {
       background: #fef2f2;
       border: 1px solid #fee2e2;
@@ -424,13 +374,10 @@
       margin-bottom: .9rem;
       display: none;
     }
-
-  
     .field {
       margin-bottom: 1.2rem;
       text-align: left;
     }
-
     .field label {
       display: block;
       font-size: .75rem;
@@ -440,11 +387,9 @@
       letter-spacing: .05em;
       margin-bottom: .4rem;
     }
-
     .input-wrap {
       position: relative;
     }
-
     .input-wrap input {
       width: 100%;
       padding: .75rem 1rem;
@@ -455,14 +400,12 @@
       font-size: .9rem;
       transition: all .2s;
     }
-
     .input-wrap input:focus {
       border-color: var(--primary-light);
       background: #fff;
       box-shadow: 0 0 0 4px rgba(59, 130, 246, .1);
       outline: none;
     }
-
     .btn-login {
       width: 100%;
       padding: .8rem;
@@ -475,38 +418,31 @@
       cursor: pointer;
       transition: all .2s;
     }
-
     .btn-login:hover {
       background: #172554;
       transform: translateY(-1px);
     }
-
     @media (max-width: 640px) {
       .navbar {
         padding: 0 1.2rem;
       }
-
       .stat-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-
       .proj-grid,
       .locked-grid {
         grid-template-columns: 1fr;
       }
-
       .nav-parent-tag {
         display: none;
       }
     }
-
     .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 5px;
       margin-top: 0.5rem;
     }
-
     .cal-day-label {
       font-size: 0.6rem;
       font-weight: 800;
@@ -515,7 +451,6 @@
       text-transform: uppercase;
       padding-bottom: 4px;
     }
-
     .cal-cell {
       aspect-ratio: 1;
       border-radius: 4px;
@@ -528,36 +463,30 @@
       color: var(--muted);
       background: #fff;
     }
-
     .cal-cell.present {
       background: #f0fdf4;
       border-color: #dcfce7;
       color: #15803d;
     }
-
     .cal-cell.absent {
       background: #fef2f2;
       border-color: #fee2e2;
       color: #b91c1c;
     }
-
     .cal-cell.today {
       border-color: var(--primary);
       border-width: 2px;
       color: var(--text);
     }
-
     .cal-cell.empty {
       border-color: transparent;
       background: transparent;
     }
-
     .cal-legend {
       display: flex;
       gap: 1rem;
       margin-top: 0.85rem;
     }
-
     .leg {
       display: flex;
       align-items: center;
@@ -566,54 +495,44 @@
       color: var(--muted);
       font-weight: 600;
     }
-
     .leg-dot {
       width: 10px;
       height: 10px;
       border-radius: 2px;
     }
-
     .leg-dot.g {
       background: #16a34a;
     }
-
     .leg-dot.r {
       background: #dc2626;
     }
-
     .leg-dot.e {
       background: #fff;
       border: 1px solid var(--border);
     }
-
     .progress-row {
       display: flex;
       align-items: center;
       gap: 1.5rem;
     }
-
     .ring-bg {
       fill: none;
       stroke: var(--border);
     }
-
     .ring-fill {
       fill: none;
       stroke-linecap: round;
       transition: stroke-dashoffset 1.4s var(--ease);
     }
-
     .ring-label {
       text-anchor: middle;
       dominant-baseline: middle;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 800;
     }
-
     .prog-stats {
       flex: 1;
     }
-
     .prog-row {
       display: flex;
       justify-content: space-between;
@@ -622,34 +541,26 @@
       border-bottom: 1px solid var(--border);
       font-size: 0.78rem;
     }
-
     .prog-row:last-child {
       border-bottom: none;
     }
-
     .prog-key {
       color: var(--muted);
       font-weight: 600;
     }
-
     .prog-val {
       font-weight: 800;
       color: var(--text);
     }
-
     .prog-val.green {
       color: var(--green);
     }
-
     .prog-val.amber {
       color: var(--amber);
     }
-
     .prog-val.red {
       color: var(--red);
     }
-
-  
     .bar-title {
       font-size: 0.68rem;
       font-weight: 800;
@@ -658,14 +569,12 @@
       text-transform: uppercase;
       margin: 1.1rem 0 0.65rem;
     }
-
     .bar-row {
       display: flex;
       align-items: center;
       gap: 0.7rem;
       margin-bottom: 0.45rem;
     }
-
     .bar-day {
       font-size: 0.68rem;
       color: var(--muted);
@@ -673,7 +582,6 @@
       text-align: right;
       flex-shrink: 0;
     }
-
     .bar-track {
       flex: 1;
       height: 8px;
@@ -681,25 +589,21 @@
       border-radius: 4px;
       overflow: hidden;
     }
-
     .bar-fill {
       height: 100%;
       border-radius: 4px;
       transition: width 1.3s var(--ease);
     }
-
     .bar-icon {
       font-size: 0.68rem;
       min-width: 14px;
     }
-
     .course-list {
       display: flex;
       flex-direction: column;
       gap: 0.7rem;
       margin-top: 0.5rem;
     }
-
     .course-row {
       display: flex;
       align-items: center;
@@ -709,18 +613,15 @@
       border-radius: 12px;
       padding: 0.85rem 1rem;
     }
-
     .course-icon {
       font-size: 1.5rem;
       flex-shrink: 0;
     }
-
     .course-name {
       font-size: 0.86rem;
       font-weight: 800;
       color: var(--text);
     }
-
     .course-tag {
       font-size: 0.58rem;
       font-weight: 800;
@@ -732,18 +633,15 @@
       color: #c2410c;
       border: 1px solid #ffedd5;
     }
-
     .course-prog {
       margin-left: auto;
       text-align: right;
     }
-
     .course-pct {
       font-size: 0.78rem;
       font-weight: 800;
       color: var(--primary);
     }
-
     .course-bar-mini {
       width: 80px;
       height: 4px;
@@ -752,21 +650,18 @@
       overflow: hidden;
       margin-top: 3px;
     }
-
     .course-bar-fill {
       height: 100%;
       border-radius: 2px;
       background: var(--primary);
       transition: width 1.3s var(--ease);
     }
-
     .locked-panel {
       background: #fef2f2;
       border: 1px solid #fee2e2;
       border-radius: 12px;
       padding: 1.2rem 1.4rem;
     }
-
     .locked-title {
       font-size: 0.82rem;
       font-weight: 800;
@@ -776,13 +671,11 @@
       align-items: center;
       gap: 6px;
     }
-
     .locked-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.65rem;
     }
-
     .locked-item {
       display: flex;
       align-items: center;
@@ -792,12 +685,10 @@
       border-radius: 8px;
       padding: 0.65rem 0.8rem;
     }
-
     .locked-item-icon {
       font-size: 1rem;
       flex-shrink: 0;
     }
-
     .locked-item-text {
       font-size: 0.74rem;
       font-weight: 700;
@@ -805,39 +696,33 @@
       text-decoration: line-through;
       opacity: 0.6;
     }
-
     .lock-badge {
       margin-left: auto;
       font-size: 0.62rem;
     }
-
     .proj-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.7rem;
       margin-top: 0.5rem;
     }
-
     .proj-card {
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 0.9rem 0.85rem;
     }
-
     .proj-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 0.45rem;
     }
-
     .proj-name {
       font-size: 0.78rem;
       font-weight: 800;
       color: var(--text);
     }
-
     .proj-badge {
       font-size: 0.56rem;
       font-weight: 800;
@@ -846,25 +731,21 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-
     .proj-badge.done {
       background: #f0fdf4;
       color: #16a34a;
       border: 1px solid #dcfce7;
     }
-
     .proj-badge.wip {
       background: #fffbeb;
       color: #d97706;
       border: 1px solid #fef3c7;
     }
-
     .proj-badge.todo {
       background: #f8fafc;
       color: var(--muted);
       border: 1px solid var(--border);
     }
-
     .proj-bar {
       height: 4px;
       background: #e2e8f0;
@@ -872,20 +753,17 @@
       overflow: hidden;
       margin-top: 0.45rem;
     }
-
     .proj-fill {
       height: 100%;
       border-radius: 2px;
       background: var(--primary);
       transition: width 1.3s var(--ease);
     }
-
     .proj-meta {
       font-size: 0.6rem;
       color: var(--muted);
       margin-top: 0.3rem;
     }
-
     footer {
       text-align: center;
       padding: 1.5rem;
@@ -894,34 +772,27 @@
       color: var(--muted);
       background: #fff;
     }
-
     footer span {
       color: var(--primary);
     }
-
     @media (max-width: 640px) {
       .navbar {
         padding: 0 1.2rem;
       }
-
       .stat-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-
       .proj-grid,
       .locked-grid {
         grid-template-columns: 1fr;
       }
-
       .progress-row {
         flex-direction: column;
       }
-
       .nav-parent-tag {
         display: none;
       }
     }
-  
     .btn-weekend-slot {
       padding: 0.75rem;
       background: #3b82f6;
@@ -936,14 +807,10 @@
     .btn-weekend-slot:hover {
       background: #1e40af;
     }
-
   </style>
 </head>
-
 <body>
-
   <div class="bg-fixed"></div>
-
   <nav class="navbar">
     <a href="/" class="nav-brand">
       <img src="{% static 'images/holbosLOGO.png' %}" alt="Holbos Logo" class="brand-logo">
@@ -958,16 +825,13 @@
       <a href="{% url 'accounts:logout' %}" class="btn-logout">Logout &#8594;</a>
     </div>
   </nav>
-
   <div class="page-body">
-
     <div class="hero">
       <div class="hero-greeting">
         <span class="hello">Hello, </span><span class="uname">{{ user.get_full_name|default:user.username }}</span>
       </div>
       <p class="hero-sub">Here's your child's learning overview - read-only parent access.</p>
     </div>
-
     <div class="readonly-banner">
       <div class="readonly-strip">
         <span class="readonly-icon">&#128274;</span>
@@ -975,9 +839,7 @@
           but cannot mark attendance, edit records or upload content.</span>
       </div>
     </div>
-
     <div class="sections">
-      
       <div class="student-tabs" id="studentTabs">
         {% for child in children %}
         <div class="s-tab {% if forloop.first %}active{% endif %}" onclick="selectStudent(this, '{{ child.id }}')">
@@ -991,7 +853,6 @@
         </div>
         {% endfor %}
       </div>
-
       <div class="box" id="weekendBookingBox" style="display:none; border: 2px solid #3b82f6; background: #eff6ff;">
         <div class="sec-header">
           <div class="sec-icon">📅</div>
@@ -1000,34 +861,20 @@
             <div class="sec-sub">Make-up classes for missed sessions</div>
           </div>
         </div>
-        
-        <div id="weekendActiveUI" style="padding: 1rem; background: #fff; border-radius: 12px; margin-top: 1rem; border: 1px solid #dbeafe;">
+        <div id="weekendActiveUI"
+          style="padding: 1rem; background: #fff; border-radius: 12px; margin-top: 1rem; border: 1px solid #dbeafe;">
           <p style="font-size: 0.85rem; color: #1e293b; margin-bottom: 0.8rem; line-height: 1.5;">
             Our records show missed sessions on: <strong id="missedDatesList" style="color: #dc2626;"></strong>.
           </p>
-          <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1.2rem;">
-            Since today is <strong id="weekendDayName"></strong>, you can book a make-up session for this weekend.
-          </p>
-          
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-            <button onclick="bookWeekendSlot('Saturday 11:00 AM')" class="btn-weekend-slot">Saturday 11:00 AM</button>
-            <button onclick="bookWeekendSlot('Saturday 04:00 PM')" class="btn-weekend-slot">Saturday 04:00 PM</button>
-            <button onclick="bookWeekendSlot('Sunday 11:00 AM')" class="btn-weekend-slot">Sunday 11:00 AM</button>
-            <button onclick="bookWeekendSlot('Sunday 04:00 PM')" class="btn-weekend-slot">Sunday 04:00 PM</button>
+            <button onclick="bookWeekendSlot('Saturday')" class="btn-weekend-slot">Saturday Session</button>
+            <button onclick="bookWeekendSlot('Sunday')" class="btn-weekend-slot">Sunday Session</button>
           </div>
-        </div>
-
-        <div id="weekendWaitUI" style="display:none; padding: 1.25rem; background: #f8fafc; border-radius: 12px; margin-top: 1rem; border: 1px solid #e2e8f0; text-align: center;">
-          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⏳</div>
-          <p style="font-size: 0.85rem; color: #64748b; font-weight: 600;">
-            Compensation booking for missed sessions is available exclusively on <strong>Saturdays and Sundays</strong>.
-          </p>
-          <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.4rem;">
-            Please revisit this dashboard during the weekend to book your slots.
+          <p style="font-size: 0.72rem; color: #64748b; margin-top: 1rem; font-style: italic;">
+            * Note: The actual timing for these sessions will be determined and shared exclusively by your trainer.
           </p>
         </div>
       </div>
-
       <div class="box">
         <div class="sec-header">
           <div class="sec-icon">&#128197;</div>
@@ -1036,7 +883,6 @@
             <div class="sec-sub">This month's session attendance</div>
           </div>
         </div>
-
         <div class="stat-grid">
           <div class="stat-box">
             <div class="stat-num green" id="attPresent">0</div>
@@ -1055,7 +901,6 @@
             <div class="stat-label">Attendance %</div>
           </div>
         </div>
-
         <div class="cal-grid" id="calGrid">
           <div class="cal-day-label">Mon</div>
           <div class="cal-day-label">Tue</div>
@@ -1064,9 +909,7 @@
           <div class="cal-day-label">Fri</div>
           <div class="cal-day-label">Sat</div>
           <div class="cal-day-label">Sun</div>
-
         </div>
-
         <div class="cal-legend">
           <div class="leg">
             <div class="leg-dot g"></div>Present
@@ -1078,11 +921,9 @@
             <div class="leg-dot e"></div>No Session
           </div>
         </div>
-
         <div class="bar-title">This Week's Attendance</div>
         <div id="weekBars"></div>
       </div>
-
       <div class="box">
         <div class="sec-header">
           <div class="sec-icon">&#128200;</div>
@@ -1091,12 +932,13 @@
             <div class="sec-sub">Attendance analytics &amp; insights</div>
           </div>
         </div>
-
         <div id="perfAdmin">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
-            <span style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274; Trainer session active</span>
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem">
+            <span
+              style="display:inline-flex;align-items:center;gap:5px;background:#eff6ff;border:1px solid #dbeafe;border-radius:4px;padding:.18rem .6rem;font-size:.65rem;font-weight:800;color:#3b82f6;letter-spacing:.06em;text-transform:uppercase">&#128274;
+              Trainer session active</span>
           </div>
-
           <div class="stat-grid">
             <div class="stat-box">
               <div class="stat-num green" id="perfPresent">0</div>
@@ -1115,44 +957,41 @@
               <div class="stat-label">Attendance %</div>
             </div>
           </div>
-
           <div class="bar-title">Class-wise attendance rate</div>
           <div id="perfBars"></div>
         </div>
       </div>
     </div>
   </div>
-<script>
+  <footer>
+    <div class="footer-copy">
+      &copy; {% now "Y" %} <span>Holbos</span> Learning Platform. All rights reserved.
+    </div>
+  </footer>
+  <script>
     const uname = "{{ request.user.username|escapejs }}";
     document.getElementById('navInitial').textContent = uname.charAt(0).toUpperCase();
-
     const childStats = JSON.parse('{{ child_stats_json|escapejs }}');
     let currentChildId = Object.keys(childStats)[0] || null;
-
     const cal = document.getElementById('calGrid');
     const firstDay = parseInt("{{ first_day|default:0 }}");
     const totalDays = parseInt("{{ total_days_month|default:30 }}");
-
     function renderDashboard(childId) {
       if (!childId || !childStats[childId]) return;
       const data = childStats[childId];
-
       document.getElementById('attPresent').textContent = data.present;
       document.getElementById('attAbsent').textContent = data.absent;
       document.getElementById('attTotal').textContent = data.total;
       document.getElementById('attPct').textContent = data.pct + '%';
-
       document.getElementById('perfPresent').textContent = data.present;
       document.getElementById('perfAbsent').textContent = data.absent;
       document.getElementById('perfTotal').textContent = data.total;
       document.getElementById('perfPct').textContent = data.pct + '%';
-
       renderCalendar(data.attendance_map);
       checkWeekendBooking(data);
       renderWeekBars(data.weekly_history);
       buildPerfBars(data);
     }
-
     function renderCalendar(attendanceMap) {
       cal.innerHTML = `
         <div class="cal-day-label">Mon</div><div class="cal-day-label">Tue</div>
@@ -1173,7 +1012,6 @@
         cal.appendChild(c);
       }
     }
-
     function renderWeekBars(history) {
       const wb = document.getElementById('weekBars');
       if (!wb) return;
@@ -1198,14 +1036,12 @@
         });
       }, 50);
     }
-
     function selectStudent(el, childId) {
       document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
       currentChildId = childId;
       renderDashboard(childId);
     }
-
     function buildPerfBars(data) {
       const container = document.getElementById('perfBars');
       if (!container) return;
@@ -1224,44 +1060,49 @@
         });
       }, 100);
     }
-
     window.addEventListener('load', () => {
       renderDashboard(currentChildId);
     });
-  
-    function bookWeekendSlot(slot) {
-      alert("✅ Slot booked: " + slot + ". Your trainer has been notified!");
+    async function bookWeekendSlot(slot) {
+      const activeTab = document.querySelector('.s-tab.active');
+      let studentName = 'Unknown Student';
+      if (activeTab) {
+        const temp = activeTab.cloneNode(true);
+        const avatar = temp.querySelector('.s-tab-avatar');
+        if (avatar) avatar.remove();
+        studentName = temp.textContent.trim().replace(/\s+/g, ' ');
+      }
+      try {
+        const response = await fetch("{% url 'attendance:api_book_slot' %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify({
+            slot: slot,
+            student_name: studentName
+          })
+        });
+        const data = await response.json();
+        if (data.ok) {
+          alert("✅ Slot booked: " + slot + " for " + studentName + ". Holbos India has been notified via email!");
+        } else {
+          alert("❌ Error booking slot: " + (data.error || "Please try again later."));
+        }
+      } catch (err) {
+        alert("❌ Network error. Please try again later.");
+      }
     }
-
     function checkWeekendBooking(data) {
-      const today = new Date();
-      const day = today.getDay(); // 0=Sun, 6=Sat
-      const isWeekend = (day === 0 || day === 6);
-      const dayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][day];
-      
       const bookingBox = document.getElementById('weekendBookingBox');
-      const activeUI = document.getElementById('weekendActiveUI');
-      const waitUI = document.getElementById('weekendWaitUI');
-
       if (data.absent > 0) {
         bookingBox.style.display = 'block';
-        if (isWeekend) {
-          waitUI.style.display = 'none';
-          document.getElementById('weekendDayName').textContent = dayName;
-          document.getElementById('missedDatesList').textContent = (data.absent_dates && data.absent_dates.length > 0) ? data.absent_dates.join(', ') : 'recent sessions';
-        } else {
-          activeUI.style.display = 'none';
-          waitUI.style.display = 'block';
-        }
+        document.getElementById('missedDatesList').textContent = (data.absent_dates && data.absent_dates.length > 0) ? data.absent_dates.join(', ') : 'recent sessions';
       } else {
         bookingBox.style.display = 'none';
       }
     }
-
-    
-
   </script>
-
 </body>
-
 </html>
