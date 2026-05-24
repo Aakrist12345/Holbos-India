@@ -1,4 +1,0 @@
-0000000000000000000000000000000000000000 a198a26c1e34ad93d9f91672d9a07091e2f4b932 Akrist12345 <aakristsharma135@gmail.com> 1779487249 +0530	commit (initial): Render deployment fix
-a198a26c1e34ad93d9f91672d9a07091e2f4b932 0000000000000000000000000000000000000000 Akrist12345 <aakristsharma135@gmail.com> 1779487260 +0530	Branch: renamed refs/heads/master to refs/heads/main
-0000000000000000000000000000000000000000 a198a26c1e34ad93d9f91672d9a07091e2f4b932 Akrist12345 <aakristsharma135@gmail.com> 1779487260 +0530	Branch: renamed refs/heads/master to refs/heads/main
-a198a26c1e34ad93d9f91672d9a07091e2f4b932 0173013e3308582864a4a1ff199374eccd0b2714 Akrist12345 <aakristsharma135@gmail.com> 1779513692 +0530	commit: Fix all Django settings, requirements, and Render deployment scripts
