@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Blocks - Holbos India</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0d0a1a;
+            --saffron: #ff9933;
+            --gold: #ffb43c;
+            --cream: #fff3dc;
+            --teal: #00c9a7;
+            --text-main: #f0e6d3;
+            --text-muted: #a89880;
+            --font-display: 'Baloo 2', cursive;
+            --font-body: 'Poppins', sans-serif;
+            --radius: 18px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            background: var(--saffron);
+            color: var(--bg-deep);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: var(--gold);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--gold), #ffd700);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .facts {
+            background: rgba(255, 180, 60, 0.1);
+            border-left: 4px solid var(--gold);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="{% url 'accounts:dashboard' %}" class="back-btn">← Back to Dashboard</a>
+
+        <h1>📚 Learning Blocks</h1>
+
+        <div class="hero-image">
+            🧱
+
+        </div>
+
+        <div class="content">
+            <h2>Interactive Learning Modules</h2>
+            <p>Learning Blocks are our comprehensive educational modules designed specifically for young minds. Each
+                block represents a building stone in your child's educational journey, combining fun, interactive
+                content with age-appropriate learning objectives.</p>
+
+            <h2>How It Works</h2>
+            <p>Our learning blocks use gamification, animations, and interactive exercises to make learning engaging.
+                Children can progress at their own pace, earning rewards and unlocking new content as they master each
+                concept.</p>
+
+            <div class="facts">
+                <h3>Features:</h3>
+                <ul>
+                    <li>Interactive quizzes and games</li>
+                    <li>Progress tracking and rewards</li>
+                    <li>Age-appropriate content</li>
+                    <li>Multimedia learning materials</li>
+                    <li>Personalized learning paths</li>
+                </ul>
+            </div>
+
+            <h2>Educational Goals</h2>
+            <p>Learning Blocks help children develop critical thinking, problem-solving skills, and a love for learning.
+                Our modules cover various subjects and are designed to complement traditional education while making
+                learning fun and accessible.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holbos ERP — Parent Sign Up</title>
+  <link rel="icon" type="image/png" href="{% static 'images/holbosLOGO.png' %}">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #D4208A;
+      --primary-hover: #8B2FC9;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --error: #ef4444;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .logo-title {
+      font-family: 'Yatra One', cursive;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #D4208A 0%, #3B2FC9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .field input {
+      width: 100%;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .btn-signup {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.875rem;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-signup:hover {
+      background: var(--primary-hover);
+    }
+
+    .card-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+
+    .card-footer p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .card-footer a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .error-text {
+      font-size: 0.75rem;
+      color: var(--error);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--error);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="logo-container">
+      <img src="{% static 'images/holbosLOGO.png' %}" alt="Logo" class="logo-img">
+      <div class="logo-title">Holbos ERP</div>
+      <div class="logo-sub">Parent Portal</div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Claim Parent Account</span>
+      <div class="divider-line"></div>
+    </div>
+
+    {% if form.errors and not form.non_field_errors %}
+    <div class="error-box">Please correct the errors below.</div>
+    {% endif %}
+    {% if form.non_field_errors %}
+    <div class="error-box">{{ form.non_field_errors.0 }}</div>
+    {% endif %}
+    {% if messages %}
+    <div class="error-box">
+      {% for message in messages %}
+        {{ message }}<br>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="field">
+        <label>Registered Mobile Number</label>
+        {{ form.mobile_number }}
+        {% if form.mobile_number.errors %}<div class="error-text">{{ form.mobile_number.errors.0 }}</div>{% endif %}
+      </div>
+
+      <button type="submit" class="btn-signup">Get Account Details</button>
+    </form>
+
+    <div class="card-footer">
+      <p>Already have an account? <a href="{% url 'accounts:parents_login' %}">Sign in here</a></p>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+{
+    "python.defaultInterpreterPath": "C:/Users/AAKRIST SHARMA/AppData/Local/Programs/Python/Python313/python.exe",
+    "python.analysis.extraPaths": [
+        "./"
+    ],
+    "python.analysis.autoImportCompletions": true
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science & Nature - Holbos India</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0d0a1a;
+            --saffron: #ff9933;
+            --gold: #ffb43c;
+            --cream: #fff3dc;
+            --teal: #00c9a7;
+            --text-main: #f0e6d3;
+            --text-muted: #a89880;
+            --font-display: 'Baloo 2', cursive;
+            --font-body: 'Poppins', sans-serif;
+            --radius: 18px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            background: var(--saffron);
+            color: var(--bg-deep);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: var(--gold);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .facts {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="{% url 'accounts:dashboard' %}" class="back-btn">← Back to Dashboard</a>
+
+        <h1>🌿 Science & Nature</h1>
+
+        <div class="hero-image">
+            🌍
+        </div>
+
+        <div class="content">
+            <h2>Exploring the Natural World</h2>
+            <p>Science & Nature introduces children to the wonders of the natural world through interactive experiments,
+                observations, and hands-on learning. From the smallest microorganisms to the vastness of space, we
+                explore the amazing diversity of life on Earth.</p>
+
+            <h2>Learning Topics</h2>
+            <p>Our science modules cover biology, physics, chemistry, earth science, and environmental studies. Children
+                learn through virtual labs, animated explanations, and real-world applications that make complex
+                concepts accessible and exciting.</p>
+
+            <div class="facts">
+                <h3>What You'll Learn:</h3>
+                <ul>
+                    <li>The water cycle and weather patterns</li>
+                    <li>Plant and animal life cycles</li>
+                    <li>Basic physics principles</li>
+                    <li>Environmental conservation</li>
+                    <li>Scientific method and experimentation</li>
+                </ul>
+            </div>
+
+            <h2>Hands-On Learning</h2>
+            <p>We believe in learning by doing. Our interactive experiments and virtual labs allow children to explore
+                scientific concepts safely and engagingly, fostering curiosity and a love for discovery.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+{% extends "attendance/base.html" %}
+{% block title %}Add Student — Holbos AttendERP{% endblock %}
+
+{% block content %}
+<div class="page-hd">
+  <h1>Add student</h1>
+  <p>Register a new student to the system.</p>
+</div>
+
+<div class="card" style="max-width:500px">
+  {% if form.non_field_errors %}
+  <div class="form-errors">{{ form.non_field_errors.0 }}</div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Full name</label>
+      <input class="form-control" type="text" name="name" value="{{ form.name.value|default:'' }}"
+        placeholder="Student full name" autofocus>
+      {% if form.name.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{ form.name.errors.0 }}
+      </div>{% endif %}
+    </div>
+    <div class="form-group">
+      <label>Class</label>
+      <select class="form-control" name="student_class">
+        <option value="">— select class —</option>
+        {% for c in form.student_class.field.choices %}
+        {% if c.0 %}
+        <option value="{{ c.0 }}" {% if form.student_class.value == c.0 %}selected{% endif %}>{{ c.1 }}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+      {% if form.student_class.errors %}<div style="font-size:.73rem;color:var(--red);margin-top:.3rem">{{
+        form.student_class.errors.0 }}</div>{% endif %}
+    </div>
+    <div class="form-group">
+      <label>Section <span style="opacity:.5;font-weight:400">(optional)</span></label>
+      <input class="form-control" type="text" name="section" value="{{ form.section.value|default:'' }}"
+        placeholder="e.g. A">
+    </div>
+    <div class="form-group">
+      <label>Parent mobile <span style="opacity:.5;font-weight:400">(optional)</span></label>
+      <input class="form-control" type="text" name="parent_mobile" value="{{ form.parent_mobile.value|default:'' }}"
+        placeholder="e.g. 9876543210">
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:.5rem">
+      <button type="submit" class="btn btn-mag">Save student →</button>
+      <a href="{% url 'attendance:students' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

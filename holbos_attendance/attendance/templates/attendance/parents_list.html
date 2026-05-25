@@ -1,0 +1,92 @@
+{% extends "attendance/base.html" %}
+{% block title %}Parents — Holbos AttendERP{% endblock %}
+
+{% block content %}
+<div class="page-hd">
+  <h1>Parent accounts</h1>
+  <p>{{ parents|length }} parent account{{ parents|length|pluralize }} registered</p>
+</div>
+
+<div class="card"
+  style="margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+  <div style="font-size:.82rem;color:var(--muted)">
+    Parents can log in at <strong style="color:var(--text)">/parents-login/</strong> to view their child's
+    attendance.
+  </div>
+  <a href="{% url 'attendance:create_parent' %}" class="btn btn-mag">+ Create parent account</a>
+</div>
+
+{% if parents %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Full name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Children linked</th>
+        <th style="width:160px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in parents %}
+      <tr>
+        <td style="color:var(--muted)">{{ forloop.counter }}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="stu-av"
+              style="background:rgba(212,32,138,.15);color:var(--mag);border-color:rgba(212,32,138,.25)">
+              {{ p.full_name|first|upper|default:"P" }}
+            </div>
+            <div>
+              <div style="font-weight:700; color:var(--text)">{{ p.full_name|default:p.username }}</div>
+              {% if not p.is_active %}<span class="badge badge-red"
+                style="margin-top:2px; font-size: 0.65rem;">Inactive</span>{% endif %}
+            </div>
+          </div>
+        </td>
+        <td style="color:var(--muted)">{{ p.username }}</td>
+        <td style="color:var(--muted);font-size:.75rem">{{ p.email }}</td>
+        <td>
+          {% with students=p.get_linked_students %}
+          {% if students %}
+          <span class="badge badge-green">{{ students|length }} student{{ students|length|pluralize }}</span>
+          {% else %}
+          <span style="font-size:.72rem;color:var(--muted)">None linked</span>
+          {% endif %}
+          {% endwith %}
+        </td>
+        <td>
+          <div style="display:flex; gap: 0.5rem;">
+
+            <form method="post" action="{% url 'attendance:delete_parent' p.pk %}"
+              onsubmit="return confirm('{% if p.is_active %}Deactivate{% else %}Activate{% endif %} {{ p.full_name|default:p.username }}?')">
+              {% csrf_token %}
+              {% if p.is_active %}
+              <button type="submit" class="btn btn-ghost"
+                style="padding:.3rem .6rem;font-size:.7rem; border: 1px solid var(--border)">Deactivate</button>
+              {% else %}
+              <button type="submit" class="btn btn-mag" style="padding:.3rem .6rem;font-size:.7rem">Activate</button>
+              {% endif %}
+            </form>
+
+            <form method="post" action="{% url 'attendance:hard_delete_parent' p.pk %}"
+              onsubmit="return confirm('PERMANENTLY DELETE {{ p.full_name|default:p.username }}? This cannot be undone.')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" style="padding:.3rem .6rem;font-size:.7rem">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="card" style="text-align:center;padding:3rem;color:var(--muted);font-size:.85rem">
+  No parent accounts yet. <a href="{% url 'attendance:create_parent' %}" style="color:var(--mag);font-weight:700">Create
+    the first one</a>.
+</div>
+{% endif %}
+{% endblock %}
