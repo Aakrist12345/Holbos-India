@@ -1,0 +1,1327 @@
+[
+{
+    "model": "sessions.session",
+    "pk": "12lcs6umfqtfh68sr8tzndr9rdhvbgqa",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NueGgtMzNjNGQxYzE0YzQ3YzJhZDM3MjMxNGUyMDYzNzk2ODIifQ:1wHxxV:hqe4Ep-Yi-RYB_PNHrvGimFFdTe7kK9uIgyT9lqfnx0",
+        "expire_date": "2026-05-13T05:59:41.565Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "2y4b46lq65ffvp06rxucs3fp6ljf6cys",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NueWMtMzI0MjJhNmY4OTFmNDk1YWVkMTM3ODNjMWE3MTNkOWIifQ:1wHxy0:OKTIKM5cOd33PbllTjMVzrdEweZIBtPNQX9kqHrTI-0",
+        "expire_date": "2026-05-13T06:00:12.543Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "418vauhnqqodq8m63uxufmcnn3v8o607",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NudzYtZDAxZGUzNjQ0OWI3OGNiYWUzNmIyZTBmMGU1OWE1MGIifQ:1wHxwk:jOZULS2eytJOfmpaY0s00MEjyJJVhnmqBIzRZJQ0et4",
+        "expire_date": "2026-05-13T05:58:54.322Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "68ji0ow652j8den79vj9crl5womvg1ue",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3Nud3MtYzBjMjA4ZTViZWQ1ZTdlODc0NGM3ZmRhODVjOWFjYzAifQ:1wHxx6:ERVO12YY1VQjBKc1bj7AxiCi6uV_SrUBHzdh2LuHTco",
+        "expire_date": "2026-05-13T05:59:16.469Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "dzeh697ty8xcj3uua8rwvo9xf904cajv",
+    "fields": {
+        "session_data": ".eJxVjLsOwjAMAP_FM4oIrpu0IzvfENmOQwqolfqYEP-OKnWA9e50b0i8rTVti81pyNCDJzj9QmF92rib_ODxPjmdxnUexO2JO-ziblO21_Vo_waVlwo9RGkjSqHCQqrBq6qcQ2y6TKW7dOQtN2jRCnpGC9IGZGwwWBEkVILPFymOOKY:1wI167:MyJZF9WKGQxAVEDe0sDJ3nOLHfo0vj8cUPGE9A3yOPc",
+        "expire_date": "2026-05-13T09:20:47.420Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "f7hp7cphmioek8fhl648xlc5ka7ge7ow",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NueXgtNWZhOWNmMmE4MDQ0NzNmZTZhNjZmMDc2MDc1YWVhNjEifQ:1wHxyL:ASVZPTFurtaMxYZkIfF5Q-BKYDzg731aGxWI1PPTGoY",
+        "expire_date": "2026-05-13T06:00:33.974Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "jctz2uzihag85lo54nkuu375yds343cj",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NuenYtZTg0NTI1OTczZDlmMWYzYTljMDg3MTI2NzIyMDdiZWMifQ:1wHxyt:E93Xfu9PZZ4QTXDjk1PeY-iO8xpW-WngHRZ0UcEpUJA",
+        "expire_date": "2026-05-13T06:01:07.938Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "k5ey6gd6oh4gb57wdyxmzlqnog4mgb50",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NubWUtZDBjNGU0NmRlYjdhMzE2ZjE3NWE2OTk1OWQyYjdmNTEifQ:1wHxsk:HC9cIiJAigLUF31PGbgFFgRKleUugGU0gmWjQRR0KXk",
+        "expire_date": "2026-05-13T05:54:46.546Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "lm5wj66wtqyoeptq6dreqbklzfvkdvcy",
+    "fields": {
+        "session_data": ".eJxVjLsOwjAMAP_FM4oIrpu0IzvfENmOQwqolfqYEP-OKnWA9e50b0i8rTVti81pyNCDJzj9QmF92rib_ODxPjmdxnUexO2JO-ziblO21_Vo_waVlwo9RGkjSqHCQqrBq6qcQ2y6TKW7dOQtN2jRCnpGC9IGZGwwWBEkVILPFymOOKY:1wI0js:8_ZqlZ59nNZ_PbcEg5ai6aQ31_Ai2D98LeWsqygrXJU",
+        "expire_date": "2026-05-13T08:57:48.279Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "r117aml4gmv0a9gf4od03wpdcyrc4m59",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NvMWYtZTUxZTA4OTU0ZDRmZjhkMDA2YWQ0YzVjNDg0ZDQxYjAifQ:1wHxzn:41yr6l0ttzKmeVNCZr1hT9rrpoCPVUfOAzJpR5pJDnc",
+        "expire_date": "2026-05-13T06:02:03.318Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ryz8gqi6g19yi3fol4nusgos2j4ygiyv",
+    "fields": {
+        "session_data": ".eJxVjEsOwiAUAO_y1oZQ_nTp3jOQxwOkaiAp7cp4d9OkC93OTOYNAfethn3kNSwJZpjg8ssi0jO3Q6QHtntn1Nu2LpEdCTvtYLee8ut6tn-DiqPCDIIr0joW7WxJROg99-SEjiU573JCbW0UZuJCGeWlKYQSnczckoiaF_h8Aee-N-A:1wDcuQ:CjFLodeZKVDni13afb22uEY2zR3gyRdqyakTotLCOvg",
+        "expire_date": "2026-05-01T06:42:34.394Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "sh2be5ml9nzr7pakml5wajuy926lcjcf",
+    "fields": {
+        "session_data": "e30:1wHyGU:6PsM5KN19TDHEIwO4O1n-VfSs4Mrbg4NoD2AC9ZhZng",
+        "expire_date": "2026-05-13T06:19:18.536Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "vn8keroip773yn9ryki30ptxff8s4r8a",
+    "fields": {
+        "session_data": "eyJfcGFzc3dvcmRfcmVzZXRfdG9rZW4iOiJkN3NubWUtZDBjNGU0NmRlYjdhMzE2ZjE3NWE2OTk1OWQyYjdmNTEifQ:1wHxri:LPcEPTSmoLUM-mHOTb9hRQ7-zKGcIzlyoOEP6mPVYi0",
+        "expire_date": "2026-05-13T05:53:42.376Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "yrcpdwqjhni11j5xhrhhwedhq550h5a4",
+    "fields": {
+        "session_data": ".eJxVjLsOwjAMAP_FM4oIrpu0IzvfENmOQwqolfqYEP-OKnWA9e50b0i8rTVti81pyNCDJzj9QmF92rib_ODxPjmdxnUexO2JO-ziblO21_Vo_waVlwo9RGkjSqHCQqrBq6qcQ2y6TKW7dOQtN2jRCnpGC9IGZGwwWBEkVILPFymOOKY:1wI13n:7SZg3_uPnJVtchQup95rzCjqMNZlEVddxMtQfu0EKhQ",
+        "expire_date": "2026-05-13T09:18:23.844Z"
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$gbadiOdsqMeUWFpjrvegC2$sXs+t0p+1v7nDaQQlA0RRhv2qenwBFUsv/+95n7x5bU=",
+        "last_login": "2026-04-22T18:16:51.073Z",
+        "is_superuser": true,
+        "username": "admin",
+        "full_name": "Admin Trainer",
+        "email": "admin@example.com",
+        "is_active": true,
+        "is_staff": true,
+        "is_parent": false,
+        "date_joined": "2026-04-16T19:25:10.365Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$BbtzKB9i1DXA4OPcctUsi0$iGsWyOItJp1r8R16TVMUbg8DYm8/TagQk6H9EDFeo9o=",
+        "last_login": "2026-04-21T03:43:34.273Z",
+        "is_superuser": false,
+        "username": "trainerTest",
+        "full_name": "Test Trainer",
+        "email": "trainer@test.com",
+        "is_active": true,
+        "is_staff": false,
+        "is_parent": false,
+        "date_joined": "2026-04-21T03:43:33.522Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 14,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$gCILk3gSbPEC37MPy0RF4S$fY9IOnp7NwGXVFab5vrCKsAtLebVy563ThcY5mm0oes=",
+        "last_login": "2026-05-02T18:27:37.391Z",
+        "is_superuser": false,
+        "username": "Aak",
+        "full_name": "aakrist sharma",
+        "email": "Aakholbos7497@gmail.com",
+        "is_active": true,
+        "is_staff": false,
+        "is_parent": false,
+        "date_joined": "2026-04-23T07:18:15.141Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 16,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$XkUWfnMUu9quFcFOSGgC2r$uYx1FYzBigrPhGj+PzpfQRv8aK2X1TfL8OxobwdkkUE=",
+        "last_login": "2026-05-02T17:07:51.122Z",
+        "is_superuser": true,
+        "username": "AAKRIST",
+        "full_name": "",
+        "email": "AAKRISTSHARMA135@gmail.com",
+        "is_active": true,
+        "is_staff": true,
+        "is_parent": false,
+        "date_joined": "2026-04-30T09:19:29.598Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 19,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$0PEqledJ9lWXIySGIeJWcJ$jD7T1AoJe2D0aDMxPKwSWZ7LwYodmzALj6bAlvkux8g=",
+        "last_login": "2026-05-02T18:38:11.321Z",
+        "is_superuser": false,
+        "username": "Priyanshu",
+        "full_name": "priyanshu sharma",
+        "email": "priyanshusharma7497@gmail.com",
+        "is_active": true,
+        "is_staff": false,
+        "is_parent": true,
+        "date_joined": "2026-05-02T17:54:46.093Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 20,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$PvFL9ytIpI3Zq9zxHgEtH7$GAiT19P+tTviYTOVxN3mNmSRhqrATtHLPlk0k/UuuTw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "qwe",
+        "full_name": "awe",
+        "email": "peatallen23@gmail.com",
+        "is_active": true,
+        "is_staff": false,
+        "is_parent": true,
+        "date_joined": "2026-05-02T19:23:25.142Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 21,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$pJ1x7Bk7a2K02rGMnj1MyS$lJ9OkXCQyjoYa2+Jx1y4TzN+jeqgpve7lA160g5W1u8=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "QWE",
+        "full_name": "QWE",
+        "email": "ankitjaiswalbelieve@gmail.com",
+        "is_active": true,
+        "is_staff": false,
+        "is_parent": true,
+        "date_joined": "2026-05-02T19:25:38.340Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.trainer",
+    "pk": 22,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$iuc0qinxe0OxgV2H6dBVzo$t2cRltpOKLq2irhrnmfEYMiuZGN3hg76ZkrzpL3x8Xc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "ery",
+        "full_name": "QWE",
+        "email": "zyemv55432@minitts.net",
+        "is_active": true,
+        "is_staff": false,
+        "is_parent": true,
+        "date_joined": "2026-05-02T19:27:27.739Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 1,
+    "fields": {
+        "name": "Aarav Sharma",
+        "student_class": "Class 1",
+        "roll_number": "C1-01",
+        "parent_email": "parent@example.com",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:03.987Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 2,
+    "fields": {
+        "name": "Ananya Singh",
+        "student_class": "Class 1",
+        "roll_number": "C1-02",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:03.998Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 3,
+    "fields": {
+        "name": "Arjun Verma",
+        "student_class": "Class 1",
+        "roll_number": "C1-03",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.009Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 4,
+    "fields": {
+        "name": "Diya Patel",
+        "student_class": "Class 1",
+        "roll_number": "C1-04",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.021Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 5,
+    "fields": {
+        "name": "Ishaan Mehta",
+        "student_class": "Class 1",
+        "roll_number": "C1-05",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.033Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 6,
+    "fields": {
+        "name": "Kavya Nair",
+        "student_class": "Class 2",
+        "roll_number": "C2-01",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.042Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 7,
+    "fields": {
+        "name": "Manav Gupta",
+        "student_class": "Class 2",
+        "roll_number": "C2-02",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.053Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 8,
+    "fields": {
+        "name": "Neha Joshi",
+        "student_class": "Class 2",
+        "roll_number": "C2-03",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.062Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 9,
+    "fields": {
+        "name": "Priya Reddy",
+        "student_class": "Class 2",
+        "roll_number": "C2-04",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.072Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 10,
+    "fields": {
+        "name": "Rahul Kumar",
+        "student_class": "Class 2",
+        "roll_number": "C2-05",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.081Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 11,
+    "fields": {
+        "name": "Riya Shah",
+        "student_class": "Class 3",
+        "roll_number": "C3-01",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.092Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 12,
+    "fields": {
+        "name": "Rohan Das",
+        "student_class": "Class 3",
+        "roll_number": "C3-02",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.104Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 13,
+    "fields": {
+        "name": "Saanvi Iyer",
+        "student_class": "Class 3",
+        "roll_number": "C3-03",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.113Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 14,
+    "fields": {
+        "name": "Siddharth Roy",
+        "student_class": "Class 3",
+        "roll_number": "C3-04",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.125Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 15,
+    "fields": {
+        "name": "Tanvi Bose",
+        "student_class": "Class 3",
+        "roll_number": "C3-05",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.135Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 16,
+    "fields": {
+        "name": "Aditya Pandey",
+        "student_class": "Class 4",
+        "roll_number": "C4-01",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.144Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 17,
+    "fields": {
+        "name": "Anvi Chaudhary",
+        "student_class": "Class 4",
+        "roll_number": "C4-02",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.154Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 18,
+    "fields": {
+        "name": "Kabir Tiwari",
+        "student_class": "Class 4",
+        "roll_number": "C4-03",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.165Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 19,
+    "fields": {
+        "name": "Mia Pillai",
+        "student_class": "Class 4",
+        "roll_number": "C4-04",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.175Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 20,
+    "fields": {
+        "name": "Veer Malhotra",
+        "student_class": "Class 4",
+        "roll_number": "C4-05",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.187Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 21,
+    "fields": {
+        "name": "Aadhya Khanna",
+        "student_class": "Class 5",
+        "roll_number": "C5-01",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.196Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 22,
+    "fields": {
+        "name": "Aryan Mishra",
+        "student_class": "Class 5",
+        "roll_number": "C5-02",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.207Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 23,
+    "fields": {
+        "name": "Divya Choudhary",
+        "student_class": "Class 5",
+        "roll_number": "C5-03",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.215Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 24,
+    "fields": {
+        "name": "Kiara Sethi",
+        "student_class": "Class 5",
+        "roll_number": "C5-04",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.228Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 25,
+    "fields": {
+        "name": "Vivaan Jain",
+        "student_class": "Class 5",
+        "roll_number": "C5-05",
+        "parent_email": "",
+        "is_active": false,
+        "created_at": "2026-04-16T19:25:04.237Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 26,
+    "fields": {
+        "name": "Kiaan Rawat",
+        "student_class": "Class 6",
+        "roll_number": "",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:46:38.187Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 27,
+    "fields": {
+        "name": "Dhwaj Pratap singh",
+        "student_class": "Class 6",
+        "roll_number": "",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:47:49.099Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 28,
+    "fields": {
+        "name": "Aarav kumar",
+        "student_class": "Class 6",
+        "roll_number": "",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:48:08.089Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 29,
+    "fields": {
+        "name": "Aarav  Bharadwaj",
+        "student_class": "Class 6",
+        "roll_number": "",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:48:48.614Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 30,
+    "fields": {
+        "name": "Reyansh kumar",
+        "student_class": "Class 6",
+        "roll_number": "",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:49:03.372Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 31,
+    "fields": {
+        "name": "Myra aggrawal",
+        "student_class": "Class 6",
+        "roll_number": "",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:49:28.310Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 32,
+    "fields": {
+        "name": "Anaya",
+        "student_class": "Class 6",
+        "roll_number": "Orion",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:50:17.601Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 33,
+    "fields": {
+        "name": "Arshika Godhuhan",
+        "student_class": "Class 6",
+        "roll_number": "Draco",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:51:08.245Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 34,
+    "fields": {
+        "name": "Aarna Shahl",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:51:48.592Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 35,
+    "fields": {
+        "name": "Nivedh V Nair",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:52:14.215Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 36,
+    "fields": {
+        "name": "Devansh sahoo",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:52:33.761Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 37,
+    "fields": {
+        "name": "Nivedh V Nair",
+        "student_class": "Class 6",
+        "roll_number": "Aquila",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:53:10.282Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 38,
+    "fields": {
+        "name": "Kriyansh Sudan",
+        "student_class": "Class 6",
+        "roll_number": "Draco",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:53:37.525Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 39,
+    "fields": {
+        "name": "Vihan Jaiswal",
+        "student_class": "Class 6",
+        "roll_number": "Draco",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:54:00.577Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 40,
+    "fields": {
+        "name": "Abhirup Roy",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "",
+        "is_active": true,
+        "created_at": "2026-04-21T03:54:21.704Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 41,
+    "fields": {
+        "name": "Ankit  jaiswal",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "aakristsharma135@gmail.com",
+        "is_active": false,
+        "created_at": "2026-04-21T05:13:50.559Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 42,
+    "fields": {
+        "name": "Rohit",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "Roo123@gamil.com",
+        "is_active": false,
+        "created_at": "2026-04-21T05:24:05.109Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 43,
+    "fields": {
+        "name": "Rohit",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "Roo123@gamil.com",
+        "is_active": false,
+        "created_at": "2026-04-21T05:32:19.392Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 44,
+    "fields": {
+        "name": "Rohit",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "Rohit123@gmail.com",
+        "is_active": false,
+        "created_at": "2026-04-21T05:33:41.162Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 45,
+    "fields": {
+        "name": "Rohit",
+        "student_class": "Class 6",
+        "roll_number": "Cygnus",
+        "parent_email": "rohit123@gmail.com",
+        "is_active": true,
+        "created_at": "2026-04-21T05:34:14.840Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 46,
+    "fields": {
+        "name": "Arjun",
+        "student_class": "Class 4",
+        "roll_number": "Orian",
+        "parent_email": "vishnu07@gmail.com",
+        "is_active": false,
+        "created_at": "2026-04-21T05:35:56.436Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 47,
+    "fields": {
+        "name": "Aakrist Sharma Jr.",
+        "student_class": "Class 5",
+        "roll_number": "",
+        "parent_email": "aakristsharma135@gmail.com",
+        "is_active": false,
+        "created_at": "2026-04-21T08:08:48.490Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 48,
+    "fields": {
+        "name": "Test Student",
+        "student_class": "",
+        "roll_number": "",
+        "parent_email": "parent@test.com",
+        "is_active": false,
+        "created_at": "2026-04-29T08:56:00.267Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 49,
+    "fields": {
+        "name": "Priynshu sharma",
+        "student_class": "Class 10",
+        "roll_number": "25",
+        "parent_email": "priyanshusharma7497@gmail.com",
+        "is_active": false,
+        "created_at": "2026-04-30T08:05:12.726Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 50,
+    "fields": {
+        "name": "anubhav",
+        "student_class": "Class 5",
+        "roll_number": "10",
+        "parent_email": "priyanshusharma7497@gmail.com",
+        "is_active": false,
+        "created_at": "2026-05-01T10:23:58.944Z"
+    }
+},
+{
+    "model": "attendance.student",
+    "pk": 51,
+    "fields": {
+        "name": "Priyanshu",
+        "student_class": "Class 5",
+        "roll_number": "15",
+        "parent_email": "priyanshusharma7497@gmail.com",
+        "is_active": true,
+        "created_at": "2026-05-02T17:56:20.709Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 1,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 6",
+        "date": "2026-04-21",
+        "submitted_at": "2026-04-21T03:55:55.071Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 2,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 4",
+        "date": "2026-04-21",
+        "submitted_at": "2026-04-21T05:37:19.056Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 3,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 5",
+        "date": "2026-04-21",
+        "submitted_at": "2026-04-21T08:08:48.516Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 4,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 5",
+        "date": "2026-04-20",
+        "submitted_at": "2026-04-21T08:08:48.556Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 5,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 5",
+        "date": "2026-04-19",
+        "submitted_at": "2026-04-21T08:08:48.589Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 6,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 5",
+        "date": "2026-04-18",
+        "submitted_at": "2026-04-21T08:08:48.618Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 7,
+    "fields": {
+        "trainer": 1,
+        "student_class": "Class 5",
+        "date": "2026-04-17",
+        "submitted_at": "2026-04-21T08:08:48.647Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 8,
+    "fields": {
+        "trainer": 1,
+        "student_class": "",
+        "date": "2026-04-29",
+        "submitted_at": "2026-04-29T08:56:19.722Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 9,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 10",
+        "date": "2026-04-30",
+        "submitted_at": "2026-04-30T08:05:30.565Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 10,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 10",
+        "date": "2026-04-29",
+        "submitted_at": "2026-04-30T08:05:47.324Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 11,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 10",
+        "date": "2026-04-28",
+        "submitted_at": "2026-04-30T08:37:03.700Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 12,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 5",
+        "date": "2026-04-29",
+        "submitted_at": "2026-05-01T10:24:19.979Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 13,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 5",
+        "date": "2026-04-30",
+        "submitted_at": "2026-05-01T10:24:25.686Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 14,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 5",
+        "date": "2026-05-01",
+        "submitted_at": "2026-05-01T10:24:42.300Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 15,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 10",
+        "date": "2026-05-02",
+        "submitted_at": "2026-05-02T17:47:57.050Z"
+    }
+},
+{
+    "model": "attendance.attendancesession",
+    "pk": 16,
+    "fields": {
+        "trainer": 14,
+        "student_class": "Class 5",
+        "date": "2026-05-02",
+        "submitted_at": "2026-05-02T17:56:37.482Z"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 1,
+    "fields": {
+        "session": 1,
+        "student": 26,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 2,
+    "fields": {
+        "session": 1,
+        "student": 27,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 3,
+    "fields": {
+        "session": 1,
+        "student": 28,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 4,
+    "fields": {
+        "session": 1,
+        "student": 29,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 5,
+    "fields": {
+        "session": 1,
+        "student": 30,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 6,
+    "fields": {
+        "session": 1,
+        "student": 31,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 7,
+    "fields": {
+        "session": 1,
+        "student": 32,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 8,
+    "fields": {
+        "session": 1,
+        "student": 33,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 9,
+    "fields": {
+        "session": 1,
+        "student": 34,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 10,
+    "fields": {
+        "session": 1,
+        "student": 35,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 11,
+    "fields": {
+        "session": 1,
+        "student": 36,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 12,
+    "fields": {
+        "session": 1,
+        "student": 37,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 13,
+    "fields": {
+        "session": 1,
+        "student": 38,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 14,
+    "fields": {
+        "session": 1,
+        "student": 39,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 15,
+    "fields": {
+        "session": 1,
+        "student": 40,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 16,
+    "fields": {
+        "session": 1,
+        "student": 41,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 17,
+    "fields": {
+        "session": 1,
+        "student": 42,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 18,
+    "fields": {
+        "session": 2,
+        "student": 46,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 19,
+    "fields": {
+        "session": 3,
+        "student": 47,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 20,
+    "fields": {
+        "session": 4,
+        "student": 47,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 21,
+    "fields": {
+        "session": 5,
+        "student": 47,
+        "status": "Absent"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 22,
+    "fields": {
+        "session": 6,
+        "student": 47,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 23,
+    "fields": {
+        "session": 7,
+        "student": 47,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 24,
+    "fields": {
+        "session": 8,
+        "student": 48,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 25,
+    "fields": {
+        "session": 9,
+        "student": 49,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 26,
+    "fields": {
+        "session": 10,
+        "student": 49,
+        "status": "Absent"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 27,
+    "fields": {
+        "session": 11,
+        "student": 49,
+        "status": "Absent"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 28,
+    "fields": {
+        "session": 12,
+        "student": 50,
+        "status": "Absent"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 29,
+    "fields": {
+        "session": 13,
+        "student": 50,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 30,
+    "fields": {
+        "session": 14,
+        "student": 50,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 31,
+    "fields": {
+        "session": 15,
+        "student": 49,
+        "status": "Present"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 32,
+    "fields": {
+        "session": 16,
+        "student": 51,
+        "status": "Absent"
+    }
+},
+{
+    "model": "attendance.attendancerecord",
+    "pk": 33,
+    "fields": {
+        "session": 14,
+        "student": 51,
+        "status": "Present"
+    }
+}
+]

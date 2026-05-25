@@ -1,0 +1,3 @@
+"""
+Holbos India Django Project.
+"""
