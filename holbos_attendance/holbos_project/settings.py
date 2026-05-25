@@ -92,7 +92,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'holbos_attendance.holbos_project.wsgi.application'
+WSGI_APPLICATION = "holbos_project.wsgi.application"
 
 # Database
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
