@@ -163,7 +163,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 COMPENSATION_NOTIFICATION_EMAIL = config(
     "COMPENSATION_NOTIFICATION_EMAIL",
-    default=EMAIL_HOST_USER
+    default="holbosindia@gmail.com"
 )
 # Render Security Settings
 if os.environ.get('RENDER'):
