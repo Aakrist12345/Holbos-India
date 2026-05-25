@@ -264,7 +264,7 @@ def book_compensation_slot(request):
                     subject,
                     message,
                     settings.DEFAULT_FROM_EMAIL,
-                    ['aakholbos7497@gmail.com'],
+                    [settings.COMPENSATION_NOTIFICATION_EMAIL],
                     fail_silently=False,
                 )
             except Exception as e:

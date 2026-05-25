@@ -156,9 +156,11 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'aakholbos7497@gmail.com' 
-EMAIL_HOST_PASSWORD = 'xrrv nozz eqin tmvx'  # <-- Put the App Password here!
-DEFAULT_FROM_EMAIL = 'aakholbos7497@gmail.com'
+# Load email credentials from environment (set in .env or Render env vars)
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Email address to receive compensation slot booking notifications
+COMPENSATION_NOTIFICATION_EMAIL = os.getenv('COMPENSATION_NOTIFICATION_EMAIL', 'aakholbos7497@gmail.com')
 # Render Security Settings
 if os.environ.get('RENDER'):
     SECURE_SSL_REDIRECT = True
