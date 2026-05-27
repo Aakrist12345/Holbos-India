@@ -5,7 +5,7 @@ app_name = "attendance"
 
 urlpatterns = [
 
-    path("login/",     views.parent_login,   name="login"),
+    path("login/",     views.trainer_login,   name="trainer_login"),
     path("erp/",       views.erp_dashboard,  name="erp"),
 
     path("",          views.trainer_login,   name="trainer_login"),
