@@ -1898,10 +1898,9 @@
         <div style="flex: 1;">
           <div style="font-size: 0.88rem; font-weight: 800; color: var(--text); margin-bottom: 2px;">
             Google Drive Portfolio</div>
-          <div style="font-size: 0.72rem; color: var(--muted); line-height: 1.4;">Access and manage your
-            shared gallery in the cloud.</div>
+          <div style="font-size: 0.72rem; color: var(--muted); line-height: 1.4;">Access and manage your shared gallery in the cloud.</div>
         </div>
-        <a href="https://drive.google.com/drive/folders/12cHOgaCUNaVoIDs8y2GAMscHb3DtmV8F" target="_blank"
+        <a href="https://drive.google.com/drive/folders/12cHOgaCUNaVoIDs8y2GAMscHb3DtmV8F" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();"
           style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-decoration: none; transition: transform 0.2s; white-space: nowrap; box-shadow: 0 4px 12px rgba(191, 31, 143, 0.3);">
           Open Drive ↗
         </a>
@@ -1933,7 +1932,7 @@
       <input type="text" placeholder="Enter title" required>
       <label>Short Explanation</label>
       <textarea placeholder="Explain video></textarea>
-      <button class=" upload-btn" onclick="submitPortfolio('Video')">Upload Video</button>
+      <button class="upload-btn" onclick="submitPortfolio('Video')">Upload Video</button>
     </div>
     <div class="portfolio-content" id="articleTab">
       {% csrf_token %}
