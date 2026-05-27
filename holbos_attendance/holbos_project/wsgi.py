@@ -18,3 +18,5 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'holbos_project.settings')
+
+application = get_wsgi_application()
