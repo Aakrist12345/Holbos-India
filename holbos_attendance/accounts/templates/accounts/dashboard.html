@@ -1931,8 +1931,8 @@
       <label>Video Title</label>
       <input type="text" placeholder="Enter title" required>
       <label>Short Explanation</label>
-      <textarea placeholder="Explain video></textarea>
-      <button class="upload-btn" onclick="submitPortfolio('Video')">Upload Video</button>
+      <textarea placeholder="Explain video"></textarea>
+      <button class="upload-btn" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-decoration: none; transition: transform 0.2s; white-space: nowrap;" onclick="submitPortfolio('Video')">Upload Video</button>
     </div>
     <div class="portfolio-content" id="articleTab">
       {% csrf_token %}
@@ -1940,8 +1940,6 @@
       <input type="text" placeholder="Article title" required>
       <label>Paragraph Content</label>
       <textarea placeholder="Write article" required></textarea>
-      <label>Author Name</label>
-      <input type="text" placeholder="Author name" required>
       <button class="upload-btn" onclick="submitPortfolio('Article')">Publish Article</button>
     </div>
   </div>
