@@ -24,7 +24,7 @@ class TrainerManager(BaseUserManager):
 class Trainer(AbstractBaseUser, PermissionsMixin):
     username   = models.CharField(max_length=100, unique=True)
     full_name  = models.CharField(max_length=200)
-    email      = models.EmailField(unique=True, null=True, blank=True)
+    email      = models.EmailField(null=True, blank=True)
     mobile_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
     is_active  = models.BooleanField(default=True)
     is_staff   = models.BooleanField(default=False)
