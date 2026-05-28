@@ -225,57 +225,29 @@ def book_compensation_slot(request):
         student_name = data.get("student_name", "").strip()
 
         if slot not in ["Saturday", "Sunday"]:
-            return JsonResponse({
-                "ok": False,
-                "error": "Invalid slot. Only Saturday and Sunday sessions are available."
-            }, status=400)
+            return JsonResponse({"ok": False, "error": "Invalid slot"}, status=400)
 
-        linked_qs = request.user.get_linked_students()
-        student = linked_qs.filter(name__iexact=student_name).first()
+        student = request.user.get_linked_students().filter(
+            name__iexact=student_name
+        ).first()
 
         if not student:
-            return JsonResponse({
-                "ok": False,
-                "error": "Student not found or not linked to your account."
-            }, status=404)
+            return JsonResponse({"ok": False, "error": "Student not found"}, status=404)
 
-        booking = CompensationBooking.objects.create(
+        CompensationBooking.objects.create(
             student=student,
             parent=request.user,
             slot_type=slot,
         )
 
-        try:
-            send_mail(
-                f"New Compensation Slot Booking: {student.name}",
-                f"""
-New compensation slot booking received.
-
-Student: {student.name}
-Parent/User: {request.user.username}
-Parent Email: {request.user.email}
-Slot: {slot}
-
-Please contact the parent and share timing.
-""",
-                settings.DEFAULT_FROM_EMAIL,
-                ["holbosindia@gmail.com", "aakholbos7497@gmail.com"],
-                fail_silently=True,
-            )
-        except Exception as e:
-            print("Email failed:", e)
-
         return JsonResponse({
             "ok": True,
-            "success": True,
-            "message": "Slot booked successfully. Holbos team has been notified."
+            "message": "✅ Slot booked successfully. Holbos team will contact you soon."
         })
+
     except Exception as e:
         print("Booking error:", e)
-        return JsonResponse({
-            "ok": False,
-            "error": "Something went wrong while booking the slot."
-        }, status=500)
+        return JsonResponse({"ok": False, "error": str(e)}, status=500)
 
 
 
