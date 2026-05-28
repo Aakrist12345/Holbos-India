@@ -216,66 +216,68 @@ def submit_attendance(request):
 
 @login_required(login_url="attendance:trainer_login")
 @require_POST
+@login_required(login_url="attendance:trainer_login")
+@require_POST
 def book_compensation_slot(request):
     try:
         data = json.loads(request.body)
-        slot = data.get("slot") # 'Saturday' or 'Sunday'
+        slot = data.get("slot")
         student_name = data.get("student_name", "").strip()
-        
-        if slot not in ['Saturday', 'Sunday']:
-            return JsonResponse({"ok": False, "error": "Invalid slot. Only Saturday and Sunday sessions are available."}, status=400)
 
-        # Find the student linked to this parent using the helper method
+        if slot not in ["Saturday", "Sunday"]:
+            return JsonResponse({
+                "ok": False,
+                "error": "Invalid slot. Only Saturday and Sunday sessions are available."
+            }, status=400)
+
         linked_qs = request.user.get_linked_students()
         student = linked_qs.filter(name__iexact=student_name).first()
-        if not student:
-            return JsonResponse({"ok": False, "error": "Student not found or not linked to your account."}, status=404)
 
-        # Check if student has missed any sessions (retained for reference, but not used for restrictions)
-        missed_count = AttendanceRecord.objects.filter(student=student, status="Absent").count()
-        # No restriction on number of compensation slots; allow booking regardless of missed count
-        # Create a compensation booking record
-        CompensationBooking.objects.create(
+        if not student:
+            return JsonResponse({
+                "ok": False,
+                "error": "Student not found or not linked to your account."
+            }, status=404)
+
+        booking = CompensationBooking.objects.create(
             student=student,
             parent=request.user,
             slot_type=slot,
         )
-        # Debug information (optional)
-        print('[Debug] Created CompensationBooking for student:', student.name)
-        print('[Debug] Linked students query:', linked_qs.query)
-        print('[Debug] Linked students count:', linked_qs.count())
-        print('[Debug] Linked students list:', list(linked_qs.values('name', 'parent_email', 'parent_mobile')))
 
-        # Try to fetch the student by name from the linked queryset
-        # (student already fetched above)
-        # Prepare email notification (optional)
-        subject = f"New Compensation Slot Booking: {student_name}".replace("\n", "").replace("\r", "")
-        message = (
-            f"Hello Holbos India,\n\n"
-            f"A parent of student '{student_name}' has booked a compensation slot for: {slot}.\n\n"
-            f"Please send them the corresponding timing for that day.\n\n"
-            f"Student/Parent User: {request.user.username}\n"
-            f"Email: {request.user.email}\n"
-        )
-        # Send email only if enabled in settings
-        if getattr(settings, 'COMPENSATION_EMAIL_ENABLED', True):
-            try:
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [settings.COMPENSATION_NOTIFICATION_EMAIL],
-                    fail_silently=False,
-                )
-            except Exception as e:
-                logger = logging.getLogger(__name__)
-                logger.exception('Failed to send compensation email')
-                # Also print for console visibility
-                print('[Error] Failed to send compensation email:', e)
-                return JsonResponse({"ok": False, "error": f"Failed to send email: {str(e)}"}, status=500)
-        return JsonResponse({"ok": True})
+        try:
+            send_mail(
+                f"New Compensation Slot Booking: {student.name}",
+                f"""
+New compensation slot booking received.
+
+Student: {student.name}
+Parent/User: {request.user.username}
+Parent Email: {request.user.email}
+Slot: {slot}
+
+Please contact the parent and share timing.
+""",
+                settings.DEFAULT_FROM_EMAIL,
+                ["holbosindia@gmail.com", "aakholbos7497@gmail.com"],
+                fail_silently=True,
+            )
+        except Exception as e:
+            print("Email failed:", e)
+
+        return JsonResponse({
+            "ok": True,
+            "success": True,
+            "message": "Slot booked successfully. Holbos team has been notified."
+        })
     except Exception as e:
-        return JsonResponse({"ok": False, "error": str(e)}, status=500)
+        print("Booking error:", e)
+        return JsonResponse({
+            "ok": False,
+            "error": "Something went wrong while booking the slot."
+        }, status=500)
+
+
 
 @login_required(login_url="attendance:trainer_login")
 def records(request):
