@@ -153,7 +153,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 COMPENSATION_EMAIL_ENABLED = os.getenv('COMPENSATION_EMAIL_ENABLED', 'True').lower() == 'true'
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND",
-    "django.core.mail.backends.console.EmailBackend"
+    "django.core.mail.backends.smtp.EmailBackend"
 )
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
