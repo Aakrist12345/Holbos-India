@@ -167,6 +167,9 @@ DEFAULT_FROM_EMAIL = config(
     "DEFAULT_FROM_EMAIL",
     default=EMAIL_HOST_USER
 )
+
+
+EMAIL_TIMEOUT = 10
 COMPENSATION_NOTIFICATION_EMAIL = config(
     "COMPENSATION_NOTIFICATION_EMAIL",
     default="holbosindia@gmail.com"
