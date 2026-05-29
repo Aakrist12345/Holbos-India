@@ -216,8 +216,6 @@ def submit_attendance(request):
 
 @login_required(login_url="attendance:trainer_login")
 @require_POST
-@login_required(login_url="attendance:trainer_login")
-@require_POST
 def book_compensation_slot(request):
     try:
         data = json.loads(request.body)
@@ -225,20 +223,66 @@ def book_compensation_slot(request):
         student_name = data.get("student_name", "").strip()
 
         if slot not in ["Saturday", "Sunday"]:
-            return JsonResponse({"ok": False, "error": "Invalid slot"}, status=400)
+            return JsonResponse(
+                {"ok": False, "error": "Invalid slot"},
+                status=400
+            )
 
         student = request.user.get_linked_students().filter(
             name__iexact=student_name
         ).first()
 
         if not student:
-            return JsonResponse({"ok": False, "error": "Student not found"}, status=404)
+            return JsonResponse(
+                {"ok": False, "error": "Student not found"},
+                status=404
+            )
 
-        CompensationBooking.objects.create(
+        booking = CompensationBooking.objects.create(
             student=student,
             parent=request.user,
             slot_type=slot,
         )
+
+        # Email notification to Holbos team
+        subject = f"New Compensation Slot Booking - {slot}"
+
+        message = f"""
+New Compensation Slot Booking Received
+
+Student Name: {student.name}
+
+Parent Name: {request.user.full_name or request.user.username}
+
+Parent Username: {request.user.username}
+
+Parent Email: {request.user.email}
+
+Slot Selected: {slot}
+
+Booking ID: {booking.id}
+
+Please contact the parent for confirmation.
+
+Regards,
+Holbos ERP
+"""
+
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [
+                    "holbosindia@gmail.com",
+                    "aakholbos7497@gmail.com",
+                ],
+                fail_silently=False,
+            )
+            print("✅ Booking email sent successfully")
+
+        except Exception as email_error:
+            print("❌ Email sending failed:", email_error)
 
         return JsonResponse({
             "ok": True,
@@ -247,7 +291,10 @@ def book_compensation_slot(request):
 
     except Exception as e:
         print("Booking error:", e)
-        return JsonResponse({"ok": False, "error": str(e)}, status=500)
+        return JsonResponse(
+            {"ok": False, "error": str(e)},
+            status=500
+        )
 
 
 
