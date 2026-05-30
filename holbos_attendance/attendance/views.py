@@ -244,7 +244,7 @@ def book_compensation_slot(request):
             slot_type=slot,
         )
 
-        # Email notification to Holbos team
+        # Save compensation booking and notify the team
         subject = f"New Compensation Slot Booking - {slot}"
 
         message = f"""
