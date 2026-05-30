@@ -81,7 +81,7 @@ def dashboard(request):
     
     total_students = Student.objects.filter(is_active=True).count()
     today = date.today()
-    # Removed unused today_sessions variable
+    #  Prepare attendance summary for dashboard
     today_records = AttendanceRecord.objects.filter(session__date=today)
     stats = today_records.aggregate(
         present=Count("id", filter=Q(status="Present")),
