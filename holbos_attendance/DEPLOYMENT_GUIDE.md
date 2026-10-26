@@ -6,9 +6,10 @@
 
 ## Step-by-Step Deployment
 
-### 1. Generate a New Secret Key
-- Visit: https://djecrety.ir/
-- Copy the generated key
+### 1. Review the Render Blueprint
+- Use the repository-root `render.yaml` when creating the Blueprint.
+- It provisions the `holbos-db` PostgreSQL database and links its connection string to the web service as `DATABASE_URL`.
+- Before applying changes to an existing service, confirm `holbos-db` is the intended database; do not create a replacement database for an existing production deployment.
 
 ### 2. Push to GitHub
 ```bash
@@ -26,10 +27,7 @@ git push origin main
 1. Click "New +" → "Blueprint"
 2. Select your GitHub repository
 3. Render will automatically detect render.yaml
-4. Set environment variables:
-   - **SECRET_KEY**: Paste the key from step 1
-   - **DATABASE_URL**: Auto-configured by Render
-   
+4. Review the planned resources and confirm the web service links to the intended PostgreSQL database.
 5. Click "Deploy"
 
 ### Alternative: Manual Deployment
@@ -39,35 +37,43 @@ If the YAML approach doesn't work:
 1. Click "New +" → "Web Service"
 2. Select your GitHub repository
 3. **Configure:**
-   - Name: `holbos-project`
+   - Name: `holbos-attendance-erp`
    - Runtime: `Python 3`
-   - Region: `Oregon` (or your preference)
-   - Build Command: `bash build.sh`
-   - Start Command: `gunicorn holbos_project.wsgi:application`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn holbos_attendance.holbos_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120`
 
 4. **Add Environment Variables:**
-   ```
-   SECRET_KEY = <your-generated-key>
-   DEBUG = False
-   ALLOWED_HOSTS = your-app-name.onrender.com
-   ```
+   - `SECRET_KEY`: a secure secret value
+   - `DEBUG`: `false`
+   - `ALLOWED_HOSTS`: the service hostname
 
 5. **Create Database (PostgreSQL):**
-   - Click "Create Database"
-   - Plan: Free tier
-   - Name: `holbos-db`
-   - Render auto-sets DATABASE_URL
+   - Create or select the intended PostgreSQL database in the same Render workspace.
+   - Set the web service's `DATABASE_URL` to that database's internal connection string using Render's environment settings; never put the connection string in source control.
 
 ### 5. After Deployment
 
 1. App will be available at: `https://your-app-name.onrender.com`
-2. Create superuser for admin panel:
+2. In the Render Shell, inspect the migration plan before applying migrations:
+   ```bash
+   python manage.py migrate --plan
+   ```
+   If the plan is expected and the database is confirmed, apply it:
+   ```bash
+   python manage.py migrate
+   ```
+3. Confirm the active backend without printing connection details:
+   ```bash
+   python manage.py shell -c "from django.db import connection; print('VENDOR=' + connection.vendor); print('ENGINE=' + connection.settings_dict['ENGINE'])"
+   ```
+   Expected: `VENDOR=postgresql` and `ENGINE=django.db.backends.postgresql`.
+4. Create superuser for admin panel if one does not already exist:
    ```bash
    python manage.py createsuperuser
    ```
    Run this in Render's Shell tab
 
-3. Access admin panel: `https://your-app-name.onrender.com/admin`
+5. Access admin panel: `https://your-app-name.onrender.com/admin`; verify login and the attendance workflow.
 
 ## Troubleshooting
 
@@ -90,7 +96,7 @@ If the YAML approach doesn't work:
 | SECRET_KEY | Yes | Generated key from djecrety.ir |
 | DEBUG | No | False |
 | ALLOWED_HOSTS | No | your-app.onrender.com |
-| DATABASE_URL | Auto | postgresql://... |
+| DATABASE_URL | Yes in Render | Linked to the intended Render PostgreSQL database |
 
 ## Files Created for Deployment
 

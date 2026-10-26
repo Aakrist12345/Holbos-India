@@ -4,9 +4,9 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
+
     path("", include("accounts.urls")),
     path("attendance/", include("attendance.urls", namespace="attendance")),
     path("modules/", include("modules.urls")),
@@ -21,6 +21,7 @@ urlpatterns = [
         ),
         name="password_reset",
     ),
+
     path(
         "password-reset/done/",
         auth_views.PasswordResetDoneView.as_view(
@@ -28,6 +29,7 @@ urlpatterns = [
         ),
         name="password_reset_done",
     ),
+
     path(
         "password-reset-confirm/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(
@@ -35,6 +37,7 @@ urlpatterns = [
         ),
         name="password_reset_confirm",
     ),
+
     path(
         "password-reset-complete/",
         auth_views.PasswordResetCompleteView.as_view(
