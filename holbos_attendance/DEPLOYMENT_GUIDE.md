@@ -98,6 +98,29 @@ If the YAML approach doesn't work:
 | DEBUG | No | False |
 | ALLOWED_HOSTS | No | your-app.onrender.com |
 | DATABASE_URL | Yes in Render | Linked to the intended Render PostgreSQL database |
+| DJANGO_SUPERUSER_USERNAME | For initial admin provisioning | Set privately in the Render environment |
+| DJANGO_SUPERUSER_EMAIL | For initial admin provisioning | Set privately in the Render environment |
+| DJANGO_SUPERUSER_PASSWORD | For initial admin provisioning | Set privately in the Render environment; never put it in source control |
+| DJANGO_SUPERUSER_RESET_PASSWORD | No | Set to `true` only for an intentional one-time password reset |
+
+The Render start script applies pending migrations, verifies the database, and
+runs `bootstrap_admin` before starting Gunicorn. On Render, bootstrap refuses
+to continue against a non-PostgreSQL database. If the three `DJANGO_SUPERUSER_*`
+credentials are unset, account provisioning is skipped. When configured, the
+command creates the administrator only if that username is absent. It never
+changes an existing administrator's password unless
+`DJANGO_SUPERUSER_RESET_PASSWORD=true` is explicitly set. Remove that reset
+flag from the Render environment immediately after the reset deployment starts;
+otherwise a later restart will set the password back to the configured value.
+
+For a first administrator, set the username, email, and a strong password in
+the Render service's Environment page, leave the reset flag unset, and restart
+or deploy the service. To intentionally reset the configured administrator,
+set a new password and the reset flag to `true`, deploy, then remove the reset
+flag after checking the startup logs. Do not share the password or put it in a
+deployment command. Startup logs report the selected database vendor and
+whether an administrator was created, found, or explicitly reset; they never
+print the password.
 
 ## Files Created for Deployment
 

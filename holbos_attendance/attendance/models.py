@@ -48,7 +48,7 @@ class Trainer(AbstractBaseUser, PermissionsMixin):
     objects = TrainerManager()
 
     USERNAME_FIELD  = "username"
-    REQUIRED_FIELDS = ["email"]
+    REQUIRED_FIELDS = ["email", "full_name"]
 
     def __str__(self):
         return self.full_name or self.username
