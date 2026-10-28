@@ -55,26 +55,9 @@ If the YAML approach doesn't work:
 ### 5. After Deployment
 
 1. App will be available at: `https://your-app-name.onrender.com`
-2. In the Render Shell, inspect the migration plan before applying migrations:
-   ```bash
-   python manage.py migrate --plan
-   ```
-   If the plan is expected and the database is confirmed, apply it:
-   ```bash
-   python manage.py migrate
-   ```
-3. Confirm the active backend without printing connection details:
-   ```bash
-   python manage.py shell -c "from django.db import connection; print('VENDOR=' + connection.vendor); print('ENGINE=' + connection.settings_dict['ENGINE'])"
-   ```
-   Expected: `VENDOR=postgresql` and `ENGINE=django.db.backends.postgresql`.
-4. Create superuser for admin panel if one does not already exist:
-   ```bash
-   python manage.py createsuperuser
-   ```
-   Run this in Render's Shell tab
-
-5. Access admin panel: `https://your-app-name.onrender.com/admin`; verify login and the attendance workflow.
+2. The start script automatically applies migrations and verifies the active database. In Render's deploy/runtime logs, confirm it reports `Database connection verified (postgresql)` and that migrations completed.
+3. Configure `DJANGO_SUPERUSER_USERNAME`, `DJANGO_SUPERUSER_EMAIL`, and `DJANGO_SUPERUSER_PASSWORD` in the Render service's Environment page to create a missing admin. See the safe provisioning and reset instructions below; no Render Shell access is required.
+4. Visit `/attendance/login/` or `/admin/` and verify authentication using the credentials configured privately in Render.
 
 ## Troubleshooting
 
