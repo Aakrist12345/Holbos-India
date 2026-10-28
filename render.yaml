@@ -2,13 +2,13 @@ services:
   - type: web
     name: holbos-attendance-erp
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
     startCommand: gunicorn holbos_attendance.holbos_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: holbos_attendance.holbos_project.settings
       - key: SECRET_KEY
-        generate: true
+        generateValue: true
       - key: DEBUG
         value: "false"
       - key: DATABASE_URL
@@ -17,7 +17,7 @@ services:
           property: connectionString
       - key: ALLOWED_HOSTS
         value: "*"
-    staticPublishPath: staticfiles
+    staticPublishPath: holbos_attendance/staticfiles
     healthCheckPath: "/"
 
 databases:

@@ -7,29 +7,30 @@ import os
 from pathlib import Path
 from decouple import config
 from django.core.exceptions import ImproperlyConfigured
-BASE_DIR = Path(__file__).resolve().parent.parent
+from django.core.management.utils import get_random_secret_key
 
-# Load environment variables from the project root .env file
-try:
-    from dotenv import load_dotenv
-    # .env is located one level above the settings directory
-    load_dotenv(BASE_DIR.parent / '.env')
-except Exception:
-    pass
+BASE_DIR = Path(__file__).resolve().parent.parent
+IS_RENDER = config("RENDER", default="").lower() == "true"
 
 try:
     import dj_database_url  # type: ignore
 except ImportError:
     dj_database_url = None
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-))-&y-haasz)^(-eb1z732i#dw^!th-mym7xncdmqmk$d0a)ei')
+SECRET_KEY = config("SECRET_KEY", default="")
+if not SECRET_KEY:
+    if IS_RENDER:
+        raise ImproperlyConfigured("SECRET_KEY must be configured in the environment.")
+    SECRET_KEY = get_random_secret_key()
 
-DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
+DEBUG = config("DEBUG", default="false").lower() == "true"
+if IS_RENDER and DEBUG:
+    raise ImproperlyConfigured("DEBUG must be disabled for Render deployments.")
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
 
 # Allow additional hosts from ALLOWED_HOSTS env var (comma-separated)
-_extra_hosts = os.environ.get('ALLOWED_HOSTS', '')
+_extra_hosts = config("ALLOWED_HOSTS", default="")
 if _extra_hosts:
     ALLOWED_HOSTS += [h.strip() for h in _extra_hosts.split(',') if h.strip()]
 
@@ -96,21 +97,26 @@ TEMPLATES = [
 WSGI_APPLICATION = "holbos_project.wsgi.application"
 
 # Database
-DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
-IS_RENDER = os.getenv("RENDER", "").lower() == "true"
+DATABASE_URL = config("DATABASE_URL", default="").strip()
 
 if DATABASE_URL:
     if dj_database_url is None:
         raise ImproperlyConfigured(
             "dj-database-url is required when DATABASE_URL is configured."
         )
-    DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=not DEBUG,
-        )
-    }
+    database_scheme = DATABASE_URL.partition("://")[0].lower()
+    try:
+        DATABASES = {
+            "default": dj_database_url.parse(
+                DATABASE_URL,
+                conn_max_age=600,
+                ssl_require=not DEBUG and database_scheme in {"postgres", "postgresql"},
+            )
+        }
+    except ValueError as exc:
+        raise ImproperlyConfigured(
+            "DATABASE_URL is invalid or uses an unsupported database scheme."
+        ) from exc
     if IS_RENDER and DATABASES["default"]["ENGINE"] != "django.db.backends.postgresql":
         raise ImproperlyConfigured(
             "Render deployments must use PostgreSQL via DATABASE_URL."

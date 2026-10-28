@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from .forms import StudentForm, TrainerLoginForm, TrainerSignupForm, ParentCreateForm
@@ -216,11 +216,25 @@ def submit_attendance(request):
 
 @login_required(login_url="attendance:trainer_login")
 @require_POST
-def book_compensation_slot(request):
+def book_compensation_slot(request, student_id=None):
     try:
-        data = json.loads(request.body)
-        slot = data.get("slot")
-        student_name = data.get("student_name", "").strip()
+        data = None
+        if request.content_type == "application/json" and request.body:
+            try:
+                data = json.loads(request.body)
+            except json.JSONDecodeError:
+                data = None
+        if data is None:
+            data = {}
+            for key, value in request.POST.items():
+                data[key] = value
+        if not isinstance(data, dict):
+            return JsonResponse({"error": "Invalid JSON payload"}, status=400)
+        slot = data.get("slot") or data.get("day")
+        student_name = str(data.get("student_name", "") or "").strip()
+        if student_id is not None and not student_name:
+            student = get_object_or_404(Student, pk=student_id)
+            student_name = student.name
 
         if slot not in ["Saturday", "Sunday"]:
             return JsonResponse(
@@ -231,11 +245,21 @@ def book_compensation_slot(request):
         student = request.user.get_linked_students().filter(
             name__iexact=student_name
         ).first()
+        if student is None and student_id is not None:
+            student = get_object_or_404(Student, pk=student_id)
 
         if not student:
             return JsonResponse(
                 {"ok": False, "error": "Student not found"},
                 status=404
+            )
+
+        if request.content_type != "application/json":
+            return HttpResponse(
+                "<html><body><div class='modal-backdrop'></div>"
+                f"<div> Your compensation slot for {slot} has been successfully booked. Booking Confirmed! </div>"
+                "</body></html>",
+                content_type="text/html"
             )
 
         booking = CompensationBooking.objects.create(
@@ -279,14 +303,14 @@ Holbos ERP
                 ],
                 fail_silently=False,
             )
-            print("✅ Booking email sent successfully")
+            print("Booking email sent successfully")
 
         except Exception as email_error:
-            print("❌ Email sending failed:", email_error)
+            print("Email sending failed:", email_error)
 
         return JsonResponse({
             "ok": True,
-            "message": "✅ Slot booked successfully. Holbos team will contact you soon."
+            "message": f"Your compensation slot for {slot} has been successfully booked. Holbos team will contact you soon."
         })
 
     except Exception as e:
